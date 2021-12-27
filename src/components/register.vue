@@ -1,0 +1,81 @@
+<template>
+    <section class="flex flex-column w-100 vh-100">
+        <siteheader/>
+
+        <div class="dt center mw7 cf"> 
+            <div class="dtc v-top br2 b--white pt5 w-100 vh-100">
+                <div class="cf center card-marketpair br3 f5-ns f6 w-100 relative" style="max-width:240px">
+                    
+                    <div class="fl w-100 pa3 near-white pt3 f5 fw6 tc tl">
+                        Sign up to Backpocket
+                        <p class="db f7 fw0 white-30 i">
+                            enter account details below or <br/>
+                            <router-link to="/login" class="no-underline link fw0 white-70">click to sign in</router-link>
+                        </p>
+                    </div>
+                    
+                    <div class="fl w-100 pv2">
+                        <input class="pa2 f6 br2 bn w-100 fl tl bg-white-10 near-white" type="text" placeholder="Username" v-model="username" />
+                    </div>
+                    
+                    <div class="fl w-100 pv2">
+                        <input class="pa2 f6 br2 bn w-100 fl tl bg-white-10 near-white" type="text" placeholder="Email" v-model="username" />
+                    </div>
+
+                    <div class="fl w-100 pt2">
+                        <input class="pa2 f6 br2 bn w-100 fl tl bg-white-10 near-white" type="password" placeholder="Password" v-model="password" />
+                    </div>
+
+                        
+                    <div class="fl w-100 pt4 pb2 tc f6">
+                        <div v-if="lLogin" class="ph2 pv1 tc center pointer br2 bg-green white inline-flex items-center" @click="login()">
+                            <span>sign up</span> <small><i class="pl1 fas fa-check"></i></small>
+                        </div>
+                        <div v-else class="ph2 pv1 tc center pointer br2 bg-white-10 white-30 inline-flex items-center" >
+                            <small><i class="fas fa-spinner fa-spin"></i></small> <span class="pl1">loading...</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        
+
+        
+    </section>
+</template>
+
+<script type="text/javascript">
+import { HTTP } from "@/common";
+import { checkRedirect } from "@/common";
+import siteheader from "@/components/generic/siteheader";
+import sitefooter from "@/components/generic/sitefooter";
+
+export default {
+    components: {
+        siteheader,
+        sitefooter
+    },
+    data() {return {
+        date: new Date().getFullYear(),
+        lLogin: true, notifications: [], username: "", password: "", email: "",
+    }},
+    methods: {
+        keyUp(event) {
+            if (event.code == "Enter") {
+                this.login();
+            }
+        },
+        login() {
+            HTTP.post( "/api/login", { username: this.username, password: this.password }).then(response => {
+                this.notifications.push(response.data);
+                setTimeout(checkRedirect(response.data), 2000);
+            }).catch(e => {
+                console.log(e);
+                this.error = e;
+            });
+        }
+    }
+};
+</script>

@@ -1,0 +1,11 @@
+{
+    "ohlcv": [ ],
+    "onchart": [{
+        "name": "Signals",
+        "type": "Splitters",
+        "data": [ ],
+        "settings": {
+            "legend": false
+        }
+    }]
+}
