@@ -21,7 +21,7 @@ export default function createWebSocketPlugin() {
         }
 
         var setupWebSocket = function () {
-            if (wsReconnect > 3) {
+            if (wsReconnect > 15) {
                 console.log('Stopping all orders connections')
                 return
             }

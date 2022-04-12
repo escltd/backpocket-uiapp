@@ -18,8 +18,8 @@ module.exports = merge(base, {
     overlay: true,
     disableHostCheck: true,
     proxy : {
-        //   '/ws': { target: 'ws://localhost:8181', changeOrigin: true, ws: true },
-          '/ws': { target: 'wss://backpocket.africa', changeOrigin: true, ws: true },
+          '/ws': { target: 'ws://localhost:8181', changeOrigin: true, ws: true },
+          // '/ws': { target: 'wss://backpocket.africa', changeOrigin: true, ws: true },
     }
   }
 
