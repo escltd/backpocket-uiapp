@@ -147,7 +147,7 @@ export function humanNumber(nStr) {
 
 export function humanDate(dateTime) {
    if (dateTime !== "") {
-       dateTime = new Date(dateTime.substring(0, 10)).toDateString().substring(0, 15) + " " + humanTime(new Date(dateTime.replace(/-/g, '/')).toTimeString().substring(0, 8));
+       dateTime = new Date(dateTime.substring(0, 10)).toDateString().substring(0, 15) + " " + humanTime(new Date(dateTime.replace(/-/g, '-')).toTimeString().substring(0, 8));
    }
    return dateTime;
 }
