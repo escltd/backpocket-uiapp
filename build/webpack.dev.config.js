@@ -15,8 +15,11 @@ module.exports = merge(base, {
   devServer: {
     port: 8080,
     host: "0.0.0.0",
-    overlay: true,
-    disableHostCheck: true,
+    allowedHosts: 'all',
+    client: {
+      overlay: true,
+    },
+    hot: true,
     proxy : {
           '/ws': { target: 'ws://localhost:8181', changeOrigin: true, ws: true },
           // '/ws': { target: 'wss://backpocket.africa', changeOrigin: true, ws: true },

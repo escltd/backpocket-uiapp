@@ -9,6 +9,16 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 module.exports = {
     mode: "development",
     entry: "./src/app.js",
+    resolve: {
+        fallback: { "url": require.resolve("url/") },
+        alias: {
+            '@': path.resolve('./src'),
+            style: path.resolve('./src/assets/css'),
+            script: path.resolve('./src/assets/js'),
+            image: path.resolve('./src/assets/img'),
+        },
+        extensions: ['.js', '.vue', '.css'],
+    },
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: "assets/js/[hash:10].js"
