@@ -1,18 +1,20 @@
-ARG REPOSITORY="savalite/images:backpocket-latest"
-FROM ${REPOSITORY} AS golang-base
-FROM node:latest as vuejs-base
+# Install system dependencies
+FROM node:16.14-alpine3.15 as userinterface
+WORKDIR /userinterface
 
-WORKDIR /vuejs/
+# Install nodejs dependencies
 COPY package.json ./
 RUN yarn install
+
+# Copy and build source code 
 COPY . .
 RUN yarn build
 
+# Install system dependencies
+FROM nginx:alpine as frontend
 
-FROM alpine:latest  
-RUN apk --no-cache add ca-certificates
-WORKDIR /deploy/
-COPY --from=golang-base /deploy .
-COPY --from=vuejs-base /vuejs/dist uiapp
-EXPOSE 8181
-CMD ["./backpocket_linux.elf"]  
+# not needed for now; we're not using the nginx template to pass environement variables
+#COPY nginx-default.conf.template /etc/nginx/templates/default.conf.template
+
+# Copy the build output from the previous stage
+COPY --from=userinterface /userinterface/dist /usr/share/nginx/html/.

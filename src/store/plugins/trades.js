@@ -1,14 +1,14 @@
-// const wsConnTrade = new WebSocket('ws://localhost:8181/ws/trades')
-// const wsConnTrade = new WebSocket('wss://backpocket.eplaza.cloud/ws/trades')
-// const wsConnTrade = new WebSocket('ws://ws/trades')
+// const wsConnTrade = new WebSocket('ws://localhost:8181/websocket/trades')
+// const wsConnTrade = new WebSocket('wss://backpocket.eplaza.cloud/websocket/trades')
+// const wsConnTrade = new WebSocket('ws://websocket/trades')
 
 var wsConnTrade;
 var wsReconnect = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/trades"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/trades"
 
 export default function createWebSocketPlugin() {
     return store => {
-        
+
         var heartBeat = function(){
             if (!wsConnTrade) return;
             if (wsConnTrade.readyState !== 1) return;

@@ -1,14 +1,14 @@
-// const wsConnOrderBook = new WebSocket('ws://localhost:8181/ws/orderBooks')
-// const wsConnOrderBook = new WebSocket('wss://backpocket.eplaza.cloud/ws/orderBooks')
-// const wsConnOrderBook = new WebSocket('ws://ws/orderBooks')
+// const wsConnOrderBook = new WebSocket('ws://localhost:8181/websocket/orderBooks')
+// const wsConnOrderBook = new WebSocket('wss://backpocket.eplaza.cloud/websocket/orderBooks')
+// const wsConnOrderBook = new WebSocket('ws://websocket/orderBooks')
 
 var wsConnOrderBook;
 var wsReconnect = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/orderbooks"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/orderbooks"
 
 export default function createWebSocketPlugin() {
     return store => {
-        
+
         var heartBeat = function(){
             if (!wsConnOrderBook) return;
             if (wsConnOrderBook.readyState !== 1) return;

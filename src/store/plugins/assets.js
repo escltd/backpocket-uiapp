@@ -1,12 +1,12 @@
-// const wsConnAsset = new WebSocket('ws://localhost:8181/ws/assets')
-// const wsConnAsset = new WebSocket('wss://backpocket.eplaza.cloud/ws/assets')
+// const wsConnAsset = new WebSocket('ws://localhost:8181/websocket/assets')
+// const wsConnAsset = new WebSocket('wss://backpocket.eplaza.cloud/websocket/assets')
 
 
 var wsConnAsset;
 var wsReconnect = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/assets"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/assets"
 
-// const wsConnAsset = new WebSocket('ws://ws/assets')
+// const wsConnAsset = new WebSocket('ws://websocket/assets')
 
 export default function createWebSocketPlugin() {
     return store => {

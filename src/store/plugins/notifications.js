@@ -2,9 +2,9 @@
 
 var wsConnNotification;
 var wsReconnect = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/notifications"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/notifications"
 
-// const wsConnNotification = new WebSocket('ws://ws/notifications')
+// const wsConnNotification = new WebSocket('ws://websocket/notifications')
 
 export default function createWebSocketPlugin() {
     return store => {

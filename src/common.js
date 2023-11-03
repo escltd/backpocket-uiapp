@@ -37,7 +37,6 @@ export function sortObjectEntries(obj, n = 1, ascending = true ) {
     return sortedList.map(el => el[0]).slice(0, n)
 }
 
-
 export function checkRedirect(respData) {
   if (respData.Body !== null) {
     if (respData.Body.Redirect !== null && respData.Body.Redirect !== undefined && respData.Body.Redirect !== "") {
@@ -170,7 +169,6 @@ export function humanTime(time) {
     return time.join(""); // return adjusted time or original
 }
 
-
 export function checkIsZero(field){
   if (checkEmpty(field)) {
       return true
@@ -185,8 +183,6 @@ export function checkIsZero(field){
   }
   return false
 }
-
-
 
 export function checkEmpty(field){
   

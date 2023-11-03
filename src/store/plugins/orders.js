@@ -1,14 +1,14 @@
-// const wsConnOrder = new WebSocket('ws://localhost:8181/ws/orders')
-// const wsConnOrder = new WebSocket('wss://backpocket.eplaza.cloud/ws/orders')
+// const wsConnOrder = new WebSocket('ws://localhost:8181/websocket/orders')
+// const wsConnOrder = new WebSocket('wss://backpocket.eplaza.cloud/websocket/orders')
 
-// const wsConnOrder = new WebSocket('ws://ws/orders')
+// const wsConnOrder = new WebSocket('ws://websocket/orders')
 
 var wsConnOrder;
 var wsConnOrderHistory;
 var wsReconnect = 0;
 var wsReconnectHistory = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/orders"
-var wsURLHistory = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/orderhistory"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/orders"
+var wsURLHistory = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/orderhistory"
 
 export default function createWebSocketPlugin() {
     return store => {

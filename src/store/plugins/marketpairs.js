@@ -1,10 +1,10 @@
-// const wsConnMarket = new WebSocket('ws://localhost:8181/ws/markets')
-// const wsConnMarket = new WebSocket('wss://backpocket.eplaza.cloud/ws/markets')
-// const wsConnMarket = new WebSocket('ws://ws/markets')
+// const wsConnMarket = new WebSocket('ws://localhost:8181/websocket/markets')
+// const wsConnMarket = new WebSocket('wss://backpocket.eplaza.cloud/websocket/markets')
+// const wsConnMarket = new WebSocket('ws://websocket/markets')
 
 var wsConnMarket;
 var wsReconnect = 0;
-var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/ws/markets"
+var wsURL = ((window.location.protocol === "https:") ? "wss:" : "ws:") + "//" + window.location.host + "/websocket/markets"
 
   
 export default function createWebSocketPlugin() {
