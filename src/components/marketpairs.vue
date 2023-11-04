@@ -571,7 +571,7 @@ export default {
                         "or"
                     ]
                     this.lShowOverrideBuy = true
-                    return
+                    this.lOverrideBuy = false
                 } else {
                     this.lShowOverrideBuy = false
                     this.lOverrideBuy = false
