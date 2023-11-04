@@ -24,15 +24,13 @@
                 <div style="max-width:100%" :style="{'width':((getOrderBook.AsksQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
                 class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
 
-                <div class="tl pv2 ph1 w-third z-2"> 
-                    {{humanNumber(truncateNumber(getOrderBook.BidsQuoteTotal))}} 
-                </div>
+                <div class="tl pv2 ph1 w-third z-2"> ${{humanNumber(truncateNumber(getOrderBook.BidsQuoteTotal))}} </div>
                 <div class="tc pv2 ph1 w-third z-2"> 
                     <span v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
                         {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
                     </span>
                 </div>
-                <div class="tr pv2 ph1 w-third z-2"> {{humanNumber(truncateNumber(getOrderBook.AsksQuoteTotal))}} </div>
+                <div class="tr pv2 ph1 w-third z-2"> ${{humanNumber(truncateNumber(getOrderBook.AsksQuoteTotal))}} </div>
             </div> 
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
