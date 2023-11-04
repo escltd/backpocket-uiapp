@@ -11,7 +11,7 @@
                             </small>
                         </span>
                         <small class="pt2 black w-100 cf mb2" v-if="lShowOverrideBuy || lShowOverrideSell">
-                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer" @click="notifications=[],lOverrideBuy=true,buyOrder()" > buy at a loss </span>
+                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer" @click="notifications=[]" > bought at a loss </span>
                             <span v-else class="pa2 bg-red pointer" @click="notifications=[],lOverrideSell=true,sellOrder()" > sell at a loss </span>
                         </small>
                     </div>
@@ -571,7 +571,7 @@ export default {
                         "or"
                     ]
                     this.lShowOverrideBuy = true
-                    return
+                    this.lOverrideBuy = false
                 } else {
                     this.lShowOverrideBuy = false
                     this.lOverrideBuy = false
