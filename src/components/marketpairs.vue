@@ -111,8 +111,8 @@
                                     
                                 <small class="pointer" click="buyPriceType = (buyPriceType=='marketprice') ? '' : 'marketprice',sellPriceType = (sellPriceType=='marketprice') ? '' : 'marketprice'">
 
-                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand), updateQtyBaseSell(), sellPriceType = ''" v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 3)}}</span>
-                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand), updateQtyBaseSell(), sellPriceType = ''" v-else class="db" :class="{'black':market.Price < market.UpperBand, 'green':market.Price > market.UpperBand}"><small>UB:</small> {{truncateNumber(market.UpperBand, 3)}}</span>
+                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand), updateQtyBaseSell(), sellPriceType = ''" v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 5)}}</span>
+                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand), updateQtyBaseSell(), sellPriceType = ''" v-else class="db" :class="{'black':market.Price < market.UpperBand, 'green':market.Price > market.UpperBand}"><small>UB:</small> {{truncateNumber(market.UpperBand, 5)}}</span>
                                     
 
                                     <small v-if="market.Price > market.MiddleBand">
@@ -132,8 +132,8 @@
                                     </small>
 
                                     
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand), updateQtyBaseBuy(), buyPriceType = ''" v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 3)}}</span>
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand), updateQtyBaseBuy(), buyPriceType = ''" v-else class="db" :class="{'black':market.Price > market.LowerBand, 'red':market.Price < market.LowerBand}"><small>LB:</small> {{truncateNumber(market.LowerBand, 3)}}</span>
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand), updateQtyBaseBuy(), buyPriceType = ''" v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 5)}}</span>
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand), updateQtyBaseBuy(), buyPriceType = ''" v-else class="db" :class="{'black':market.Price > market.LowerBand, 'red':market.Price < market.LowerBand}"><small>LB:</small> {{truncateNumber(market.LowerBand, 5)}}</span>
                                     
                                 </small>
                             
@@ -146,9 +146,9 @@
                         </div>
 
                         <div class="f7 pt1 flex fl w-100 tl gray">
-                            <div class="w-40 ph1 tl pointer" @click="updateBuyPrice(truncateNumber(market.LowPrice, 3)),buyPriceType=''"><small class="i db">(24hr low)</small> {{truncateNumber(market.LowPrice)}} </div>
+                            <div class="w-40 ph1 tl pointer" @click="updateBuyPrice(truncateNumber(market.LowPrice, 5)),buyPriceType=''"><small class="i db">(24hr low)</small> {{truncateNumber(market.LowPrice)}} </div>
                             <div class="w-25 ph1 tc" :class="{'green':market.PriceChangePercent>0,'red':market.PriceChangePercent<0}"> <small class="i db">(% change)</small> <small>{{market.PriceChangePercent}} %</small> </div> 
-                            <div class="w-40 ph1 tr pointer" @click="updateSellPrice(truncateNumber(market.HighPrice, 3)),sellPriceType=''"> <small class="i db">(24hr high)</small> {{truncateNumber(market.HighPrice)}} </div>
+                            <div class="w-40 ph1 tr pointer" @click="updateSellPrice(truncateNumber(market.HighPrice, 5)),sellPriceType=''"> <small class="i db">(24hr high)</small> {{truncateNumber(market.HighPrice)}} </div>
                         </div>
 
                         <div class="fl w-100 br2 br--top tc pb1">
@@ -836,7 +836,7 @@ export default {
         },
         updateQtyBaseBuy() {
             if (this.qtyBaseBuy >= 0 && this.neworder.BuyPrice > 0) {
-                this.qtyQuoteBuy = this.truncateNumber((this.qtyBaseBuy * this.neworder.BuyPrice))
+                this.qtyQuoteBuy = this.truncateNumber((this.qtyBaseBuy * this.neworder.BuyPrice), 5)
             } else {
                 this.qtyQuoteBuy = 0
             }
@@ -859,7 +859,7 @@ export default {
         },
         updateQtyBaseSell() {
             if (this.qtyBaseSell >= 0 && this.neworder.SellPrice > 0){
-                this.qtyQuoteSell = this.truncateNumber((this.qtyBaseSell * this.neworder.SellPrice))
+                this.qtyQuoteSell = this.truncateNumber((this.qtyBaseSell * this.neworder.SellPrice),3)
             } else {
                 this.qtyQuoteSell = 0
             }
