@@ -167,7 +167,7 @@
 
                         <div class="f7 flex fl w-100 tl orange" style="">
                             <div class="w-40 ph1 tl green">
-                                <span @click="updateBuyPrice(truncateNumber(lastSellPrice-(market.TickSize*2))),buyPriceType=''">
+                                <span @click="updateBuyPrice(truncateNumber(lastSellPrice-(market.TickSize*2),3)),buyPriceType=''">
                                     <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(lastSellPrice)}} <small class="i orange db">(buy below)</small>  
                                 </span>
                             </div> 
@@ -176,7 +176,7 @@
                                 <small class="black db w-100">market maker</small>
                             </div>
                              <div class="w-40 ph1 tr red">  
-                                <span @click="updateSellPrice(truncateNumber(lastBuyPrice+(market.TickSize*2))),sellPriceType=''">
+                                <span @click="updateSellPrice(truncateNumber(lastBuyPrice+(market.TickSize*2),3)),sellPriceType=''">
                                     <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(lastBuyPrice)}} <small class="i orange db">(sell above)</small> 
                                 </span>
                             </div>
