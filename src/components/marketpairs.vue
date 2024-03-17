@@ -111,8 +111,8 @@
                                     
                                 <small class="pointer" click="buyPriceType = (buyPriceType=='marketprice') ? '' : 'marketprice',sellPriceType = (sellPriceType=='marketprice') ? '' : 'marketprice'">
 
-                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand,3), updateQtyBaseSell(), sellPriceType = ''" v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 5)}}</span>
-                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand,3), updateQtyBaseSell(), sellPriceType = ''" v-else class="db" :class="{'black':market.Price < market.UpperBand, 'green':market.Price > market.UpperBand}"><small>UB:</small> {{truncateNumber(market.UpperBand, 5)}}</span>
+                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand,getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''" v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, getDecimalPlaces())}}</span>
+                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand,getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''" v-else class="db" :class="{'black':market.Price < market.UpperBand, 'green':market.Price > market.UpperBand}"><small>UB:</small> {{truncateNumber(market.UpperBand, getDecimalPlaces())}}</span>
                                     
 
                                     <small v-if="market.Price > market.MiddleBand">
@@ -132,8 +132,8 @@
                                     </small>
 
                                     
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand,3), updateQtyBaseBuy(), buyPriceType = ''" v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, 5)}}</span>
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand,3), updateQtyBaseBuy(), buyPriceType = ''" v-else class="db" :class="{'black':market.Price > market.LowerBand, 'red':market.Price < market.LowerBand}"><small>LB:</small> {{truncateNumber(market.LowerBand, 5)}}</span>
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand,getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''" v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, getDecimalPlaces())}}</span>
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand,getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''" v-else class="db" :class="{'black':market.Price > market.LowerBand, 'red':market.Price < market.LowerBand}"><small>LB:</small> {{truncateNumber(market.LowerBand, getDecimalPlaces())}}</span>
                                     
                                 </small>
                             
@@ -167,7 +167,7 @@
 
                         <div class="f7 flex fl w-100 tl orange" style="">
                             <div class="w-40 ph1 tl green">
-                                <span @click="updateBuyPrice(truncateNumber(lastSellPrice-(market.TickSize*2),3)),buyPriceType=''">
+                                <span @click="updateBuyPrice(truncateNumber(lastSellPrice-(market.TickSize*2),getDecimalPlaces())),buyPriceType=''">
                                     <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(lastSellPrice)}} <small class="i orange db">(buy below)</small>  
                                 </span>
                             </div> 
@@ -176,7 +176,7 @@
                                 <small class="black db w-100">market maker</small>
                             </div>
                              <div class="w-40 ph1 tr red">  
-                                <span @click="updateSellPrice(truncateNumber(lastBuyPrice+(market.TickSize*2),3)),sellPriceType=''">
+                                <span @click="updateSellPrice(truncateNumber(lastBuyPrice+(market.TickSize*2),getDecimalPlaces())),sellPriceType=''">
                                     <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(lastBuyPrice)}} <small class="i orange db">(sell above)</small> 
                                 </span>
                             </div>
