@@ -24,7 +24,7 @@
                 <div style="max-width:100%" :style="{'width':((getOrderBook.AsksBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
                 class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
 
-                <div class="tl pv2 ph1 w-third z-2"><small>{{getOrderBook.QuoteAsset}} | </small>{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal, getDecimalPlaces()))}} </div>
+                <div class="tl pv2 ph1 w-third z-2">{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal, getDecimalPlaces()))}} </div>
                 <div class="tc pv2 ph1 w-third z-2"> 
                     <span v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
                         {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
