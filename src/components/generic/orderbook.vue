@@ -14,28 +14,30 @@
         
         <div :key="orderBookCount" class="fl w-100">
             <div class="flex flex-row w-100 fl br--left br--right bg-black-10 f7">
-                <div class="tl pv1 ph1 w-third"> {{getOrderBook.QuoteAsset}} <br/><small>volume</small> </div>
+                <div class="tl pv1 ph1 w-third"> {{getOrderBook.BaseAsset}} <br/><small>volume</small> </div>
                 <div class="tc pv1 ph1 w-third orange"> <small> bid-ask<br/>spread</small> </div>
-                <div class="tr pv1 ph1 w-third "> {{getOrderBook.BaseAsset}} <br/><small>volume</small> </div>
+                <div class="tr pv1 ph1 w-third "> {{getOrderBook.QuoteAsset}} <br/><small>volume</small> </div>
             </div> 
             <div class="flex flex-row w-100 fl br--left br--right bl br b--black-10 f6 fw6 relative white">
-                <div style="max-width:100%" :style="{'width':((getOrderBook.BidsQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
+                <div style="max-width:100%" :style="{'width':((getOrderBook.BidsBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
                     class="bg-green left-0 h-100 z-1 absolute inline-flex items-center" ></div>
-                <div style="max-width:100%" :style="{'width':((getOrderBook.AsksQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
+                <div style="max-width:100%" :style="{'width':((getOrderBook.AsksBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
                 class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
 
-                <div class="tl pv2 ph1 w-third z-2"> ${{humanNumber(truncateNumber(getOrderBook.BidsQuoteTotal))}} </div>
+                <div class="tl pv2 ph1 w-third z-2"> <small>{{getOrderBook.BaseAsset}}</small>{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal))}} </div>
                 <div class="tc pv2 ph1 w-third z-2"> 
                     <span v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
                         {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
                     </span>
                 </div>
-                <div class="tr pv2 ph1 w-third z-2"> ${{humanNumber(truncateNumber(getOrderBook.AsksQuoteTotal))}} </div>
+                <div class="tr pv2 ph1 w-third z-2"> <small>{{getOrderBook.BaseAsset}}</small>{{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal))}} </div>
             </div> 
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
-                    <div class="tl pv2 ph1 w-50 ">Quantity</div>
-                    <div class="tr pv2 ph1 w-50">Bid </div>
+                    <div class="tl pv2 ph1 w-25">Quantity</div>
+                    <div class="tl pv2 ph1 w-70 tc" @click="$parent.neworder.BuyPrice = truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.AsksQuoteTotal), $parent.updateQtyBaseBuy(), $parent.buyPriceType = ''">
+                        {{truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.AsksQuoteTotal)}}</div>
+                    <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
                 <div class="inline-flex flex-column w-100 fl bl bb b--black-10 h5 overflow-scroll">
                     <div class="pt4" v-if="getOrderbookBids().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
@@ -54,8 +56,10 @@
             </div>
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
-                    <div class="tl pv2 ph1 w-50">Ask </div>
-                    <div class="tr pv2 ph1 w-50 ">Quantity</div>
+                    <div class="tl pv2 ph1 w-5">Ask </div>
+                    <div class="tl pv2 ph1 w-70 tc" @click="$parent.neworder.SellPrice = truncateNumber(getOrderBook.BidsQuoteTotal/getOrderBook.AsksBaseTotal), $parent.updateQtyBaseSell(), $parent.sellPriceType = ''">
+                        {{truncateNumber(getOrderBook.BidsQuoteTotal/getOrderBook.AsksBaseTotal)}}</div>
+                    <div class="tr pv2 ph1 w-25 tr">Quantity</div>
                 </div> 
                  <div class="inline-flex flex-column w-100 fl br bl bb b--black-10 h5 overflow-scroll">
                      <div class="pt4" v-if="getOrderbookAsks().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
