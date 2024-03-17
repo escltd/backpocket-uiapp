@@ -24,19 +24,20 @@
                 <div style="max-width:100%" :style="{'width':((getOrderBook.AsksBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
                 class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
 
-                <div class="tl pv2 ph1 w-third z-2"> <small>{{getOrderBook.BaseAsset}}</small>{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal))}} </div>
+                <div class="tl pv2 ph1 w-third z-2"> <small>{{getOrderBook.QuoteAsset}} | </small>{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal, getDecimalPlaces()))}} </div>
                 <div class="tc pv2 ph1 w-third z-2"> 
                     <span v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
                         {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
                     </span>
                 </div>
-                <div class="tr pv2 ph1 w-third z-2"> <small>{{getOrderBook.BaseAsset}}</small>{{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal))}} </div>
+                <div class="tr pv2 ph1 w-third z-2"> {{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal, getDecimalPlaces()))}} <small>| {{getOrderBook.QuoteAsset}}</small></div>
             </div> 
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
                     <div class="tl pv2 ph1 w-25">Quantity</div>
-                    <div class="tl pv2 ph1 w-70 tc" @click="$parent.neworder.BuyPrice = truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.AsksQuoteTotal), $parent.updateQtyBaseBuy(), $parent.buyPriceType = ''">
-                        {{truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.AsksQuoteTotal)}}</div>
+                    <div class="tl pv2 ph1 w-70 tc pointer" :class="{'bl bb br b--green':$parent.buyPriceType=='average'}" 
+                    @click="$parent.neworder.BuyPrice = truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.BidsQuoteTotal, getDecimalPlaces()), $parent.updateQtyBaseBuy(), $parent.buyPriceType = 'average'">
+                        {{truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.BidsQuoteTotal, getDecimalPlaces())}}</div>
                     <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
                 <div class="inline-flex flex-column w-100 fl bl bb b--black-10 h5 overflow-scroll">
@@ -57,8 +58,9 @@
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
                     <div class="tl pv2 ph1 w-5">Ask </div>
-                    <div class="tl pv2 ph1 w-70 tc" @click="$parent.neworder.SellPrice = truncateNumber(getOrderBook.BidsQuoteTotal/getOrderBook.AsksBaseTotal), $parent.updateQtyBaseSell(), $parent.sellPriceType = ''">
-                        {{truncateNumber(getOrderBook.BidsQuoteTotal/getOrderBook.AsksBaseTotal)}}</div>
+                    <div class="tl pv2 ph1 w-70 tc pointer" :class="{'bl bb br b--red':$parent.sellPriceType=='average'}" 
+                    @click="$parent.neworder.SellPrice = truncateNumber(getOrderBook.AsksBaseTotal/getOrderBook.AsksQuoteTotal, getDecimalPlaces()), $parent.updateQtyBaseSell(), $parent.sellPriceType = 'average'">
+                        {{truncateNumber(getOrderBook.AsksBaseTotal/getOrderBook.AsksQuoteTotal, getDecimalPlaces())}}</div>
                     <div class="tr pv2 ph1 w-25 tr">Quantity</div>
                 </div> 
                  <div class="inline-flex flex-column w-100 fl br bl bb b--black-10 h5 overflow-scroll">
@@ -164,6 +166,13 @@
             //     this.$emit('updateSellQty', qty);
             //     this.$emit('updateBuyQty', qty);
             // },
+            getDecimalPlaces(){
+                let bidPrice = this.getOrderBook.Bids[0].Price
+                let askPrice = this.getOrderBook.Asks[0].Price
+                let bidPriceDecimals = (bidPrice.toString().split('.')[1] || []).length
+                let askPriceDecimals = (askPrice.toString().split('.')[1] || []).length
+                return (bidPriceDecimals > askPriceDecimals) ? bidPriceDecimals : askPriceDecimals
+            },
             getOrderbookAsks(){
                 return (this.getOrderBook !== undefined && this.getOrderBook.Asks !== undefined) ? this.getOrderBook.Asks : [{Price:0}]
             },

@@ -894,6 +894,9 @@ export default {
                 case "close":
                     sellPrice = this.truncateNumber(this.market.Close - this.truncateNumber(this.marketSpread * this.market.TickSize))
                     break;
+                case "average":
+                    sellPrice = truncateNumber(this.getOrderBook.AsksBaseTotal/this.getOrderBook.AsksQuoteTotal, this.getDecimalPlaces())
+                    break;
                 
                 default:
                     if (parseInt(this.sellPriceType) > 0 && this.getOrderbookBids()[this.sellPriceType-1] !== undefined){
@@ -938,13 +941,14 @@ export default {
                 case "marketprice":
                     buyPrice = this.truncateNumber(this.market.Price + this.truncateNumber(this.marketSpread * this.market.TickSize))
                     break;
-               
                 case "low":
                     buyPrice = this.truncateNumber(this.market.Low + this.truncateNumber(this.marketSpread * this.market.TickSize))
                     break;
-
                 case "open":
                     buyPrice = this.truncateNumber(this.market.Open + this.truncateNumber(this.marketSpread * this.market.TickSize))
+                    break;
+                case "average":
+                    buyPrice = truncateNumber(this.getOrderBook.BidsBaseTotal/this.getOrderBook.BidsQuoteTotal, this.getDecimalPlaces())
                     break;
                     
                 default:
@@ -975,6 +979,13 @@ export default {
             this.updateQtyBaseBuy() 
 
             return (this.market.Close > this.market.Open && this.market.Price > this.market.LastPrice && this.neworder.BuyPrice < this.lastSellPrice)
+        },
+        getDecimalPlaces(){
+            let bidPrice = this.getOrderBook.Bids[0].Price
+            let askPrice = this.getOrderBook.Asks[0].Price
+            let bidPriceDecimals = (bidPrice.toString().split('.')[1] || []).length
+            let askPriceDecimals = (askPrice.toString().split('.')[1] || []).length
+            return (bidPriceDecimals > askPriceDecimals) ? bidPriceDecimals : askPriceDecimals;
         },
         fancyTimeFormat(duration){   
             // Hours, minutes and seconds
