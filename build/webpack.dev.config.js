@@ -21,7 +21,8 @@ module.exports = merge(base, {
     },
     hot: true,
     proxy : {
-          '/websocket': { target: 'ws://localhost:8181', changeOrigin: true, ws: true },
+          '/ws': { target: 'ws://backpocket.africa', changeOrigin: true, ws: true },
+          //'/websocket': { target: 'ws://localhost:8181', changeOrigin: true, ws: true },
           // '/ws': { target: 'wss://backpocket.africa:8181', changeOrigin: true, ws: true },
     }
   }
