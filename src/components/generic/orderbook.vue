@@ -30,47 +30,47 @@
                         {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
                     </span>
                 </div>
-                <div class="tr pv2 ph1 w-third z-2"> {{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal, getDecimalPlaces()))}}</div>
+                <div class="tr pv2 ph1 mr2 w-third z-2"> {{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal, getDecimalPlaces()))}}</div>
             </div> 
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
-                    <div class="tl pv2 ph1 w-25">Quantity</div>
-                    <div class="tl pv2 ph1 w-70 tc pointer" :class="{'bl bb br b--green':$parent.buyPriceType=='average'}" 
-                    @click="$parent.neworder.BuyPrice = truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.BidsQuoteTotal, getDecimalPlaces()), $parent.updateQtyBaseBuy(), $parent.buyPriceType = 'average'">
-                        {{truncateNumber(getOrderBook.BidsBaseTotal/getOrderBook.BidsQuoteTotal, getDecimalPlaces())}}</div>
+                    <div class="tl pv2 ph1 w-5">Qty</div>
+                    <div class="tl pv2 ph1 w-90 tc pointer" :class="{'bl bb br b--green':$parent.buyPriceType=='average'}" 
+                    @click="$parent.neworder.BuyPrice = getBidsAverage(), $parent.updateQtyBaseBuy(), $parent.buyPriceType = 'average'">
+                        {{getBidsAverage()}}</div>
                     <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
-                <div class="inline-flex flex-column w-100 fl bl bb b--black-10 h5 overflow-scroll">
+                <div style="height:21.2rem" class="inline-flex flex-column w-100 fl bl bb b--black-10 overflow-scroll">
                     <div class="pt4" v-if="getOrderbookBids().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem;" class="pointer relative fl inline-flex items-center w-100 bb b--black-10 " v-for="(bid, index) in getOrderbookBids()" :key="index"
                     :class="{'ba b--green':$parent.buyPriceType==index+1,' black':market.Price <= bid.Price && market.Price > 0}" @click="toggleBuyPriceType(index+1)">
                         <div style="max-width:100%" :style="{'width':bid.Percentage+'%'}" :class="{'bg-light-gray ':market.Price > bid.Price, 'bg-light-green': market.Price <= bid.Price && market.Price > 0}" class="right-0 h-100 z-1 absolute inline-flex items-center"></div>
-                        <div class="tl ph1 fl w-40 f7 z-2 black">
+                        <div class="tl ph1 fl w-40 f7 z-2 black truncate">
                             <small>
                                 {{humanNumber(truncateNumber(bid.Total))}} <br/> <small class="i"> +{{humanNumber(truncateNumber(bid.Quantity))}} </small> 
                             </small>
                         </div>
-                        <div class="tc ph1 fl w-10 f4 z-2 black"> {{index+1}} </div> 
-                        <div class="tr ph1 fl w-50 z-2 dark-green">  {{truncateNumber(bid.Price)}} </div>
+                        <div class="tc fl w-20 f4 z-2" :class="{'bg-green white b':getBidsAverage() == bid.Price}"> {{index+1}} </div> 
+                        <div class="tr ph1 fl w-40 z-2 dark-green">  {{truncateNumber(bid.Price)}} </div>
                     </div>
                 </div> 
             </div>
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
                     <div class="tl pv2 ph1 w-5">Ask </div>
-                    <div class="tl pv2 ph1 w-70 tc pointer" :class="{'bl bb br b--red':$parent.sellPriceType=='average'}" 
-                    @click="$parent.neworder.SellPrice = truncateNumber(getOrderBook.AsksBaseTotal/getOrderBook.AsksQuoteTotal, getDecimalPlaces()), $parent.updateQtyBaseSell(), $parent.sellPriceType = 'average'">
-                        {{truncateNumber(getOrderBook.AsksBaseTotal/getOrderBook.AsksQuoteTotal, getDecimalPlaces())}}</div>
-                    <div class="tr pv2 ph1 w-25 tr">Quantity</div>
+                    <div class="tl pv2 ph1 w-90 tc pointer" :class="{'bl bb br b--red':$parent.sellPriceType=='average'}" 
+                    @click="$parent.neworder.SellPrice = getAsksAverage(), $parent.updateQtyBaseSell(), $parent.sellPriceType = 'average'">
+                        {{getAsksAverage()}}</div>
+                    <div class="tr pv2 ph1 w-5 tr">Qty</div>
                 </div> 
-                 <div class="inline-flex flex-column w-100 fl br bl bb b--black-10 h5 overflow-scroll">
+                 <div style="height:21.2rem" class="inline-flex flex-column w-100 fl br bl bb b--black-10 overflow-scroll">
                      <div class="pt4" v-if="getOrderbookAsks().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem" class="pointer relative red fl inline-flex items-center w-100 bb b--black-10 " v-for="(ask, index) in getOrderbookAsks()" :key="index"
                     :class="{'ba b--red':$parent.sellPriceType==index+1,' black':market.Price >= ask.Price && market.Price > 0}" @click="toggleSellPriceType(index+1)">
                         <div style="max-width:100%" :style="{'width':ask.Percentage+'%'}" :class="{'bg-light-gray ':market.Price < ask.Price, 'bg-light-red': market.Price >= ask.Price && market.Price > 0}" class="left-0 h-100 z-1 absolute inline-flex items-center"></div>
-                        <div class="tl ph1 fl w-50 z-2 dark-red">{{ truncateNumber(ask.Price)}} </div>
-                        <div class="tc ph1 fl w-10 f4 z-2 black"> {{index+1}} </div> 
-                        <div class="tr ph1 fl w-40 f7 z-2 black"> 
+                        <div class="tl ph1 fl w-40 z-2 dark-red">{{ truncateNumber(ask.Price)}} </div>
+                        <div class="tc fl w-20 f4 z-2 " :class="{'bg-red white b':getAsksAverage() == ask.Price}"> {{index+1}} </div> 
+                        <div class="tr ph1 fl w-40 f7 z-2 black truncate"> 
                             <small>
                                 {{humanNumber(truncateNumber(ask.Total))}} <br/> <small class="i"> +{{humanNumber(truncateNumber(ask.Quantity))}} </small> 
                             </small>
@@ -166,6 +166,12 @@
             //     this.$emit('updateSellQty', qty);
             //     this.$emit('updateBuyQty', qty);
             // },
+            getBidsAverage(){
+                return truncateNumber(this.getOrderBook.BidsBaseTotal/this.getOrderBook.BidsQuoteTotal, this.getDecimalPlaces())
+            },
+            getAsksAverage(){
+                return truncateNumber(this.getOrderBook.AsksBaseTotal/this.getOrderBook.AsksQuoteTotal, this.getDecimalPlaces())
+            },
             getDecimalPlaces(){
                 let bidPrice = this.getOrderBook.Bids[0].Price
                 let askPrice = this.getOrderBook.Asks[0].Price

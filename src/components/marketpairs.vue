@@ -980,6 +980,12 @@ export default {
 
             return (this.market.Close > this.market.Open && this.market.Price > this.market.LastPrice && this.neworder.BuyPrice < this.lastSellPrice)
         },
+        getBidsAverage(){
+            return truncateNumber(this.getOrderBook.BidsBaseTotal/this.getOrderBook.BidsQuoteTotal, this.getDecimalPlaces())
+        },
+        getAsksAverage(){
+            return truncateNumber(this.getOrderBook.AsksBaseTotal/this.getOrderBook.AsksQuoteTotal, this.getDecimalPlaces())
+        },
         getDecimalPlaces(){
             let bidPrice = this.getOrderBook.Bids[0].Price
             let askPrice = this.getOrderBook.Asks[0].Price
