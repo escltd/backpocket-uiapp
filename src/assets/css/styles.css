@@ -27,6 +27,7 @@ option {
 .card-marketpair {
     position: relative;
     max-width: 460px;
+    min-width: 300px;
     width: 100%;
       
     background: rgba(0, 0, 0, 0.01);
