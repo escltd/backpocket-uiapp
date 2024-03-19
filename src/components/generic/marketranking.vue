@@ -38,8 +38,14 @@
                 <div style="height:28rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-if="rankGainers">
                     <div class="w-25 pa1" v-for="(marketRank, index) in sortMarketHighRankings()" :key="index">
                         <div @click="toggleMarket(marketRank)" class="ph1 pt2 pb1 br2 w-100 tc pointer bg-black-10 black">
-                            <span class="f6 db w-100 green">{{marketRank.PriceChangePercent}}%</span>
-                            <span class="tracked">{{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}</span>
+                            <span class="f6 db w-100 green items-center">
+                                <small>
+                                    <i class="fa" :class="{'dark-green fa-arrow-alt-up':marketDirection(marketRank),'dark-red fa-arrow-alt-down':!marketDirection(marketRank)}"/>
+                                </small>
+                                {{truncateNumber(marketRank.PriceChangePercent,2)}}%</span>
+                            <span class="tracked f7">
+                                {{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}
+                            </span>
                             <small class="tracked ttu w-100 db"> <i>{{index+1}}</i> - {{marketRank.Exchange}} <i :class="{'black-30':marketRank.Status=='disabled','green':marketRank.Status=='enabled'}" class="fa fa-check"/> </small>
                         </div>
                     </div>
@@ -47,8 +53,13 @@
                 <div style="height:28rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-else>
                     <div class="w-25 pa1" v-for="(marketRank, index) in sortMarketLowRankings()" :key="index">
                         <div @click="toggleMarket(marketRank)" class="ph1 pt2 pb1 br2 w-100 tc pointer bg-black-10 black">
-                            <span class="f6 db w-100 red">{{marketRank.PriceChangePercent}}%</span>
-                            <span class="tracked">{{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}</span>
+                            <span class="f6 db w-100 red items-center">
+                                <small>
+                                    <i class="fa" :class="{'dark-green fa-arrow-alt-up':marketDirection(marketRank),'dark-red fa-arrow-alt-down':!marketDirection(marketRank)}"/>
+                                </small>
+                                {{truncateNumber(marketRank.PriceChangePercent,2)}}%
+                            </span>
+                            <span class="tracked f7">{{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}</span>
                             <small class="tracked ttu w-100 db"> <i>{{index+1}}</i> - {{marketRank.Exchange}} <i :class="{'black-30':marketRank.Status=='disabled','red':marketRank.Status=='enabled'}" class="fa fa-check"/> </small>
                         </div>
                     </div>
@@ -83,6 +94,9 @@
             // updateSellPrice(price){
             //     this.$emit('updateSellPrice', price);
             // },
+            marketDirection(market) {
+               return (market.Price > (market.HighPrice - ((market.HighPrice-market.LowPrice)/2)))
+            },
             toggleMarket(market){
                 if (market.Status == "enabled"){
                     this.$store.dispatch('marketpairs/disableMarketPair', market)

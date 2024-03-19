@@ -147,7 +147,9 @@
 
                         <div class="f7 pt1 flex fl w-100 tl gray">
                             <div class="w-40 ph1 tl pointer" @click="updateBuyPrice(truncateNumber(market.LowPrice, 5)),buyPriceType=''"><small class="i db">(24hr low)</small> {{truncateNumber(market.LowPrice)}} </div>
-                            <div class="w-25 ph1 tc" :class="{'green':market.PriceChangePercent>0,'red':market.PriceChangePercent<0}"> <small class="i db">(% change)</small> <small>{{market.PriceChangePercent}} %</small> </div> 
+                            <div class="w-25 ph1 tc" :class="{'green':market.PriceChangePercent>0,'red':market.PriceChangePercent<0}"> <small class="i db">(% change)</small> <small>
+                                <i class="fa" :class="{'dark-green fa-arrow-alt-up':marketDirection(market),'dark-red fa-arrow-alt-down':!marketDirection(market)}"/>
+                                {{market.PriceChangePercent}} %</small> </div> 
                             <div class="w-40 ph1 tr pointer" @click="updateSellPrice(truncateNumber(market.HighPrice, 5)),sellPriceType=''"> <small class="i db">(24hr high)</small> {{truncateNumber(market.HighPrice)}} </div>
                         </div>
 
@@ -474,6 +476,9 @@ export default {
                 }
             }
             return balance
+        },
+        marketDirection(market) {
+            return (market.Price > (market.HighPrice - ((market.HighPrice-market.LowPrice)/2)))
         },
         setQty(){
             if (this.qtyBaseBuy > 0) {
@@ -809,8 +814,7 @@ export default {
             //check if free baseFree is enough to make market and double profits
 
             this.notifyTimeout = setTimeout(this.closeNotification, 2500);            
-        },    
-        
+        },
         closeNotification(){
             this.notifications = []
             this.lOverrideBuy = this.lShowOverrideBuy = false
@@ -872,7 +876,6 @@ export default {
             this.qtyBaseSell = qty
             this.updateQtyBaseSell()
         },
-
         startTimer(){
             const app = this
             app.totalSeconds = 0;
