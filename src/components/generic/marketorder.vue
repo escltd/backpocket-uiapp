@@ -23,23 +23,26 @@
                     </span>
                     
                     <span class="fr ">
-                        <span :class="{'green':order.PnL>0,'red':order.PnL<0,}" > {{truncateNumber(order.PnL)}} </span>
-                        <small> {{market.QuoteAsset}}</small> 
+                        <span :class="{'green':order.PnL>0,'red':order.PnL<0,}" >&nbsp;
+                            <small v-if="order.Side=='BUY'" class="i">&nbsp;{{truncateNumber(order.PnL)}}</small>
+                            <span v-else class="b">{{truncateNumber(order.PnL)}}</span>
+                        </span>
+                        <small> {{market.QuoteAsset}}&nbsp;</small> 
                     </span>
                 </small>
                 
                 <small class="w-100 fl pv1">
                     <span class="fl">
-                        <span v-if="order.Side=='BUY'" class="pointer" @click="updateSellQty(order.Quantity)"> 
-                            {{humanNumber(truncateNumber(order.Quantity))}} = {{humanNumber(truncateNumber(order.Total))}} 
+                        <span v-if="order.Side=='BUY'" class="pointer"> 
+                            <span @click="updateSellQty(order.Quantity)">{{humanNumber(truncateNumber(order.Quantity))}}</span> &nbsp;=&nbsp; <span @click="updateSellAmount(order.Total)">{{humanNumber(truncateNumber(order.Total))}}</span>
                         </span> 
-                        <span v-else class="pointer" @click="updateBuyQty(order.Quantity)">
-                            {{humanNumber(truncateNumber(order.Quantity))}} = {{humanNumber(truncateNumber(order.Total))}} 
+                        <span v-else class="pointer">
+                            <span @click="updateBuyQty(order.Quantity)"> {{humanNumber(truncateNumber(order.Quantity))}} </span> &nbsp;=&nbsp; <span @click="updateBuyAmount(order.Total)"> {{humanNumber(truncateNumber(order.Total))}} </span>
                         </span>
                     </span>
 
                     <span class="fr">
-                        <span>{{truncateNumber(order.Fees)}} </span> <small>FEE</small>
+                        <span>&nbsp;{{truncateNumber(order.Fees)}} </span> <small>FEE&nbsp;</small>
                     </span>
                 </small>
 
@@ -115,11 +118,17 @@
             updateBuyQty(qty){
                 this.$emit('updateBuyQty', qty);
             },
+            updateBuyAmount(amount){
+                this.$emit('updateBuyAmount', amount);
+            },
             updateBuyPrice(price){
                 this.$emit('updateBuyPrice', price);
             },
             updateSellQty(qty){
                 this.$emit('updateSellQty', qty);
+            },
+            updateSellAmount(amount){
+                this.$emit('updateSellAmount', amount);
             },
             updateSellPrice(price){
                 this.$emit('updateSellPrice', price);
@@ -153,13 +162,11 @@
 
                 var marketPairPNL = this.calculateOrderPnL(this.market.Pair, this.getMarketPairOrders)
                 
-                this.$parent.totalPnLBuy = marketPairPNL.TotalPnLBuy
-                this.$parent.totalFeesBuy = marketPairPNL.TotalFeesBuy
-                this.$parent.totalPnLSell = marketPairPNL.TotalPnLSell
-                this.$parent.totalFeesSell = marketPairPNL.TotalFeesSell
-
-                this.$parent.lastBuyPrice = marketPairPNL.LastBuyPrice
-                this.$parent.lastSellPrice = marketPairPNL.LastSellPrice
+                this.$parent.totalPnL = marketPairPNL.TotalPnL
+                this.$parent.totalFees = marketPairPNL.TotalFees
+                this.$parent.totalBase = marketPairPNL.TotalBase
+                this.$parent.totalQuote = marketPairPNL.TotalQuote
+                this.$parent.averagePrice = marketPairPNL.AveragePrice
 
                 return marketPairPNL.OrderList 
             },

@@ -39,6 +39,9 @@ export default function createWebSocketPlugin() {
             wsConnMarket.onmessage = function (event) {
                 wsReconnect = 0
                 var market = JSON.parse(event.data)
+                // if (market.Pair === "LUNCUSDT") {
+                //     console.error(market)
+                // }
                 // Object.freeze(market)
                 if (market.BaseAsset !== "" && market.QuoteAsset !== "" && !market.Pair.includes("DOWN") && !market.Pair.includes("UP")) {
                     store.dispatch('marketpairs/updateMarketPair', market);
