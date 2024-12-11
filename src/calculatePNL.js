@@ -2,6 +2,93 @@ import { truncateNumber, sortObjectEntries } from "@/common"
 
 export function calculateOrderPnL(marketPair, orderList, showCancelled = false) {
 
+    var totalPnL = 0
+    var totalFees = 0
+    var totalBase = 0
+    var totalQuote = 0
+
+    var marketPairPnL = {
+        TotalPnL: 0,
+        TotalFees: 0,
+        TotalBase: 0,
+        TotalQuote: 0,
+        AveragePrice: 0,
+        OrderList: []
+    }
+
+    var feesCharge = 0.075;
+
+    var notSTATUS =  (showCancelled) ? "" : "CANCELED"
+    
+    var calculatedOrderPnL = []
+    for (var id in orderList) {
+        var order = orderList[id]
+
+        order.PnL = 0
+        order.Fees = 0.075
+        if (!showCancelled && order.Pair !== marketPair) {
+            continue
+        }
+
+        if (order.Pair == marketPair) {
+            if (order.Status == "FILLED" || order.Status == "NEW" || order.Status == "PARTIALLY_FILLED") {
+                
+                switch (order.Side) {
+                    case "BUY":
+                        if ((totalQuote / totalBase) > 0) {
+                            order.PnL = truncateNumber(((totalQuote / totalBase) - order.Price) * order.Quantity)
+                        }
+                        order.Fees = truncateNumber(order.Total * (feesCharge / 100))
+
+                        if (order.Status == "FILLED") {
+                            totalBase += order.Quantity
+                            totalQuote += order.Total
+
+                            // totalPnL += order.PnL
+                            totalFees += order.Fees
+                            
+                        }
+                        break;
+
+                    case "SELL":
+                        if ((totalQuote / totalBase) > 0) {
+                            order.PnL = truncateNumber((order.Price - (totalQuote / totalBase)) * order.Quantity)
+                        }
+                        order.Fees = truncateNumber(order.Total * (feesCharge / 100))
+
+                        if (order.Status == "FILLED") {
+                            totalBase -= order.Quantity
+                            totalQuote -= order.Total
+
+                            totalPnL += order.PnL
+                            totalFees += order.Fees
+                        }
+                        break;
+                }
+            }
+        }
+        
+        if (order.Status !== notSTATUS) {
+            calculatedOrderPnL.push(order)
+        }
+    }
+    
+    marketPairPnL.TotalPnL = totalPnL
+    marketPairPnL.TotalFees = totalFees
+    marketPairPnL.TotalBase = totalBase
+    marketPairPnL.TotalQuote = totalQuote
+
+    marketPairPnL.AveragePrice = truncateNumber(totalQuote / totalBase)
+    marketPairPnL.OrderList = calculatedOrderPnL    
+    marketPairPnL.OrderList.reverse()
+
+    
+    return marketPairPnL
+}
+
+
+export function OLDcalculateOrderPnL(marketPair, orderList, showCancelled = false) {
+
     var totalPnLBuy = 0
     var totalFeesBuy = 0
     var totalPnLSell = 0

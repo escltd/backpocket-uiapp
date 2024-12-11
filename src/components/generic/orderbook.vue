@@ -19,24 +19,25 @@
                 <div class="tr pv1 ph1 w-third "> {{getOrderBook.QuoteAsset}} <br/><small>volume</small> </div>
             </div> 
             <div class="flex flex-row w-100 fl br--left br--right bl br b--black-10 f6 fw6 relative white">
-                <div style="max-width:100%" :style="{'width':((getOrderBook.BidsBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
+                <div style="max-width:100%" :style="{'width':((getOrderBook.BidsQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
                     class="bg-green left-0 h-100 z-1 absolute inline-flex items-center" ></div>
-                <div style="max-width:100%" :style="{'width':((getOrderBook.AsksBaseTotal/(getOrderBook.BidsBaseTotal+getOrderBook.AsksBaseTotal))*100)+'%'}" 
+                <div style="max-width:100%" :style="{'width':((getOrderBook.AsksQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
                 class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
 
-                <div class="tl pv2 ph1 w-third z-2">{{humanNumber(truncateNumber(getOrderBook.BidsBaseTotal, getDecimalPlaces()))}} </div>
-                <div class="tc pv2 ph1 w-third z-2"> 
-                    <span v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
-                        {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}% 
+                <div class="tl pv2 ph1 w-third z-2 f4 bg-black-20 flex items-center justify-start">{{humanNumber(truncateNumber(getOrderBook.BidsQuoteTotal, 2))}}</div>
+                <div class="tc pv2 ph1 w-third z-2 flex items-center justify-center"> 
+                    <span class="" v-if="getOrderbookBids().length>0&&getOrderbookAsks().length>0&&getOrderbookBids()[spreadIndexBid]!==undefined&&getOrderbookAsks()[spreadIndexAsk]!==undefined">
+                        {{(((getOrderbookAsks()[spreadIndexAsk].Price - getOrderbookBids()[spreadIndexBid].Price)/getOrderbookBids()[spreadIndexBid].Price) * 100).toFixed(4)}}%
+                        <br/><small class="b">{{getOrderBook.QuoteAsset}}</small>
                     </span>
                 </div>
-                <div class="tr pv2 ph1 mr2 w-third z-2"> {{humanNumber(truncateNumber(getOrderBook.AsksBaseTotal, getDecimalPlaces()))}}</div>
+                <div class="tr pv2 ph1 w-third z-2 f4 bg-black-20 flex items-center justify-end">{{humanNumber(truncateNumber(getOrderBook.AsksQuoteTotal, 2))}}</div>
             </div> 
             <div class="fl w-50">
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
                     <div class="tl pv2 ph1 w-5">Qty</div>
                     <div class="tl pv2 ph1 w-90 tc pointer" :class="{'bl bb br b--green':$parent.buyPriceType=='average'}" 
-                    @click="$parent.neworder.BuyPrice = getBidsAverage(), $parent.updateQtyBaseBuy(), $parent.buyPriceType = 'average'">
+                    @click="$parent.neworder.BuyPrice = getBidsAverage(), $parent.updateQtyQuoteBuy(), $parent.buyPriceType = 'average'">
                         {{getBidsAverage()}}</div>
                     <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
@@ -59,7 +60,7 @@
                 <div class="flex flex-row w-100 fl bg-black-10 fw6 f7">
                     <div class="tl pv2 ph1 w-5">Ask </div>
                     <div class="tl pv2 ph1 w-90 tc pointer" :class="{'bl bb br b--red':$parent.sellPriceType=='average'}" 
-                    @click="$parent.neworder.SellPrice = getAsksAverage(), $parent.updateQtyBaseSell(), $parent.sellPriceType = 'average'">
+                    @click="$parent.neworder.SellPrice = getAsksAverage(), $parent.updateQtyQuoteSell(), $parent.sellPriceType = 'average'">
                         {{getAsksAverage()}}</div>
                     <div class="tr pv2 ph1 w-5 tr">Qty</div>
                 </div> 
@@ -167,10 +168,10 @@
             //     this.$emit('updateBuyQty', qty);
             // },
             getBidsAverage(){
-                return truncateNumber(this.getOrderBook.BidsBaseTotal/this.getOrderBook.BidsQuoteTotal, this.getDecimalPlaces())
+                return truncateNumber(this.getOrderBook.BidsQuoteTotal/this.getOrderBook.BidsBaseTotal, this.getDecimalPlaces())
             },
             getAsksAverage(){
-                return truncateNumber(this.getOrderBook.AsksBaseTotal/this.getOrderBook.AsksQuoteTotal, this.getDecimalPlaces())
+                return truncateNumber(this.getOrderBook.AsksQuoteTotal/this.getOrderBook.AsksBaseTotal, this.getDecimalPlaces())
             },
             getDecimalPlaces(){
                 let bidPrice = this.getOrderBook.Bids[0].Price

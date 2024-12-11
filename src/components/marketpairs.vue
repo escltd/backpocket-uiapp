@@ -41,14 +41,15 @@
                             </div>
 
                             <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty"
+                            @updateBuyAmount="updateBuyAmount" @updateSellAmount="updateSellAmount"
                             @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" /> 
                         </small>
                         <div class="w-100 f7">
                             <div class="w-100 flex tc black-50">
                                 <div class="w-50 pt1 tl fw6"> 
                                     <small> 
-                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell)))>0,'red':(truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell)))<0,}" > 
-                                         {{truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell))}} </span>
+                                        {{market.QuoteAsset}} PnL: <span :class="{'green':truncateNumber(totalPnL-totalFees)>0,'red':truncateNumber(totalPnL-totalFees)<0,}" > 
+                                         {{truncateNumber(totalPnL-totalFees)}} </span>
                                     </small>
                                 </div>        
                                 <div class="fl w1 pt1 tc fw6"> 
@@ -57,7 +58,7 @@
                                     </span>
                                 </div>
                                 <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFeesBuy+totalFeesSell)}}</small> 
+                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small> 
                                 </div>
                             </div>
                         </div>
@@ -169,30 +170,30 @@
 
                         <div class="f7 flex fl w-100 tl orange" style="">
                             <div class="w-40 ph1 tl green">
-                                <span @click="updateBuyPrice(truncateNumber(lastSellPrice-(market.TickSize*2),getDecimalPlaces())),buyPriceType=''">
-                                    <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(lastSellPrice)}} <small class="i orange db">(buy below)</small>  
+                                <span @click="updateBuyPrice(truncateNumber(averagePrice-(market.TickSize*2),getDecimalPlaces())),buyPriceType=''">
+                                    <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(buy below)</small>  
                                 </span>
                             </div> 
                             <div class="w-30 w-20-ns ph1 tc"> 
-                                {{(((lastSellPrice - lastBuyPrice)/lastBuyPrice) * 100).toFixed(4)}}% 
+                                {{(((averagePrice - averagePrice)/averagePrice) * 100).toFixed(4)}}% 
                                 <small class="black db w-100">market maker</small>
                             </div>
                              <div class="w-40 ph1 tr red">  
-                                <span @click="updateSellPrice(truncateNumber(lastBuyPrice+(market.TickSize*2),getDecimalPlaces())),sellPriceType=''">
-                                    <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(lastBuyPrice)}} <small class="i orange db">(sell above)</small> 
+                                <span @click="updateSellPrice(truncateNumber(averagePrice+(market.TickSize*2),getDecimalPlaces())),sellPriceType=''">
+                                    <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(sell above)</small> 
                                 </span>
                             </div>
                         </div>
 
                         <div class="fl w-100 br2 br--top tc f7 ">
                             <div class="fl w-40 pl1 inline-flex items-center pointer">
-                                <i class="f7 black-20 fa fa-minus" @click="qtyBaseBuy=truncateNumber(qtyBaseBuy-(market.StepSize * 10))" />
+                                <i class="f7 black-20 fa fa-minus" @click="qtyBaseBuy=truncateNumber(qtyBaseSell-(market.StepSize * 10)), updateQtyBaseBuy()" />
                                 <div class="w-70-ns w-60 center fl">
                                     <div @click="setQtyBaseBuyPercent(25)" class="bg-black-20 pa2 fl w-third-ns w-50 tc white"><small>25%</small></div>
                                     <div @click="setQtyBaseBuyPercent(50)" class="bg-black-50 pa2 fl w-third-ns w-50 tc white"><small>50%</small></div>
                                     <div @click="setQtyBaseBuyPercent(75)" class="bg-black pa2 fl w-third-ns w-50 white dn dib-ns"><small>75%</small></div>
                                 </div>
-                                <i class="f7 black fa fa-plus" @click="qtyBaseBuy=truncateNumber(qtyBaseBuy+(market.StepSize * 10))" />
+                                <i class="f7 black fa fa-plus" @click="qtyBaseBuy=truncateNumber(qtyBaseSell+(market.StepSize * 10)), updateQtyBaseBuy()" />
                             </div>
                             <div class="fl w-20 ">
                                 <span>
@@ -213,10 +214,10 @@
                         
                         <div class="fl w-100 br2 br--top tc">
                             <div class="fl w-40  pt2 tl">
-                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black" type="number"  @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="qtyBaseBuy">
+                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black" type="number" @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="qtyBaseBuy">
                             </div>
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"  @click="marketSpread+=1,setQty()">
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"  @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()">
                                     {{market.BaseAsset}}
                                 </div>
                             </div>
@@ -230,7 +231,7 @@
                                 <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteBuy">
                             </div>                    
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()"> {{market.QuoteAsset}} </div>
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="marketSpread+=1,setQty()"> {{market.QuoteAsset}} </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
                                 <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteSell">
@@ -242,16 +243,18 @@
                                 <span @click="setQtyBaseBuyPercent(100)">
                                     <small class="pointer"> {{truncateNumber(quoteFree).toString()}} {{market.QuoteAsset}}</small> 
                                     <small class="w-100 orange db pt1 tl fw6"> 
-                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(quoteFree) + (Number(market.Price) * Number(baseFree)) , 8)}}
+                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(quoteFree) + (Number(market.Price) * Number(baseFree)) , 8)}} {{market.QuoteAsset}}
                                     </small>
                                 </span>
                             </div>        
                             <div class="fl w1 pt1 tc f6 fw6 ttu"> <span class="db fl w-100 tc pt3"><i v-if="!lDropdown" class="fa fa-chevron-down center pointer" @click="lDropdown=!lDropdown,searchMarketPairOrders()" /> </span> </div>
-                            <div class="w-50 pt1 tr f6 fw6 ttu"> 
-                                <small class="pointer" @click="setQtyBaseSellPercent(100)"> {{truncateNumber(baseFree).toString()}} {{market.BaseAsset}}</small> 
-                                <small class="w-100 orange db pt1 tr fw6"> 
-                                    <i class="fa fa-wallet" /> {{truncateNumber(Number(baseFree) + (Number(quoteFree) / Number(market.Price) ), 8)}}
-                                </small>    
+                            <div class="w-50 pt1 tr f6 fw6 ttu">
+                                <span @click="setQtyBaseSellPercent(100)">
+                                    <small class="pointer"> {{truncateNumber(baseFree).toString()}} {{market.BaseAsset}}</small> 
+                                    <small class="w-100 orange db pt1 tr fw6"> 
+                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(baseFree) + (Number(quoteFree) / Number(market.Price) ), 8)}} {{market.BaseAsset}}
+                                    </small>
+                                </span>
                             </div>
                         </div>
                         <small :class="{'bounce-in db':lDropdown, 'dn':!lDropdown}">
@@ -267,16 +270,15 @@
                                 </span>
                             </div>
                             
-                            <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty"
-                            @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" /> 
+                            <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" /> 
                             
                         </small>
                         <div v-if="lDropdown" class="w-100 f7">
                             <div class="w-100 flex tc black-50">
                                 <div class="w-50 pt1 tl fw6"> 
                                     <small> 
-                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell)))>0,'red':(truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell)))<0,}" > 
-                                         {{truncateNumber(totalPnLSell-(totalFeesBuy+totalFeesSell))}} </span>
+                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnL-(totalFees+totalFees)))>0,'red':(truncateNumber(totalPnL-(totalFees+totalFees)))<0,}" > 
+                                         {{truncateNumber(totalPnL-(totalFees+totalFees))}} </span>
                                     </small>
                                 </div>        
                                 <div class="fl w1 pt1 tc fw6"> 
@@ -285,7 +287,7 @@
                                     </span>
                                 </div>
                                 <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFeesBuy+totalFeesSell)}}</small> 
+                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees+totalFees)}}</small> 
                                 </div>
                             </div>
                         </div>
@@ -310,6 +312,7 @@ import tradingvue from "@/components/generic/tradingvue";
 import marketorder from "@/components/generic/marketorder";
 import marketranking from "@/components/generic/marketranking";
 import enabledmarkets from "@/components/generic/enabledmarkets.vue";
+import { parse } from 'url';
 
 export default {
     props:["market", "enabledmarkets"],
@@ -368,8 +371,8 @@ export default {
 
         buyPriceType:"", sellPriceType:"", counterStatus:"", counterInterval:{}, tradeSeconds:0, totalSeconds:0, 
 
-        totalPnLBuy:0, totalFeesBuy:0, totalPnLSell:0, totalFeesSell:0, lastBuyPrice:0, lastSellPrice:0,
-        
+        totalPnL: 0, totalFees: 0, totalBase: 0, totalQuote: 0, averagePrice: 0, 
+
         qtyBaseBuy:0, qtyBaseSell:0, qtyQuoteBuy:0, qtyQuoteSell:0, neworder: { Price:0, BuyPrice:0, SellPrice:0, Fee:0, AutoRepeat:0},
         showMarketPairs: false, baseFree:0, quoteFree:0,
 
@@ -424,7 +427,7 @@ export default {
         const stopDate = new Date()
         const startDate = new Date()
 
-        startDate.setDate(today.getDate()-3)
+        startDate.setDate(today.getDate()-90)
         this.startDate = startDate.toJSON().slice(0,10)
 
         stopDate.setDate(today.getDate()+1)
@@ -450,11 +453,10 @@ export default {
             this.qtyQuoteBuy = 0
             this.qtyQuoteSell = 0
             
-            this.totalPnLBuy = 0
-            this.totalFeesBuy = 0
-            this.totalPnLSell = 0
-            this.totalFeesSell = 0
-            this.lastOrderPrice = 0
+            this.totalPnL = 0
+            this.totalFees = 0
+            this.totalBase = 0
+            this.totalQuote = 0
 
             this.neworder = { Price:0, BuyPrice:0, SellPrice:0, Fee:0, AutoRepeat: this.neworder.AutoRepeat}            
         },
@@ -566,13 +568,13 @@ export default {
                 return
             }
 
-            if ((!this.lMarketMaker && this.takeprofitPercent == 0) && (this.neworder.BuyPrice >= this.lastSellPrice)) {
+            if ((!this.lMarketMaker && this.takeprofitPercent == 0) && (this.neworder.BuyPrice >= this.averagePrice)) {
                 if (!this.lOverrideBuy) {
                     this.notifications = [
                         "You will be buying at a loss of",
-                        this.humanNumber(this.truncateNumber((this.lastSellPrice-this.neworder.BuyPrice)*this.qtyBaseBuy))+ " "+this.market.QuoteAsset,
+                        this.humanNumber(this.truncateNumber((this.averagePrice-this.neworder.BuyPrice)*this.qtyBaseBuy))+ " "+this.market.QuoteAsset,
                         "Try to buy below ",
-                        this.humanNumber(this.truncateNumber(this.lastSellPrice))+ " "+this.market.QuoteAsset,
+                        this.humanNumber(this.truncateNumber(this.averagePrice))+ " "+this.market.QuoteAsset,
                         "or"
                     ]
                     this.lShowOverrideBuy = true
@@ -635,7 +637,9 @@ export default {
                 takeprofitPercent = this.truncateNumber(takeprofitPercent, 4)
 
                 var marketMakerOrder = {Pair:this.market.Pair, Side:"SELL", Price: parseFloat(this.neworder.SellPrice), 
-                    Quantity: parseFloat(this.qtyBaseSell), Stoploss: this.stoplossPercent, 
+                    // Quantity: parseFloat(this.qtyBaseSell), 
+                    Total: parseFloat(this.qtyQuoteSell), 
+                    Stoploss: this.stoplossPercent, 
                     Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0 ,
                     AutoRepeat: this.neworder.AutoRepeat
                 }
@@ -716,13 +720,13 @@ export default {
                 return
             }
             
-            if ((!this.lMarketMaker && this.takeprofitPercent == 0) && (this.neworder.SellPrice <= this.lastBuyPrice)) {
+            if ((!this.lMarketMaker && this.takeprofitPercent == 0) && (this.neworder.SellPrice <= this.averagePrice)) {
                 if (!this.lOverrideSell) {
                     this.notifications = [
                         "You will be selling at a loss of",
-                        this.humanNumber(this.truncateNumber((this.neworder.SellPrice-this.lastBuyPrice)*this.qtyBaseSell))+ " "+this.market.QuoteAsset,
+                        this.humanNumber(this.truncateNumber((this.neworder.SellPrice-this.averagePrice)*this.qtyBaseSell))+ " "+this.market.QuoteAsset,
                         "Try to sell above ",
-                        this.humanNumber(this.truncateNumber(this.lastBuyPrice))+ " "+this.market.QuoteAsset,
+                        this.humanNumber(this.truncateNumber(this.averagePrice))+ " "+this.market.QuoteAsset,
                         "or"
                     ]
                     this.lShowOverrideSell = true
@@ -743,7 +747,9 @@ export default {
             // }
 
             var order = {Pair:this.market.Pair, Side:"SELL", Price: parseFloat(this.neworder.SellPrice), 
-                Quantity: parseFloat(this.qtyBaseSell), Stoploss: this.stoplossPercent, 
+                // Quantity: parseFloat(this.qtyBaseSell), 
+                Total: parseFloat(this.qtyQuoteSell), 
+                Stoploss: this.stoplossPercent, 
                 Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0 ,
                 AutoRepeat: this.neworder.AutoRepeat
             }
@@ -757,7 +763,9 @@ export default {
      
                 var marketMakerOrder = {
                     Pair:this.market.Pair, Side:"BUY", Price: parseFloat(this.neworder.BuyPrice), 
-                    Quantity: parseFloat(this.qtyBaseBuy), Stoploss: this.stoplossPercent, 
+                    // Quantity: parseFloat(this.qtyBaseBuy), 
+                    Total: parseFloat(this.qtyQuoteBuy), 
+                    Stoploss: this.stoplossPercent, 
                     Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0,
                     AutoRepeat: this.neworder.AutoRepeat
                 } 
@@ -821,6 +829,14 @@ export default {
             this.lOverrideSell = this.lShowOverrideSell = false
         } ,
         updateQtyQuoteBuy() {
+            if (this.neworder.BuyPrice == 0){
+                this.neworder.BuyPrice = this.averagePrice
+            }
+            
+            if (this.qtyQuoteBuy==='') {
+                return
+            }
+            
             if (this.qtyQuoteBuy >= 0 && this.neworder.BuyPrice > 0){
                 // if (this.qtyQuoteBuy < this.market.MinNotional) {
                 //     this.qtyQuoteBuy = this.market.MinNotional
@@ -832,13 +848,28 @@ export default {
         },
         setQtyBaseBuyPercent(percent) {
             if(this.quoteFree > this.market.MinNotional){
+                if (this.neworder.BuyPrice == 0) {
+                    this.neworder.BuyPrice = this.market.Price
+                }
                 var baseValue = this.truncateNumber(this.quoteFree / this.neworder.BuyPrice)
                 var percentOfBaseValue = this.truncateNumber(baseValue * (percent/100)) 
                 this.qtyBaseBuy = this.truncateNumber(((percentOfBaseValue/this.market.StepSize).toFixed() * this.market.StepSize))
                 this.updateQtyBaseBuy()
             }
         },
+        setQtyQuoteBuyPercent(percent) {
+            if(this.quoteFree > this.market.MinNotional){
+                if (this.neworder.BuyPrice == 0) {
+                    this.neworder.BuyPrice = this.market.Price
+                }
+                this.qtyQuoteBuy = this.truncateNumber(this.quoteFree * (percent/100))
+                this.updateQtyQuoteBuy()
+            }
+        },
         updateQtyBaseBuy() {
+            if (this.neworder.BuyPrice == 0){
+                this.neworder.BuyPrice = this.averagePrice
+            }
             if (this.qtyBaseBuy >= 0 && this.neworder.BuyPrice > 0) {
                 this.qtyQuoteBuy = this.truncateNumber((this.qtyBaseBuy * this.neworder.BuyPrice), 5)
             } else {
@@ -847,18 +878,49 @@ export default {
         },
         updateBuyPrice(price) {
             this.neworder.BuyPrice = this.truncateNumber(price)
-            // this.updateQtyBaseBuy()
+            this.updateQtyBaseBuy()
         },
         updateBuyQty(qty) {
             this.qtyBaseBuy = qty
-            // this.updateQtyBaseBuy()
-        },        
+            this.updateQtyBaseBuy()
+        },
+        updateBuyAmount(amount) {
+            // this.qtyQuoteBuy = amount
+            // this.updateQtyQuoteBuy()
+        },
+        updateQtyQuoteSell() {
+            if (this.qtyQuoteSell==='') {
+                return
+            }
+            if (this.qtyQuoteSell >= 0 && this.neworder.SellPrice > 0){
+                // if (this.qtyQuoteSell < this.market.MinNotional) {
+                //     this.qtyQuoteSell = this.market.MinNotional
+                // }
+                this.qtyBaseSell = this.truncateNumber(this.qtyQuoteSell / this.neworder.SellPrice)
+            } else {
+                this.qtyBaseSell = 0
+            }
+        },
         setQtyBaseSellPercent(percent) {
-            var baseMinNotional = this.truncateNumber((this.market.MinNotional/this.neworder.BuyPrice)+this.market.StepSize)
+            var baseMinNotional = 0
+            if (this.market.MinNotional > 0) {
+                baseMinNotional = this.truncateNumber((this.market.MinNotional/this.neworder.BuyPrice)+this.market.StepSize)
+            }
             if(this.baseFree > baseMinNotional){
                 var percentOfBaseValue = this.truncateNumber(this.baseFree * (percent/100)) 
                 this.qtyBaseSell = this.truncateNumber(((percentOfBaseValue/this.market.StepSize).toFixed() * this.market.StepSize))
                 this.updateQtyBaseSell()
+            }
+        },
+        setQtyQuoteSellPercent(percent) {
+            var baseMinNotional = 0
+            if (this.market.MinNotional > 0) {
+                baseMinNotional = this.truncateNumber((this.market.MinNotional/this.neworder.BuyPrice)+this.market.StepSize)
+            }
+            if(this.baseFree > baseMinNotional){
+                var percentOfBaseValue = this.truncateNumber(this.baseFree * (percent/100)) 
+                this.qtyQuoteSell = this.truncateNumber(percentOfBaseValue * this.neworder.SellPrice)
+                this.updateQtyQuoteSell()
             }
         },
         updateQtyBaseSell() {
@@ -875,6 +937,10 @@ export default {
         updateSellQty(qty) {
             this.qtyBaseSell = qty
             this.updateQtyBaseSell()
+        },
+        updateSellAmount(amount) {
+            // this.qtyQuoteSell = amount
+            // this.updateQtyQuoteSell()
         },
         startTimer(){
             const app = this
@@ -926,7 +992,7 @@ export default {
             
             this.updateQtyBaseSell()
             
-            return (this.market.Close < this.market.Open && this.market.Price < this.market.LastPrice && this.neworder.SellPrice > this.lastBuyPrice)
+            return (this.market.Close < this.market.Open && this.market.Price < this.market.LastPrice && this.neworder.SellPrice > this.averagePrice)
         },
         priceRising(market) {
             return (market.Price>market.LastPrice)
@@ -981,7 +1047,7 @@ export default {
 
             this.updateQtyBaseBuy() 
 
-            return (this.market.Close > this.market.Open && this.market.Price > this.market.LastPrice && this.neworder.BuyPrice < this.lastSellPrice)
+            return (this.market.Close > this.market.Open && this.market.Price > this.market.LastPrice && this.neworder.BuyPrice < this.averagePrice)
         },
         getBidsAverage(){
             return truncateNumber(this.getOrderBook.BidsBaseTotal/this.getOrderBook.BidsQuoteTotal, this.getDecimalPlaces())

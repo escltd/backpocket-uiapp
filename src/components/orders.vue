@@ -9,12 +9,12 @@
                     Order History
                 </div>
 
-                <div :key="totalPnLSell" class="w-auto fr">
-                    <span v-if="totalPnLSell!==0"  class="ml2 fr br2 pointer tracked washed-yellow items-end tr"> 
+                <div :key="totalPnL" class="w-auto fr">
+                    <span v-if="totalPnL!==0"  class="ml2 fr br2 pointer tracked washed-yellow items-end tr"> 
                         <small class="f7 db w-100"> <small> {{baseAsset}}/{{quoteAsset}} PNL </small></small>
                         <span class="db w-100">  
-                            <span :class="{'red':(totalPnLSell-totalFeesSell) < 0,'green':(totalPnLSell-totalFeesSell) > 0}"> 
-                                {{truncateNumber(totalPnLSell-totalFeesSell)}} 
+                            <span :class="{'red':totalPnL < 0,'green': totalPnL > 0}"> 
+                                {{truncateNumber(totalPnL)}}
                             </span>
                             <small class="f7">
                                 <small>{{quoteAsset}}</small>
@@ -192,8 +192,7 @@ export default {
         startDate: new Date().toJSON().slice(0,10), stopDate: new Date().toJSON().slice(0,10),
         baseAsset:"", quoteAsset: "", orderStatus: "FILLED", orderSide: "", 
         marketPairPnL:{}, 
-
-        totalPnLBuy:0, totalFeesBuy:0, totalPnLSell:0, totalFeesSell:0, lastBuyPrice:0, lastSellPrice:0,
+        totalPnL: 0, totalFees: 0, averagePrice: 0, totalBase: 0, totalQuote: 0,
     }},
     computed: {
         ...mapGetters('orders', ['getOrderHistory','getOrderHistoryCount']),
@@ -286,13 +285,11 @@ export default {
 
             var marketPairPNL = this.calculateOrderPnL(this.baseAsset+this.quoteAsset, this.getOrderHistory, true )
 
-            this.totalPnLBuy = marketPairPNL.TotalPnLBuy
-            this.totalFeesBuy = marketPairPNL.TotalFeesBuy
-            this.totalPnLSell = marketPairPNL.TotalPnLSell
-            this.totalFeesSell = marketPairPNL.TotalFeesSell
-
-            this.lastBuyPrice = marketPairPNL.LastBuyPrice
-            this.lastSellPrice = marketPairPNL.LastSellPrice
+            this.totalPnL = marketPairPNL.TotalPnL
+            this.totalFees = marketPairPNL.TotalFees
+            this.averagePrice = marketPairPNL.AveragePrice
+            this.totalBase = marketPairPNL.TotalBase
+            this.totalQuote = marketPairPNL.TotalQuote
 
             return marketPairPNL.OrderList
 
