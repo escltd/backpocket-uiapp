@@ -54,11 +54,11 @@
                                 </div>        
                                 <div class="fl w1 pt1 tc fw6"> 
                                     <span class="fl w-100 tc">
-                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown=!lDropdown" /> 
+                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown=!lDropdown" />
                                     </span>
                                 </div>
                                 <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small> 
+                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +217,7 @@
                                 <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black" type="number" @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="qtyBaseBuy">
                             </div>
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"  @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()">
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"   @click="marketSpread+=1,setQty()">
                                     {{market.BaseAsset}}
                                 </div>
                             </div>
@@ -231,7 +231,7 @@
                                 <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteBuy">
                             </div>                    
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="marketSpread+=1,setQty()"> {{market.QuoteAsset}} </div>
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()"> {{market.QuoteAsset}} </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
                                 <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteSell">
@@ -747,9 +747,7 @@ export default {
             // }
 
             var order = {Pair:this.market.Pair, Side:"SELL", Price: parseFloat(this.neworder.SellPrice), 
-                // Quantity: parseFloat(this.qtyBaseSell), 
-                Total: parseFloat(this.qtyQuoteSell), 
-                Stoploss: this.stoplossPercent, 
+                Quantity: parseFloat(this.qtyBaseSell), Stoploss: this.stoplossPercent, 
                 Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0 ,
                 AutoRepeat: this.neworder.AutoRepeat
             }
@@ -829,7 +827,7 @@ export default {
             this.lOverrideSell = this.lShowOverrideSell = false
         } ,
         updateQtyQuoteBuy() {
-            if (this.neworder.BuyPrice == 0){
+            if (this.neworder.BuyPrice == 0 && this.averagePrice > 0){
                 this.neworder.BuyPrice = this.averagePrice
             }
             
