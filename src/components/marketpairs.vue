@@ -637,9 +637,7 @@ export default {
                 takeprofitPercent = this.truncateNumber(takeprofitPercent, 4)
 
                 var marketMakerOrder = {Pair:this.market.Pair, Side:"SELL", Price: parseFloat(this.neworder.SellPrice), 
-                    // Quantity: parseFloat(this.qtyBaseSell), 
-                    Total: parseFloat(this.qtyQuoteSell), 
-                    Stoploss: this.stoplossPercent, 
+                    Quantity: parseFloat(this.qtyBaseSell), Stoploss: this.stoplossPercent, 
                     Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0 ,
                     AutoRepeat: this.neworder.AutoRepeat
                 }
@@ -761,9 +759,7 @@ export default {
      
                 var marketMakerOrder = {
                     Pair:this.market.Pair, Side:"BUY", Price: parseFloat(this.neworder.BuyPrice), 
-                    // Quantity: parseFloat(this.qtyBaseBuy), 
-                    Total: parseFloat(this.qtyQuoteBuy), 
-                    Stoploss: this.stoplossPercent, 
+                    Quantity: parseFloat(this.qtyBaseBuy), Stoploss: this.stoplossPercent, 
                     Takeprofit: (takeprofitPercent > 0) ? this.truncateNumber(takeprofitPercent, 4) : 0,
                     AutoRepeat: this.neworder.AutoRepeat
                 } 
