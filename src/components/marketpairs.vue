@@ -11,7 +11,7 @@
                             </small>
                         </span>
                         <small class="pt2 black w-100 cf mb2" v-if="lShowOverrideBuy || lShowOverrideSell">
-                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer" @click="notifications=[]" > bought at a loss </span>
+                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer" @click="notifications=[],lOverrideBuy=true,buyOrder()" > buy at a loss </span>
                             <span v-else class="pa2 bg-red pointer" @click="notifications=[],lOverrideSell=true,sellOrder()" > sell at a loss </span>
                         </small>
                     </div>
@@ -171,7 +171,7 @@
                         <div class="f7 flex fl w-100 tl orange" style="">
                             <div class="w-40 ph1 tl green">
                                 <span @click="updateBuyPrice(truncateNumber(averagePrice-(market.TickSize*2),getDecimalPlaces())),buyPriceType=''">
-                                    <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(buy below)</small>  
+                                    <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(buy below)</small>
                                 </span>
                             </div> 
                             <div class="w-30 w-20-ns ph1 tc"> 
@@ -180,7 +180,7 @@
                             </div>
                              <div class="w-40 ph1 tr red">  
                                 <span @click="updateSellPrice(truncateNumber(averagePrice+(market.TickSize*2),getDecimalPlaces())),sellPriceType=''">
-                                    <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(sell above)</small> 
+                                    <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(sell above)</small>
                                 </span>
                             </div>
                         </div>
@@ -577,8 +577,8 @@ export default {
                         this.humanNumber(this.truncateNumber(this.averagePrice))+ " "+this.market.QuoteAsset,
                         "or"
                     ]
-                    this.lShowOverrideBuy = true
-                    this.lOverrideBuy = false
+                    // this.lShowOverrideBuy = true
+                    // return
                 } else {
                     this.lShowOverrideBuy = false
                     this.lOverrideBuy = false

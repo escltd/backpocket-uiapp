@@ -32,8 +32,8 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
         }
 
         if (order.Pair == marketPair) {
-            order.AveragePrice = 0
-             if (totalQuote>0 && totalBase>0) {
+            order.AveragePrice = order.Price
+             if (totalQuote!==0 && totalBase!==0) {
                 order.AveragePrice = truncateNumber(totalQuote / totalBase)
             }
             order.TotalBase = totalBase
@@ -62,6 +62,9 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
                             totalPnL += order.PnL
                             totalBase -= order.Quantity
                             totalQuote -= (order.Quantity * order.AveragePrice)
+                            if (totalQuote < 0) {
+                                totalQuote = 0
+                            }
                         }
                         break;
                 }
@@ -82,7 +85,7 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
     marketPairPnL.TotalBase = truncateNumber(totalBase)
     marketPairPnL.TotalQuote = truncateNumber(totalQuote)
 
-    marketPairPnL.AveragePrice = AveragePrice
+    marketPairPnL.AveragePrice = truncateNumber(AveragePrice)
     marketPairPnL.OrderList = calculatedOrderPnL    
     marketPairPnL.OrderList.reverse()
 
