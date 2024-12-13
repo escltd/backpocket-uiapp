@@ -277,8 +277,8 @@
                             <div class="w-100 flex tc black-50">
                                 <div class="w-50 pt1 tl fw6"> 
                                     <small> 
-                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnL-(totalFees+totalFees)))>0,'red':(truncateNumber(totalPnL-(totalFees+totalFees)))<0,}" > 
-                                         {{truncateNumber(totalPnL-(totalFees+totalFees))}} </span>
+                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnL-totalFees))>0,'red':(truncateNumber(totalPnL-totalFees))<0,}" > 
+                                         {{truncateNumber(totalPnL-totalFees)}} </span>
                                     </small>
                                 </div>        
                                 <div class="fl w1 pt1 tc fw6"> 
@@ -287,7 +287,7 @@
                                     </span>
                                 </div>
                                 <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees+totalFees)}}</small> 
+                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small> 
                                 </div>
                             </div>
                         </div>
