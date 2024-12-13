@@ -23,9 +23,9 @@
                     </span>
                     
                     <span class="fr ">
-                        <span :class="{'green':order.PnL>0,'red':order.PnL<0,}" >&nbsp;
-                            <small v-if="order.Side=='BUY'" class="i">&nbsp;{{truncateNumber(order.PnL)}}</small>
-                            <span v-else class="b">{{truncateNumber(order.PnL)}}</span>
+                        <span>&nbsp;
+                            <span v-if="order.Side=='BUY'" :class="{'green':order.PnL>0,'gray':order.PnL<0,}">&nbsp;{{truncateNumber(order.PnL)}}</span>
+                            <span v-else :class="{'green':order.PnL>0,'red':order.PnL<0,}">{{truncateNumber(order.PnL)}}</span>
                         </span>
                         <small> {{market.QuoteAsset}}&nbsp;</small> 
                     </span>
@@ -91,7 +91,7 @@
 
                 <small class="w-100 fl tl bg-blue white">
                     <small>
-                    &nbsp;DCA: &nbsp;{{humanNumber(order.TotalBase)}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{order.AveragePrice}}
+                    &nbsp;DCA: &nbsp;{{humanNumber(truncateNumber(order.TotalBase))}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{order.AveragePrice}}
                     </small>
                 </small>
             </div> 
