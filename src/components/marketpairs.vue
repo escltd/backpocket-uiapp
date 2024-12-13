@@ -103,12 +103,12 @@
                         
                 
                         <div class="fl w-100 pt2 tc inline-flex flex-row items-center">
-                            <span class="w-20">
+                            <span class="w-25">
                                 <div class="tc cf w-100 pa2 fw6 pointer br2 ttu" :class="{'ba b--light-gray bg-green light-gray heartbeat':activateBuy(),'bg-near-white ba b--light-gray ':!activateBuy()}" @click="buyOrder">
-                                    BUY <br/> <small>{{market.BaseAsset}}</small>
+                                    BUY <br/> <small><small>{{market.BaseAsset}}</small></small>
                                 </div>
                             </span>
-                            <span class="w-60 relative orange pt1">
+                            <span class="w-50 relative orange pt1">
                                     
                                 <small class="pointer" click="buyPriceType = (buyPriceType=='marketprice') ? '' : 'marketprice',sellPriceType = (sellPriceType=='marketprice') ? '' : 'marketprice'">
 
@@ -139,9 +139,9 @@
                                 </small>
                             
                             </span>
-                            <span class="w-20">
+                            <span class="w-25">
                                 <div class="tc cf w-100 pa2 fw6 pointer br2 ttu" :class="{'ba b--light-gray heartbeat bg-red light-gray':activateSell(),'bg-near-white ba b--light-gray ':!activateSell()}" @click="sellOrder">
-                                    SELL <br/> <small>{{market.BaseAsset}}</small>
+                                    SELL <br/> <small><small>{{market.BaseAsset}}</small></small>
                                 </div>
                             </span>
                         </div>
@@ -218,7 +218,7 @@
                             </div>
                             <div class="fl w-20  pt2 tc">
                                 <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"   @click="marketSpread+=1,setQty()">
-                                    {{market.BaseAsset}}
+                                    <small><small>{{market.BaseAsset}}</small></small>
                                 </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
@@ -231,7 +231,7 @@
                                 <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteBuy">
                             </div>                    
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()"> {{market.QuoteAsset}} </div>
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()"> <small><small>{{market.QuoteAsset}}</small></small> </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
                                 <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteSell">
@@ -243,7 +243,7 @@
                                 <span @click="setQtyBaseBuyPercent(100)">
                                     <small class="pointer"> {{truncateNumber(quoteFree).toString()}} {{market.QuoteAsset}}</small> 
                                     <small class="w-100 orange db pt1 tl fw6"> 
-                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(quoteFree) + (Number(market.Price) * Number(baseFree)) , 8)}} {{market.QuoteAsset}}
+                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(quoteFree) + (Number(market.Price) * Number(baseFree)) , 8)}}
                                     </small>
                                 </span>
                             </div>        
@@ -252,7 +252,7 @@
                                 <span @click="setQtyBaseSellPercent(100)">
                                     <small class="pointer"> {{truncateNumber(baseFree).toString()}} {{market.BaseAsset}}</small> 
                                     <small class="w-100 orange db pt1 tr fw6"> 
-                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(baseFree) + (Number(quoteFree) / Number(market.Price) ), 8)}} {{market.BaseAsset}}
+                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(baseFree) + (Number(quoteFree) / Number(market.Price) ), 8)}}
                                     </small>
                                 </span>
                             </div>
