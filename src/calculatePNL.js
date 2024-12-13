@@ -31,11 +31,14 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
         }
 
         if (order.Pair == marketPair) {
+            order.AveragePrice = 0
             if (order.Status == "FILLED" || order.Status == "NEW" || order.Status == "PARTIALLY_FILLED") {
-                
+                if (totalQuote>0 && totalBase>0) {
+                    order.AveragePrice = truncateNumber(totalQuote / totalBase)
+                }
                 switch (order.Side) {
                     case "BUY":
-                        if ((totalQuote / totalBase) > 0) {
+                        if ((totalQuote / totalBase) > order.Price) {
                             order.PnL = truncateNumber(((totalQuote / totalBase) - order.Price) * order.Quantity)
                         }
                         order.Fees = truncateNumber(order.Total * (feesCharge / 100))

@@ -39,6 +39,8 @@
                         <span v-else class="pointer">
                             <span @click="updateBuyQty(order.Quantity)"> {{humanNumber(truncateNumber(order.Quantity))}} </span> &nbsp;=&nbsp; <span @click="updateBuyAmount(order.Total)"> {{humanNumber(truncateNumber(order.Total))}} </span>
                         </span>
+                        @
+                        <span class="white bg-black">&nbsp;DCA: {{order.AveragePrice}}&nbsp;</span>
                     </span>
 
                     <span class="fr">
