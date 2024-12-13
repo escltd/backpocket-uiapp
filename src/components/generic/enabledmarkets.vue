@@ -1,13 +1,13 @@
 <template>
     <span class="fr pointer br3 f6 fw6 bg-black-10 near-black ba b--black-05" @click="showMarketPairs=!showMarketPairs"> 
         <div class="inline-flex items-center dim">
-            <p class="dib ma0 ph2 pv2 v-mid br3 br--left"> 
+            <p class="dib ma0 ph1 pv2 v-mid br3 br--left"> 
                 <small><i class="fa" :class="{'fa-caret-down':!showMarketPairs,'fa-circle green':showMarketPairs}" /></small> 
                 <img class="mr1" style="width:0.75rem" v-if="market.Exchange == 'crex24'" :src="logoCrex24"/>
                 <img class="mr1" style="width:0.75rem" v-if="market.Exchange == 'binance'" :src="logoBinance"/>
                 {{market.BaseAsset}} 
             </p>
-            <p class="dib ma0 ph2 pv2 v-mid br3 pt2 bg-white near-black tr " style="min-width:9rem">
+            <p class="dib ma0 ph1 pv2 v-mid br3 pt2 bg-white near-black tr " style="min-width:9rem">
 
                 <i class="ml1 fa" :class="{'fa-arrow-alt-up green':priceRising(market),'fa-arrow-alt-down red':priceDroping(market)}"/> 
                 <span :class="{'green':priceRising(market),'red':priceDroping(market)}"> {{truncateNumber(market.Price)}} </span>  {{market.QuoteAsset}}

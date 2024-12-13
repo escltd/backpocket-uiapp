@@ -43,8 +43,10 @@
                                     <i class="fa" :class="{'dark-green fa-arrow-alt-up':marketDirection(marketRank),'dark-red fa-arrow-alt-down':!marketDirection(marketRank)}"/>
                                 </small>
                                 {{truncateNumber(marketRank.PriceChangePercent,2)}}%</span>
-                            <span class="tracked f7">
+                            <span class="tracked f8">
+                                <small>
                                 {{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}
+                                </small>
                             </span>
                             <small class="tracked ttu w-100 db"> <i>{{index+1}}</i> - {{marketRank.Exchange}} <i :class="{'black-30':marketRank.Status=='disabled','green':marketRank.Status=='enabled'}" class="fa fa-check"/> </small>
                         </div>
@@ -59,7 +61,9 @@
                                 </small>
                                 {{truncateNumber(marketRank.PriceChangePercent,2)}}%
                             </span>
-                            <span class="tracked f7">{{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}</span>
+                            <span class="tracked f8">
+                                <small>{{marketRank.BaseAsset}}/{{marketRank.QuoteAsset}}</small>
+                            </span>
                             <small class="tracked ttu w-100 db"> <i>{{index+1}}</i> - {{marketRank.Exchange}} <i :class="{'black-30':marketRank.Status=='disabled','red':marketRank.Status=='enabled'}" class="fa fa-check"/> </small>
                         </div>
                     </div>
