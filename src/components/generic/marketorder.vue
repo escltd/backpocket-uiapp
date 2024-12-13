@@ -1,6 +1,6 @@
 <template>
     <div class="inline-flex flex-column w-100 overflow-y-scroll br4 bt bb b--black-10" style="height:19rem">
-        <div style="min-height:3rem" :class="{'bg-light-gray':order.Status=='NEW'}" class="w-100 tl flex bb bl br b--black-05 near-black" v-for="(order, index) in listMarketOrders()" :key="index">
+        <div style="" :class="{'bg-light-gray':order.Status=='NEW'}" class="w-100 tl flex bb bl br b--black-05 near-black" v-for="(order, index) in listMarketOrders()" :key="index">
             <div class="pa1 w-25-ns w-30 br b--black-10 pa1 pointer tl" @click="cancelOrder(order)"> 
                 <small class="tl w-100 pt1">
                     <i class="fa fa-check pointer" :class="{'dark-red':order.Status=='CANCELED', 'gold':order.Status=='NEW', 'dark-green':order.Status=='TRADE'||order.Status=='FILLED'}"/>
@@ -39,16 +39,12 @@
                         <span v-else class="pointer">
                             <span @click="updateBuyQty(order.Quantity)"> {{humanNumber(truncateNumber(order.Quantity))}} </span> &nbsp;=&nbsp; <span @click="updateBuyAmount(order.Total)"> {{humanNumber(truncateNumber(order.Total))}} </span>
                         </span>
-                        @
-                        <span class="white bg-black">&nbsp;DCA: {{order.AveragePrice}}&nbsp;</span>
                     </span>
 
                     <span class="fr">
                         <span>&nbsp;{{truncateNumber(order.Fees)}} </span> <small>FEE&nbsp;</small>
                     </span>
                 </small>
-
-                
                 
                 <small class="w-100 fl">
                     <span class="flex w-100">
@@ -93,6 +89,11 @@
                     </span>
                 </small>
 
+                <small class="w-100 fl tl bg-blue white">
+                    <small>
+                    &nbsp;DCA: &nbsp;{{humanNumber(order.TotalBase)}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{order.AveragePrice}}
+                    </small>
+                </small>
             </div> 
             
         </div>
