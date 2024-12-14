@@ -91,7 +91,7 @@
 
                 <small class="w-100 fl tl bg-blue white">
                     <small>
-                    &nbsp;DCA: &nbsp;{{humanNumber(truncateNumber(order.TotalBase))}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{order.AveragePrice}}
+                    &nbsp;DCA: &nbsp;{{humanNumber(truncateNumber(order.TotalBase))}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{truncateNumber(order.AveragePrice)}}
                     </small>
                 </small>
             </div> 

@@ -33,11 +33,15 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
 
         if (order.Pair == marketPair) {
             order.AveragePrice = order.Price
-             if (totalQuote!==0 && totalBase!==0) {
-                order.AveragePrice = truncateNumber(totalQuote / totalBase)
+            if (totalQuote!==0 && totalBase!==0) {
+                order.AveragePrice = totalQuote / totalBase
+                if (order.AveragePrice < 0) {
+                    order.AveragePrice = -1 * order.AveragePrice
+                }
             }
-            order.TotalBase = totalBase
-            order.TotalQuote = totalQuote
+            
+            order.TotalBase = truncateNumber(totalBase)
+            order.TotalQuote = truncateNumber(totalQuote)
             
             if (order.Status == "FILLED" || order.Status == "NEW" || order.Status == "PARTIALLY_FILLED") {
                 switch (order.Side) {
@@ -60,11 +64,18 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
 
                         if(order.Status == "FILLED") {
                             totalPnL += order.PnL
+
+                            // if (order.OrderID == 1744875966) {
+                            //     console.log("1744875966 Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
+                            //     console.log("Order: ", order)
+                            // }
                             totalBase -= order.Quantity
-                            totalQuote -= (order.Quantity * order.AveragePrice)
-                            if (totalQuote < 0) {
-                                totalQuote = 0
-                            }
+                            totalQuote -= order.Quantity * order.AveragePrice
+
+                            // if (totalBase < 0 || totalQuote < 0) {
+                            //     console.log("Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
+                            //     console.log("Order: ", order)
+                            // }
                         }
                         break;
                 }
