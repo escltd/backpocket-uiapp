@@ -148,6 +148,8 @@ export function humanDate(dateTime) {
    if (dateTime !== "") {
        dateTime = new Date(dateTime.substring(0, 10)).toDateString().substring(0, 15) + " " + humanTime(new Date(dateTime.replace(/-/g, '-')).toTimeString().substring(0, 8));
    }
+  // console.log(new Date(dateTime.substring(0, 10)).toDateString().substring(0, 15))
+  // console.log(humanTime(new Date(dateTime.replace(/-/g, '-')).toTimeString().substring(0, 8)))
    return dateTime;
 }
 

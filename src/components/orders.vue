@@ -119,17 +119,17 @@
                     <div class="tl pa2 w-20-ns w-40 white "> 
                         <small>
                             <span class="tl db-ns dn">
-                                {{humanDate(order.Created.substring(0,19)).substring(0,11)}}
-                                <small>{{humanDate(order.Created.substring(0,19)).substring(11,15)}}</small>
+                                {{humanDate(order.Createdate.substring(0,19)).substring(0,11)}}
+                                <small>{{humanDate(order.Createdate.substring(0,19)).substring(11,15)}}</small>
                                 <small class="db w-100">
-                                <span > {{humanDate(order.Created.substring(0,19)).substring(15,30)}} </span>
+                                <span > {{humanDate(order.Createdate.substring(0,19)).substring(15,30)}} </span>
                                 <span class="light-yellow">ID: {{order.OrderID}}</span> </small>
                             </span>
                             <small class="tl db dn-ns">
-                                {{humanDate(order.Created.substring(0,19)).substring(0,11)}}
-                                <small>{{humanDate(order.Created.substring(0,19)).substring(11,15)}}</small>
+                                {{humanDate(order.Createdate.substring(0,19)).substring(0,11)}}
+                                <small>{{humanDate(order.Createdate.substring(0,19)).substring(11,15)}}</small>
                                 <small class="db w-100">
-                                <span > {{humanDate(order.Created.substring(0,19)).substring(15,30)}} </span>
+                                <span > {{humanDate(order.Createdate.substring(0,19)).substring(15,30)}} </span>
                                 <span class="light-yellow">ID: {{order.OrderID}}</span> </small>
                             </small>
                             <span class="tr db w-100 dn-ns">

@@ -4,10 +4,10 @@
             <div class="pa1 w-25-ns w-30 br b--black-10 pa1 pointer tl" @click="cancelOrder(order)"> 
                 <small class="tl w-100 pt1">
                     <i class="fa fa-check pointer" :class="{'dark-red':order.Status=='CANCELED', 'gold':order.Status=='NEW', 'dark-green':order.Status=='TRADE'||order.Status=='FILLED'}"/>
-                    <span class="fr"> {{humanDate(order.Created.substring(0,19)).substring(15,30)}} </span>
+                    <span class="fr"> {{humanDate(order.Createdate.substring(0,19)).substring(15,30)}} </span>
                     <span class="fl w-100 tr">
-                        {{humanDate(order.Created.substring(0,19)).substring(0,11)}}
-                        <small>{{humanDate(order.Created.substring(0,19)).substring(11,15)}}</small>
+                        {{humanDate(order.Createdate.substring(0,19)).substring(0,11)}}
+                        <small>{{humanDate(order.Createdate.substring(0,19)).substring(11,15)}}</small>
                     </span>
                     <span class="fl w-100 tr pt1 i">
                         <i v-if="order.Status=='NEW'||order.Status=='PARTIALLY_FILLED'" class="fa fa-times dark-red pointer" /> 

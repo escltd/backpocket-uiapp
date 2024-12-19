@@ -53,6 +53,10 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
                         if(order.Status == "FILLED") {
                             totalBase += order.Quantity
                             totalQuote += order.Total
+                            // if (totalBase == 0) {
+                            //     totalBase = 0
+                            //     totalQuote = 0
+                            // }
                         }
                         break;
 
@@ -69,12 +73,19 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
                             //     console.log("1744875966 Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
                             //     console.log("Order: ", order)
                             // }
-                            totalBase -= order.Quantity
-                            totalQuote -= order.Quantity * order.AveragePrice
+                            if (totalBase > 0) {
+                                totalBase -= order.Quantity
+                                totalQuote -= order.Quantity * order.AveragePrice
+                            }
 
                             // if (totalBase < 0 || totalQuote < 0) {
                             //     console.log("Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
                             //     console.log("Order: ", order)
+                            // }
+
+                            // if (totalBase == 0) {
+                            //     totalBase = 0
+                            //     totalQuote = 0
                             // }
                         }
                         break;
