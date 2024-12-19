@@ -49,6 +49,16 @@ const mutations = {
                     state.marketPairOrders[order.OrderID] = order
                 }
             }
+            //sort state.marketPairOrders object by key
+            state.marketPairOrders = Object.keys(state.marketPairOrders).sort().reduce(
+                (obj, key) => {
+                    obj[key] = state.marketPairOrders[key];
+                    return obj;
+                },
+                {}
+            )
+            
+
             // if (Object.keys(state.marketPairOrders).length == 0) {
             //     state.marketPairOrders = {[order.OrderID]:order}
             // } else {
