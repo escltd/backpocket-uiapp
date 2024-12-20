@@ -150,7 +150,7 @@
                             <div class="w-40 ph1 tl pointer" @click="updateBuyPrice(truncateNumber(market.LowPrice, 5)),buyPriceType=''"><small class="i db">(24hr low)</small> {{truncateNumber(market.LowPrice)}} </div>
                             <div class="w-25 ph1 tc" :class="{'green':market.PriceChangePercent>0,'red':market.PriceChangePercent<0}"> 
                                 <small class="i dn">(% change)</small> 
-                                <small class="db black" :class="{'green':market.RSI>70,'red':market.RSI<30}">
+                                <small class="db black" :class="{'green':market.RSI>65,'red':market.RSI<35}">
                                 {{ truncateNumber(market.RSI,2) }} RSI
                                  </small>
                                 <small>
