@@ -1,5 +1,16 @@
 import { truncateNumber, sortObjectEntries } from "@/common"
 
+export function returnAverage(totalBase, totalQuote) {
+    var averagePrice = 0
+    if (totalQuote!==0 && totalBase!==0) {
+        averagePrice = totalQuote / totalBase
+        if (averagePrice < 0) {
+            averagePrice = -1 * averagePrice
+        }
+    }
+    return averagePrice
+}
+
 export function calculateOrderPnL(marketPair, orderList, showCancelled = false) {
 
     var totalPnL = 0
@@ -21,6 +32,7 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
 
     var notSTATUS =  (showCancelled) ? "" : "CANCELED"
     
+    var lastId = ""
     var calculatedOrderPnL = []
     for (var id in orderList) {
         var order = orderList[id]
@@ -32,74 +44,56 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
         }
 
         if (order.Pair == marketPair) {
-            order.AveragePrice = order.Price
-            if (totalQuote!==0 && totalBase!==0) {
-                order.AveragePrice = totalQuote / totalBase
-                if (order.AveragePrice < 0) {
-                    order.AveragePrice = -1 * order.AveragePrice
-                }
+            order.AveragePrice = returnAverage(totalBase, totalQuote)
+            if (order.AveragePrice <= 0) {
+                order.AveragePrice = order.Price
             }
-            
-            order.TotalBase = truncateNumber(totalBase)
-            order.TotalQuote = truncateNumber(totalQuote)
             
             if (order.Status == "FILLED" || order.Status == "NEW" || order.Status == "PARTIALLY_FILLED") {
                 switch (order.Side) {
                     case "BUY":
-                        if (order.AveragePrice > 0) {
-                            order.PnL = truncateNumber(((order.AveragePrice) - order.Price) * order.Quantity)
-                        }
+                        order.PnL = truncateNumber(((order.AveragePrice) - order.Price) * order.Quantity)
                         order.Fees = truncateNumber(order.Total * (feesCharge / 100))
                         if(order.Status == "FILLED") {
+                            totalPnL += order.PnL
                             totalBase += order.Quantity
                             totalQuote += order.Total
-                            // if (totalBase == 0) {
-                            //     totalBase = 0
-                            //     totalQuote = 0
-                            // }
                         }
                         break;
 
                     case "SELL":
-                        if ((order.AveragePrice) > 0) {
-                            order.PnL = truncateNumber((order.Price - (order.AveragePrice)) * order.Quantity)
-                        }
+                        order.PnL = truncateNumber((order.Price - (order.AveragePrice)) * order.Quantity)
                         order.Fees = truncateNumber(order.Total * (feesCharge / 100))
-
                         if(order.Status == "FILLED") {
                             totalPnL += order.PnL
-
-                            // if (order.OrderID == 1744875966) {
-                            //     console.log("1744875966 Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
-                            //     console.log("Order: ", order)
-                            // }
                             if (totalBase > 0) {
                                 totalBase -= order.Quantity
                                 totalQuote -= order.Quantity * order.AveragePrice
                             }
-
-                            // if (totalBase < 0 || totalQuote < 0) {
-                            //     console.log("Negative Average Price: ", truncateNumber(totalQuote) , truncateNumber(totalBase))
-                            //     console.log("Order: ", order)
-                            // }
-
-                            // if (totalBase == 0) {
-                            //     totalBase = 0
-                            //     totalQuote = 0
-                            // }
                         }
                         break;
                 }
-
+                lastId = id
+                order.TotalPnL = totalPnL
                 if (order.Status == "FILLED") {
                     totalFees += order.Fees
                 }
             }
+            order.TotalBase = truncateNumber(totalBase)
+            order.TotalQuote = truncateNumber(totalQuote)
         }
-        AveragePrice = order.AveragePrice
+        AveragePrice = returnAverage(totalBase, totalQuote)
+        if (AveragePrice <= 0) {
+            AveragePrice = order.Price
+        }
         if (order.Status !== notSTATUS) {
             calculatedOrderPnL.push(order)
         }
+    }
+
+    if (lastId !== "" && orderList[lastId].Status == "FILLED" && orderList[lastId].Side == "BUY") {
+        totalPnL -= orderList[lastId].PnL
+        order.TotalPnL = totalPnL
     }
     
     marketPairPnL.TotalPnL = totalPnL
@@ -107,7 +101,7 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
     marketPairPnL.TotalBase = truncateNumber(totalBase)
     marketPairPnL.TotalQuote = truncateNumber(totalQuote)
 
-    marketPairPnL.AveragePrice = truncateNumber(AveragePrice)
+    marketPairPnL.AveragePrice = AveragePrice
     marketPairPnL.OrderList = calculatedOrderPnL    
     marketPairPnL.OrderList.reverse()
 
