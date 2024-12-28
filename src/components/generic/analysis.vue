@@ -3,7 +3,7 @@
 
         <p class="mv0 tl w-100 pa1 inline-flex items-end black"> 
             <span class="fl w-100 tc">
-                TECHNICAL ANALYSIS FOR [{{ market.Pair }}]
+                TECHNICAL ANALYSIS FOR <b>[{{ market.Pair }}]</b>
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" 
@@ -12,7 +12,7 @@
                 <b>{{ defaultInterval }}</b> is {{ getInterval("").Trend }}
             </span>
             <span class="fl w-50 tr">
-                RSI: {{getInterval("").RSI }}
+                <b>{{getInterval("").RSI }}</b> RSI
             </span>
         </p>
 
@@ -39,80 +39,98 @@
             </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div click="toggleBuyPriceType('open')"  class="b pointer tc pa1 w-10"> 
+              <div class="b pointer tc pa1 w-10"> 
                   <small >SMA</small> 
               </div>
-              <div click="toggleBuyPriceType('low')"  class="pointer tc pa1 w-20"> 
+              <div class="pointer tc pa1 w-20"> 
                   <small >TREND</small> 
               </div>
-              <div click="toggleBuyPriceType('low')"  class="pointer tc pa1 w-20"> 
+              <div class="pointer tc pa1 w-20"> 
                   <small >ENTRY</small> 
               </div>
-              <div click="toggleSellPriceType('high')" class="pointer tc pa1 w-20"> 
+              <div class="pointer tc pa1 w-20"> 
                   <small >SUPPORT</small> 
               </div>
-              <div click="toggleSellPriceType('close')" class="pointer tc pa1 w-10"> 
+              <div class="pointer tc pa1 w-10 truncate"> 
                   <small >SPREAD</small> 
               </div>
-              <div click="toggleSellPriceType('close')" class="pointer tc pa1 w-20"> 
+              <div class="pointer tc pa1 w-20 truncate"> 
                   <small >RESISTANCE</small> 
               </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div click="toggleBuyPriceType('open')"  class="b pointer tc pa1 w-10"> 
-                  <small >SMA10 </small> 
+              <div class="b pointer tc pa1 w-10 truncate"> 
+                  <small class="dn-ns">10 </small> 
+                  <small>SMA10 </small> 
               </div>
-              <div click="toggleBuyPriceType('low')"  class="ttu pointer tc pa1 w-20"> 
-                  <small > {{ getInterval("").SMA10.Trend  }}
-                    <i v-if="getInterval('').SMA10.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
-                    <i v-if="getInterval('').SMA10.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
+              <div class="ttu pointer tc pa1 w-20"> 
+                  <small > 
+                      {{ getInterval("").SMA10.Trend  }}
+                      <i v-if="getInterval('').SMA10.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
+                      <i v-if="getInterval('').SMA10.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA10.Entry }}</small> </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA10.Support}}</small> </div>
-              <div click="toggleSellPriceType('high')" class="pointer tc pa1 w-10"> 
-                  <small >{{getInterval("").SMA10.Spread}}</small> 
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
+                </div>
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
               </div>
-              <div click="toggleSellPriceType('close')" class="pointer tc pa1 w-20 "> 
-                  <small >{{getInterval("").SMA10.Resistance}}</small> 
+              <div class="pointer tc pa1 w-10"> 
+                  <small >{{getInterval("").SMA10.Spread}}%</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 "> 
+                  <small @click="toggleSellPriceType(getInterval('').SMA10.Resistance)">{{getInterval("").SMA10.Resistance}}</small> 
               </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div click="toggleBuyPriceType('open')"  class="b pointer tc pa1 w-10"> 
+              <div class="b pointer tc pa1 w-10 truncate"> 
+                  <small class="dn-ns">20 </small> 
                   <small >SMA20 </small> 
               </div>
-              <div click="toggleBuyPriceType('low')"  class="ttu pointer tc pa1 w-20"> 
-                  <small > {{ getInterval("").SMA20.Trend }}  
-                    <i v-if="getInterval('').SMA20.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
-                    <i v-if="getInterval('').SMA20.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
+              <div class="ttu pointer tc pa1 w-20"> 
+                  <small > 
+                      {{ getInterval("").SMA20.Trend }}  
+                      <i v-if="getInterval('').SMA20.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
+                      <i v-if="getInterval('').SMA20.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                 </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA20.Entry }}</small> </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA20.Support}}</small> </div>
-              <div click="toggleSellPriceType('high')" class="pointer tc pa1 w-10"> 
-                  <small >{{getInterval("").SMA20.Spread}}</small> 
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
               </div>
-              <div click="toggleSellPriceType('close')" class="pointer tc pa1 w-20 "> 
-                  <small >{{getInterval("").SMA20.Resistance}}</small> 
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA20.Support)"> {{getInterval("").SMA20.Support}}</small> 
+              </div>
+              <div class="pointer tc pa1 w-10"> 
+                  <small >{{getInterval("").SMA20.Spread}}%</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 "> 
+                  <small @click="toggleSellPriceType(getInterval('').SMA20.Resistance)">{{getInterval("").SMA20.Resistance}}</small> 
               </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div click="toggleBuyPriceType('open')"  class="b pointer tc pa1 w-10"> 
-                  <small >SMA50 </small> 
+              <div class="b pointer tc pa1 w-10 truncate"> 
+                  <small class="dn-ns">50 </small> 
+                  <small>SMA50 </small> 
               </div>
-              <div click="toggleBuyPriceType('low')"  class="ttu pointer tc pa1 w-20"> 
-                  <small > {{ getInterval("").SMA50.Trend  }}
-                    <i v-if="getInterval('').SMA50.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
-                    <i v-if="getInterval('').SMA50.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
+              <div class="ttu pointer tc pa1 w-20"> 
+                  <small > 
+                      {{ getInterval("").SMA50.Trend  }}
+                      <i v-if="getInterval('').SMA50.Trend=='Bullish'" class="fa fa-arrow-alt-up green" /> 
+                      <i v-if="getInterval('').SMA50.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA50.Entry }}</small> </div>
-              <div class="pointer tc pa1 w-20 "> <small> {{getInterval("").SMA50.Support}}</small> </div>
-              <div click="toggleSellPriceType('high')" class="pointer tc pa1 w-10"> 
-                  <small >{{getInterval("").SMA50.Spread}}</small> 
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
               </div>
-              <div click="toggleSellPriceType('close')" class="pointer tc pa1 w-20 "> 
-                  <small >{{getInterval("").SMA50.Resistance}}</small> 
+              <div class="pointer tc pa1 w-20 "> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Support}}</small> 
+              </div>
+              <div class="pointer tc pa1 w-10"> 
+                  <small >{{getInterval("").SMA50.Spread}}%</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 "> 
+                  <small @click="toggleSellPriceType(getInterval('').SMA50.Resistance)">{{getInterval("").SMA50.Resistance}}</small> 
               </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right f7 relative">
@@ -123,18 +141,28 @@
             </p>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bg-black-10 black f7 relative">
-              <div class="tc pa1 w-20 z-2 fw6 "> <small>0.236</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 "> <small>0.382</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 "> <small>0.500</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 "> <small>0.618</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 "> <small>0.786</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.236</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.382</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.500</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.618</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.786</small> </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right f7 relative bb bl br b--black-10">
-              <div class="tc pa1 w-20 black z-2 fw6 "> <small>{{getInterval("").RetracementLevels["0.236"]}}</small> </div>
-              <div class="tc pa1 w-20 black z-2 fw6 "> <small>{{getInterval("").RetracementLevels["0.382"]}}</small> </div>
-              <div class="tc pa1 w-20 black z-2 fw6 "> <small>{{getInterval("").RetracementLevels["0.500"]}}</small> </div>
-              <div class="tc pa1 w-20 black z-2 fw6 "> <small>{{getInterval("").RetracementLevels["0.618"]}}</small> </div>
-              <div class="tc pa1 w-20 black z-2 fw6 "> <small>{{getInterval("").RetracementLevels["0.786"]}}</small> </div>
+              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.236'])">{{getInterval("").RetracementLevels["0.236"]}}</small> 
+              </div>
+              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.382'])">{{getInterval("").RetracementLevels["0.382"]}}</small> 
+              </div>
+              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.500'])">{{getInterval("").RetracementLevels["0.500"]}}</small> 
+              </div>
+              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.618'])">{{getInterval("").RetracementLevels["0.618"]}}</small> 
+              </div>
+              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.786'])">{{getInterval("").RetracementLevels["0.786"]}}</small> 
+              </div>
           </div> 
         </div>
     </div>
@@ -167,9 +195,14 @@
                 if (interval == "") {
                     interval = this.defaultInterval
                 }
-                if (this.getAllAnalysis[this.market.Pair].Intervals[interval] !== undefined && this.getAllAnalysis[this.market.Pair].Intervals[interval] !== null) {
-                    return this.getAllAnalysis[this.market.Pair].Intervals[interval]
-                } 
+                var pairAnalysis = this.getAllAnalysis[this.market.Pair]
+                if (pairAnalysis !== undefined) {
+                    if (pairAnalysis["Intervals"] !== undefined) {
+                        if (pairAnalysis["Intervals"][interval] !== undefined && pairAnalysis["Intervals"][interval] !== null) {
+                            return pairAnalysis["Intervals"][interval]
+                        } 
+                    }
+                }
 
                 var sma = {
                     "Trend": "", "Support": 0,
@@ -209,11 +242,11 @@
             setInterval(interval) {
                 this.defaultInterval = interval
             },
-            toggleBuyPriceType(pricetype) {
-                this.$parent.buyPriceType = (this.$parent.buyPriceType==pricetype) ? "" : pricetype
+            toggleBuyPriceType(price) {
+                this.$emit('updateBuyPrice', price);
             },
-            toggleSellPriceType(pricetype) {
-                this.$parent.sellPriceType = (this.$parent.sellPriceType==pricetype) ? "" : pricetype
+            toggleSellPriceType(price) {
+                this.$emit('updateSellPrice', price);
             },
         },
         components: { },
