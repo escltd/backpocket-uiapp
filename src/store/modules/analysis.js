@@ -17,7 +17,7 @@ var sampleAnalysis = {
   "Intervals" : {
     "1m": interval, "3m": interval, "5m": interval, "15m": interval,
     "30m": interval, "1h": interval, "2h": interval, "4h": interval,
-    "1d": interval,
+    "1d": interval
   }
 }
 
@@ -47,7 +47,7 @@ const mutations = {
     },
     UPDATE_ANALYSIS(state, analysis){
       if (Object.keys(state.allAnalysis).length == 0) {
-        state.allAnalysis = { [analysis.Pair]: analysis }
+          state.allAnalysis = { [analysis.Pair]: analysis }
       } else {
           //capture new markets
           if (state.allAnalysis[analysis.Pair] == undefined || state.allAnalysis[analysis.Pair] == null) {

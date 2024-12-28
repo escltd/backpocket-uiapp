@@ -41,7 +41,7 @@
                         {{getBidsAverage()}}</div>
                     <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
-                <div style="height:7.5rem" class="inline-flex flex-column w-100 fl bl bb b--black-10 overflow-scroll">
+                <div style="height:7.2rem" class="inline-flex flex-column w-100 fl bl bb b--black-10 overflow-scroll">
                     <div class="pt4" v-if="getOrderbookBids().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem;" class="pointer relative fl inline-flex items-center w-100 bb b--black-10 " v-for="(bid, index) in getOrderbookBids()" :key="index"
                     :class="{'ba b--green':$parent.buyPriceType==index+1,' black':market.Price <= bid.Price && market.Price > 0}" @click="toggleBuyPriceType(index+1)">
@@ -64,7 +64,7 @@
                         {{getAsksAverage()}}</div>
                     <div class="tr pv2 ph1 w-5 tr">Qty</div>
                 </div> 
-                 <div style="height:7.5rem" class="inline-flex flex-column w-100 fl br bl bb b--black-10 overflow-scroll">
+                 <div style="height:7.2rem" class="inline-flex flex-column w-100 fl br bl bb b--black-10 overflow-scroll">
                      <div class="pt4" v-if="getOrderbookAsks().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem" class="pointer relative red fl inline-flex items-center w-100 bb b--black-10 " v-for="(ask, index) in getOrderbookAsks()" :key="index"
                     :class="{'ba b--red':$parent.sellPriceType==index+1,' black':market.Price >= ask.Price && market.Price > 0}" @click="toggleSellPriceType(index+1)">
