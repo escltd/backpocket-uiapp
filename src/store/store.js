@@ -11,6 +11,9 @@ import orderSocket from "./plugins/orders"
 import trades from "./modules/trades"
 import tradeSocket from "./plugins/trades"
 
+import analysis from "./modules/analysis"
+import analysisSocket from "./plugins/analysis"
+
 import orderbooks from "./modules/orderbooks"
 import orderbookSocket from "./plugins/orderbooks"
 
@@ -28,9 +31,10 @@ export default new Vuex.Store({
         assets,
         orders,
         trades,
+        analysis,
         orderbooks,
         marketpairs,
         notifications
     },
-    plugins: [assetSocket(), orderSocket(), tradeSocket(), orderbookSocket(), marketpairSocket(), notificationSocket()]
+    plugins: [assetSocket(), orderSocket(), tradeSocket(), analysisSocket(), orderbookSocket(), marketpairSocket(), notificationSocket()]
 })

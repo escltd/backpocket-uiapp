@@ -44,8 +44,8 @@ export default function createWebSocketPlugin() {
                         store.dispatch('marketpairs/updateMarketPair', market);
                     }
                 } catch(error) {
-                    console.log('Error parsing data: ', error, event.data)
-                    return
+                    // console.log('Error parsing data: ', error, event.data)
+                    // console.log('Error parsing data: ',  event.data)
                 }
             }
             wsReconnect++
