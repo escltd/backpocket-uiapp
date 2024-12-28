@@ -20,12 +20,12 @@
         </div>
 
         <div class="h-100 dt w-100 center">
-            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center" >
+            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center pb2" >
 
                 <div class="cf center">
                     <marketranking :market="market" />
 
-                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1 dn db-l" style="height:24.625rem">
+                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1 dn db-l" style="height:25.25rem">
                         <small class="w-100 fl br4 br--bottom mt1">
                             <div class="fl w-100 pb1">
                                 <span class="w-30 fl tl f7 dark-gray"> 
@@ -68,6 +68,7 @@
                 
                 <div class="cf center">
                     <orderbook :market="market" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
+                    <analysis :market="market" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
 
                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1">
 
@@ -309,15 +310,15 @@
 import { mapGetters } from 'vuex';
 
 
-import { HTTP, humanNumber, humanDate, truncateNumber, sortObjectEntries, checkEmpty } from "@/common";
+import { humanNumber, humanDate, truncateNumber, sortObjectEntries} from "@/common";
 import siteheader from "@/components/generic/siteheader";
 
+import analysis from "@/components/generic/analysis";
 import orderbook from "@/components/generic/orderbook";
 import tradingvue from "@/components/generic/tradingvue";
 import marketorder from "@/components/generic/marketorder";
 import marketranking from "@/components/generic/marketranking";
 import enabledmarkets from "@/components/generic/enabledmarkets.vue";
-import { parse } from 'url';
 
 export default {
     props:["market", "enabledmarkets"],
@@ -365,7 +366,7 @@ export default {
             } 
         }
     },
-    components: { siteheader, orderbook, tradingvue, marketorder, marketranking, enabledmarkets },
+    components: { siteheader, analysis, orderbook, tradingvue, marketorder, marketranking, enabledmarkets },
     data() { return {
         notifyTimeout:{}, notifications:[], lDropdown: false, lMarketMaker: false, marketSpread:0,
         lShowoveridebuy:false, lShowOverrideBuy:false, lShowOverrideSell:false, lOverrideSell: false, 

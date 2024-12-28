@@ -79,10 +79,7 @@ const mutations = {
             if (state.allMarketPairs[marketPair.Pair] == undefined || state.allMarketPairs[marketPair.Pair] == null) {
                 state.allMarketPairs[marketPair.Pair] = marketPair
             } else { 
-                //capture 24hr price changes
-                // if (state.allMarketPairs[marketPair.Pair].PriceChangePercent !== marketPair.PriceChangePercent){
                 state.allMarketPairs[marketPair.Pair] = marketPair
-                // }
             }
         }
 

@@ -41,7 +41,7 @@
                         {{getBidsAverage()}}</div>
                     <div class="tr pv2 ph1 w-5">Bid </div>
                 </div>
-                <div style="height:21.2rem" class="inline-flex flex-column w-100 fl bl bb b--black-10 overflow-scroll">
+                <div style="height:7.5rem" class="inline-flex flex-column w-100 fl bl bb b--black-10 overflow-scroll">
                     <div class="pt4" v-if="getOrderbookBids().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem;" class="pointer relative fl inline-flex items-center w-100 bb b--black-10 " v-for="(bid, index) in getOrderbookBids()" :key="index"
                     :class="{'ba b--green':$parent.buyPriceType==index+1,' black':market.Price <= bid.Price && market.Price > 0}" @click="toggleBuyPriceType(index+1)">
@@ -64,7 +64,7 @@
                         {{getAsksAverage()}}</div>
                     <div class="tr pv2 ph1 w-5 tr">Qty</div>
                 </div> 
-                 <div style="height:21.2rem" class="inline-flex flex-column w-100 fl br bl bb b--black-10 overflow-scroll">
+                 <div style="height:7.5rem" class="inline-flex flex-column w-100 fl br bl bb b--black-10 overflow-scroll">
                      <div class="pt4" v-if="getOrderbookAsks().length==0">  <i class="black-10 f1 fa fa-animate fa-spinner fa-spin" /> </div>
                     <div style="min-height:2rem" class="pointer relative red fl inline-flex items-center w-100 bb b--black-10 " v-for="(ask, index) in getOrderbookAsks()" :key="index"
                     :class="{'ba b--red':$parent.sellPriceType==index+1,' black':market.Price >= ask.Price && market.Price > 0}" @click="toggleSellPriceType(index+1)">
@@ -80,18 +80,12 @@
                 </div>
             </div>
 
-            <div class="flex flex-row w-100 fl br--left br--right bg-black-10 f7 relative">
-                 <div style="max-width:100%" :style="{'width':((getOrderBook.BidsQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
-                    class="bg-green left-0 h-100 z-1 absolute inline-flex items-center" ></div>
-                <div style="max-width:100%" :style="{'width':((getOrderBook.AsksQuoteTotal/(getOrderBook.BidsQuoteTotal+getOrderBook.AsksQuoteTotal))*100)+'%'}" 
-                class="bg-red right-0 h-100 z-1 absolute inline-flex items-center" ></div>
-
-
-                <div class="tc pa1 w-20 white z-2 fw6 "> <small>OPEN</small> </div>
-                <div class="tc pa1 w-20 white z-2 fw6 "> <small>LOW</small> </div>
-                <div class="tc pa1 w-20 white z-2 fw6 "> <small> Trades</small> </div>
-                <div class="tc pa1 w-20 white z-2 fw6 "> <small>HIGH</small> </div>
-                <div class="tc pa1 w-20 white z-2 fw6 "> <small>CLOSE</small> </div>
+            <div class="flex flex-row w-100 fl br--left br--right bg-black-10 f7 relative black">
+                <div class="tc pa1 w-20 z-2 fw6 "> <small>OPEN</small> </div>
+                <div class="tc pa1 w-20 z-2 fw6 "> <small>LOW</small> </div>
+                <div class="tc pa1 w-20 z-2 fw6 "> <small> Trades</small> </div>
+                <div class="tc pa1 w-20 z-2 fw6 "> <small>HIGH</small> </div>
+                <div class="tc pa1 w-20 z-2 fw6 "> <small>CLOSE</small> </div>
             </div> 
             <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
                 <div @click="toggleBuyPriceType('open')"  class="pointer tc pa1 w-20" :class="{'bg-washed-green near-black':$parent.buyPriceType=='open', ' ':$parent.buyPriceType!=='open', 
