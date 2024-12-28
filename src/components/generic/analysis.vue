@@ -19,17 +19,17 @@
         
         <div key="orderBookCount" class="fl w-100">
           <div class="flex flex-row w-100 fl br--left br--right bg-black-10 white f7 relative">
-            <div @click="setInterval('1m')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('1m')"> 
-                <small>1m <i v-if="defaultInterval=='1m'" class="fa fa-check"/></small> 
-            </div>
             <div @click="setInterval('3m')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('3m')"> 
                 <small>3m <i v-if="defaultInterval=='3m'" class="fa fa-check"/></small> 
             </div>
+            <div @click="setInterval('5m')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('5m')"> 
+                <small>5m <i v-if="defaultInterval=='5m'" class="fa fa-check"/></small> 
+            </div>
             <div @click="setInterval('15m')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('15m')"> 
-                <small>5m <i v-if="defaultInterval=='15m'" class="fa fa-check"/></small> 
+                <small>15m <i v-if="defaultInterval=='15m'" class="fa fa-check"/></small> 
             </div>
             <div @click="setInterval('30m')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('30m')"> 
-                <small>15m <i v-if="defaultInterval=='30m'" class="fa fa-check"/></small> 
+                <small>30m <i v-if="defaultInterval=='30m'" class="fa fa-check"/></small> 
             </div>
             <div @click="setInterval('4h')" class="pointer tc pa1 w-20 z-2 fw6 " :class="getTrendColor('4h')"> 
                 <small>4h <i v-if="defaultInterval=='4h'" class="fa fa-check"/></small> 
@@ -185,7 +185,7 @@
         }},
         created() { 
             if (this.defaultInterval == "") {
-                this.setInterval("1m")
+                this.setInterval("3m")
             }
         },
         methods: {
