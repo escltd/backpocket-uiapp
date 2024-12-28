@@ -140,12 +140,12 @@
                 </span>
             </p>
           </div>
-          <div class="flex flex-row w-100 fl br--left br--right bg-black-10 black f7 relative">
-              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.236</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.382</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.500</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.618</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b"> <small>0.786</small> </div>
+          <div class="flex flex-row w-100 fl br--left br--right white f7 relative">
+              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.236')" > <small>0.236</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.382')" > <small>0.382</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.500')" > <small>0.500</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.618')" > <small>0.618</small> </div>
+              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.786')" > <small>0.786</small> </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right f7 relative bb bl br b--black-10">
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
@@ -217,6 +217,16 @@
                     "RetracementLevels": { "0.236": 0, "0.382": 0, "0.500": 0, "0.618": 0, "0.786": 0, }    
                 }
             },
+            getFibonacciColor(fibonacci) {
+                var color = "bg-light-blue";
+                var fibonacciPrice = this.getInterval('').RetracementLevels[fibonacci]
+                if (fibonacciPrice < this.market.Price) {
+                    color = "bg-green";
+                } else if (fibonacciPrice > this.market.Price) {
+                    color = "bg-red";
+                }
+                return color
+            },
             getTrendColor(interval) {
 
                 var color = "";
@@ -234,7 +244,7 @@
                         color = "bg-dark-red";
                         break;
                     default:
-                        color  = "bg-blue";
+                        color  = "bg-light-blue";
                         break;
                 }
                 return color

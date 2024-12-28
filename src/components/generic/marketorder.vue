@@ -89,7 +89,7 @@
                     </span>
                 </small>
 
-                <small class="w-100 fl tl bg-blue white" style="padding-top:1px;padding-bottom:1px">
+                <small class="w-100 fl tl bg-light-blue white" style="padding-top:1px;padding-bottom:1px">
                     <small class="fl">
                     &nbsp;DCA: &nbsp;{{humanNumber(truncateNumber(order.TotalBase))}} = {{humanNumber(truncateNumber(order.TotalQuote))}} @ {{truncateNumber(order.AveragePrice)}} 
                     </small>
