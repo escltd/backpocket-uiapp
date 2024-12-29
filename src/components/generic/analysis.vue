@@ -46,13 +46,13 @@
                   <small >TREND</small> 
               </div>
               <div class="pointer tc pa1 w-20"> 
-                  <small >ENTRY</small> 
+                  <small >AVG</small> 
               </div>
               <div class="pointer tc pa1 w-20"> 
                   <small >SUPPORT</small> 
               </div>
               <div class="pointer tc pa1 w-10 truncate"> 
-                  <small >SPREAD</small> 
+                  <small >% GAP</small> 
               </div>
               <div class="pointer tc pa1 w-20 truncate"> 
                   <small >RESISTANCE</small> 
@@ -73,7 +73,7 @@
               <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
                 </div>
-              <div class="pointer tc pa1 w-20 "> 
+              <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA10')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
@@ -98,7 +98,7 @@
               <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> 
+              <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Support)"> {{getInterval("").SMA20.Support}}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
@@ -123,8 +123,8 @@
               <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA50')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> 
-                <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Support}}</small> 
+              <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA50')"> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA50.Support)"> {{getInterval("").SMA50.Support}}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
                   <small >{{getInterval("").SMA50.Spread}}%</small> 
@@ -134,34 +134,49 @@
               </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right f7 relative">
-              <p class="mv0 tl w-100 pv1 inline-flex items-end" > 
+              <p class="mv0 tl w-100 pv1 inline-flex itemsx-end" > 
                 <span class="fl w-100 tc">
                     FIBONACCI RETRACEMENT LEVELS
                 </span>
             </p>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right white f7 relative">
-              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.236')" > <small>0.236</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.382')" > <small>0.382</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.500')" > <small>0.500</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.618')" > <small>0.618</small> </div>
-              <div class="tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.786')" > <small>0.786</small> </div>
+              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.236')" 
+              @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.236'])"> 
+                <small>0.236</small> 
+            </div>
+              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.382')" 
+              @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.382'])"> 
+                <small>0.382</small> 
+            </div>
+              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.500')" 
+              @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.500'])"> 
+                <small>0.500</small> 
+            </div>
+              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.618')" 
+              @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.618'])"> 
+                <small>0.618</small> 
+            </div>
+              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.786')" 
+              @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.786'])"> 
+                <small>0.786</small> 
+            </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right f7 relative bb bl br b--black-10">
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
-                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.236'])">{{getInterval("").RetracementLevels["0.236"]}}</small> 
+                <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.236'])">{{getInterval("").RetracementLevels["0.236"]}}</small> 
               </div>
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
-                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.382'])">{{getInterval("").RetracementLevels["0.382"]}}</small> 
+                <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.382'])">{{getInterval("").RetracementLevels["0.382"]}}</small> 
               </div>
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
-                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.500'])">{{getInterval("").RetracementLevels["0.500"]}}</small> 
+                <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.500'])">{{getInterval("").RetracementLevels["0.500"]}}</small> 
               </div>
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
-                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.618'])">{{getInterval("").RetracementLevels["0.618"]}}</small> 
+                <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.618'])">{{getInterval("").RetracementLevels["0.618"]}}</small> 
               </div>
               <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
-                <small @click="toggleBuyPriceType(getInterval('').RetracementLevels['0.786'])">{{getInterval("").RetracementLevels["0.786"]}}</small> 
+                <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.786'])">{{getInterval("").RetracementLevels["0.786"]}}</small> 
               </div>
           </div> 
         </div>
@@ -217,6 +232,20 @@
                     "RetracementLevels": { "0.236": 0, "0.382": 0, "0.500": 0, "0.618": 0, "0.786": 0, }    
                 }
             },
+            getSupportColor(support) {
+                var color = "black";
+                var supportPrice = this.getInterval('')[support].Support
+                if (supportPrice <= this.market.Price) {
+                    color = "green";
+                }
+            },
+            getResistanceColor(resistance) {
+                var color = "black";
+                var resistancePrice = this.getInterval('')[resistance].Support
+                if (resistancePrice >= this.market.Price) {
+                    color = "green";
+                }
+            },
             getEntryColor(entry) {
                 var color = "black";
                 var entryPrice = this.getInterval('')[entry].Entry
@@ -267,6 +296,10 @@
             },
             toggleSellPriceType(price) {
                 this.$emit('updateSellPrice', price);
+            },
+            toggleBuySellPriceType(price) {
+                this.toggleBuyPriceType(price);
+                this.toggleSellPriceType(price);
             },
         },
         components: { },
