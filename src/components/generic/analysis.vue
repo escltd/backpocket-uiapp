@@ -71,7 +71,7 @@
                   </small> 
               </div>
               <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
-                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }} - {{getInterval("").BollingerBands["upper"] }}</small> 
+                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
                 </div>
               <div class="pointer tc pa1 w-20 "> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
