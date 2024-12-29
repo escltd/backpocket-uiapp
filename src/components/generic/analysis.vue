@@ -70,8 +70,8 @@
                       <i v-if="getInterval('').SMA10.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> 
-                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
+                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }} - {{getInterval("").BollingerBands["upper"] }}</small> 
                 </div>
               <div class="pointer tc pa1 w-20 "> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
@@ -95,7 +95,7 @@
                       <i v-if="getInterval('').SMA20.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                 </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> 
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-20 "> 
@@ -120,7 +120,7 @@
                       <i v-if="getInterval('').SMA50.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 "> 
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA50')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-20 "> 
@@ -216,6 +216,16 @@
                     "SMA10": sma, "SMA20": sma, "SMA50": sma,
                     "RetracementLevels": { "0.236": 0, "0.382": 0, "0.500": 0, "0.618": 0, "0.786": 0, }    
                 }
+            },
+            getEntryColor(entry) {
+                var color = "black";
+                var entryPrice = this.getInterval('')[entry].Entry
+                if (entryPrice < this.market.Price) {
+                    color = "green";
+                } else if (entryPrice > this.market.Price) {
+                    color = "red";
+                }
+                return color
             },
             getFibonacciColor(fibonacci) {
                 var color = "bg-light-blue";
