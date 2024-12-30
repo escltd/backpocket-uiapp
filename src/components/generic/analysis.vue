@@ -238,16 +238,18 @@
             getSupportColor(support) {
                 var color = "black";
                 var supportPrice = this.getInterval('')[support].Support
-                if (supportPrice <= this.market.Price) {
-                    color = "green";
+                if (this.market.Price < supportPrice ) {
+                    color = "red";
                 }
+                return color
             },
             getResistanceColor(resistance) {
                 var color = "black";
                 var resistancePrice = this.getInterval('')[resistance].Support
-                if (resistancePrice >= this.market.Price) {
+                if (this.market.Price > resistancePrice) {
                     color = "green";
                 }
+                return color
             },
             getEntryColor(entry) {
                 var color = "black";
