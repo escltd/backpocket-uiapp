@@ -9,10 +9,10 @@
             <span class="fl w-20 tr"> CHART </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end bg-black white">
-            <span class="fl w-50 tl">
+            <span class="fl w-30 tl">
                 {{ getInterval('').Pattern.Candle }} &nbsp;
             </span>
-            <span class="fl w-50 tr">
+            <span class="fl w-70 tr">
                &nbsp; {{ getInterval('').Pattern.Chart }}
             </span>
         </p>
