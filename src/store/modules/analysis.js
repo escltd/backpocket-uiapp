@@ -7,6 +7,7 @@ var sma = {
 var interval = {
   "Timeframe": "", "Trend": "", "RSI": 0,
   "BollingerBands": { "lower": 0, "middle": 0, "upper": 0, },
+  "Pattern": {"Candle": "", "Chart": "", },
   "SMA10": sma, "SMA20": sma, "SMA50": sma,
   "RetracementLevels": { "0.236": 0, "0.382": 0, "0.500": 0, "0.618": 0, "0.786": 0, }    
 }

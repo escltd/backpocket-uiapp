@@ -1,9 +1,19 @@
 <template>
     <div class="cf center f7 w-100 ph1" style="max-width:460px">
 
-        <p class="mv0 tl w-100 pa1 inline-flex items-end black"> 
-            <span class="fl w-100 tc">
-                TECHNICAL ANALYSIS FOR <b>[{{ market.Pair }}]</b>
+        <p class="mv0 tl w-100 pa1 pt2 inline-flex items-end black"> 
+            <span class="fl w-20 tl"> CANDLE </span>
+            <span class="fl w-60 tc">
+                TECHNICAL ANALYSIS
+            </span>
+            <span class="fl w-20 tr"> CHART </span>
+        </p>
+        <p class="mv0 tl w-100 pa1 inline-flex items-end bg-black white">
+            <span class="fl w-50 tl">
+                {{ getInterval('').Pattern.Candle }} 
+            </span>
+            <span class="fl w-50 tr">
+                {{ getInterval('').Pattern.Chart }}
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" 
@@ -42,24 +52,24 @@
             </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div class="b pointer tc pa1 w-10"> 
-                  <small >SMA</small> 
-              </div>
-              <div class="pointer tc pa1 w-20"> 
-                  <small >TREND</small> 
-              </div>
-              <div class="pointer tc pa1 w-20"> 
-                  <small >AVG</small> 
-              </div>
-              <div class="pointer tc pa1 w-20"> 
-                  <small >SUPPORT</small> 
-              </div>
-              <div class="pointer tc pa1 w-10 truncate"> 
-                  <small >% GAP</small> 
-              </div>
-              <div class="pointer tc pa1 w-20 truncate"> 
-                  <small >RESISTANCE</small> 
-              </div>
+            <div class="b pointer tc pa1 w-10"> 
+                <small >SMA</small> 
+            </div>
+            <div class="pointer tc pa1 w-20"> 
+                <small >TREND</small> 
+            </div>
+            <div class="pointer tc pa1 w-20"> 
+                <small >SUPPORT</small> 
+            </div>
+            <div class="pointer tc pa1 w-20"> 
+                <small >AVG</small> 
+            </div>
+            <div class="pointer tc pa1 w-10 truncate"> 
+                <small >% GAP</small> 
+            </div>
+            <div class="pointer tc pa1 w-20 truncate"> 
+                <small >RESISTANCE</small> 
+            </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
               <div class="b pointer tc pa1 w-10 truncate"> 
@@ -73,11 +83,11 @@
                       <i v-if="getInterval('').SMA10.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
-                <small @click="toggleBuyPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
-                </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA10')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
+                <small @click="toggleBuySellPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
                   <small >{{getInterval("").SMA10.Spread}}%</small> 
@@ -98,11 +108,11 @@
                       <i v-if="getInterval('').SMA20.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                 </small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA20')"> 
-                <small @click="toggleBuyPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
-              </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Support)"> {{getInterval("").SMA20.Support}}</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA20')"> 
+                <small @click="toggleBuySellPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
                   <small >{{getInterval("").SMA20.Spread}}%</small> 
@@ -123,11 +133,11 @@
                       <i v-if="getInterval('').SMA50.Trend=='Bearish'" class="fa fa-arrow-alt-down red" /> 
                   </small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA50')"> 
-                <small @click="toggleBuyPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
-              </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA50')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA50.Support)"> {{getInterval("").SMA50.Support}}</small> 
+              </div>
+              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA50')"> 
+                <small @click="toggleBuySellPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-10"> 
                   <small >{{getInterval("").SMA50.Spread}}%</small> 
