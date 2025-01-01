@@ -71,8 +71,10 @@
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
               <div class="b pointer tc pa1 w-20 truncate"> 
-                  <small class="dn-ns">10 </small> 
-                  <small>SMA10 </small> 
+                <small class="dn-ns">10 </small> 
+                <small>SMA10 </small> 
+                <i v-if="market.Price > getInterval('').SMA10.Entry" class="fa fa-arrow-alt-up green" /> 
+                <i v-else class="fa fa-arrow-alt-down red" />
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA10')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
@@ -89,8 +91,10 @@
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
               <div class="b pointer tc pa1 w-20 truncate"> 
-                  <small class="dn-ns">20 </small> 
-                  <small >SMA20 </small> 
+                <small class="dn-ns">20 </small> 
+                <small >SMA20 </small> 
+                <i v-if="getInterval('').SMA10.Entry > getInterval('').SMA20.Entry" class="fa fa-arrow-alt-up green" /> 
+                <i v-else class="fa fa-arrow-alt-down red" />
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Support)"> {{getInterval("").SMA20.Support}}</small> 
@@ -109,6 +113,8 @@
               <div class="b pointer tc pa1 w-20 truncate"> 
                   <small class="dn-ns">50 </small> 
                   <small>SMA50 </small> 
+                  <i v-if="getInterval('').SMA20.Entry > getInterval('').SMA50.Entry" class="fa fa-arrow-alt-up green" /> 
+                    <i v-else class="fa fa-arrow-alt-down red" />
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA50')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA50.Support)"> {{getInterval("").SMA50.Support}}</small> 
