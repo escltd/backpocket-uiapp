@@ -35,7 +35,7 @@
             
             <div class="mt1 w-100 pb2" >
                 
-                <div style="height:28rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-if="rankGainers">
+                <div style="height:28.5rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-if="rankGainers">
                     <div class="w-25 pa1" v-for="(marketRank, index) in sortMarketHighRankings()" :key="index">
                         <div @click="toggleMarket(marketRank)" class="ph1 pt2 pb1 br2 w-100 tc pointer bg-black-10 black">
                             <span class="f6 db w-100 green items-center">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="height:28rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-else>
+                <div style="height:28.5rem; align-content: baseline" class="flex w-100 flex-wrap overflow-scroll" v-else>
                     <div class="w-25 pa1" v-for="(marketRank, index) in sortMarketLowRankings()" :key="index">
                         <div @click="toggleMarket(marketRank)" class="ph1 pt2 pb1 br2 w-100 tc pointer bg-black-10 black">
                             <span class="f6 db w-100 red items-center">

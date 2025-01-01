@@ -1,7 +1,7 @@
 <template>
     <div class="inline-flex flex-column w-100 overflow-y-scroll br4 bt bb b--black-10" style="height:19rem">
         <div style="" :class="{'bg-light-gray':order.Status=='NEW'}" class="w-100 tl flex bb bl br b--black-05 near-black" v-for="(order, index) in listMarketOrders()" :key="index">
-            <div class="pa1 w-25-ns w-30 br b--black-10 pa1 pointer tl" @click="cancelOrder(order)"> 
+            <div class="pa1 w-25-ns w-25 br b--black-10 pa1 pointer tl" @click="cancelOrder(order)"> 
                 <small class="tl w-100 pt1">
                     <i class="fa fa-check pointer" :class="{'dark-red':order.Status=='CANCELED', 'gold':order.Status=='NEW', 'dark-green':order.Status=='TRADE'||order.Status=='FILLED'}"/>
                     <span class="fr"> {{humanDate(order.Createdate.substring(0,19)).substring(15,30)}} </span>
@@ -15,7 +15,7 @@
                     </span>
                 </small>
             </div> 
-            <div class="w-75-ns w-70 pa1"> 
+            <div class="w-75-ns w-80 pa1"> 
                 <small class="w-100 fl">
                     {{order.Side}} {{market.BaseAsset}}  @ <b>{{humanNumber(truncateNumber(order.Price))}}</b> 
                     <span :class="{'black-10':order.RefEnabled!==1||order.RefFilled!=='','dark-gray':order.RefTripped == ''&&order.RefEnabled==1,'green':order.RefTripped !== ''&&order.RefEnabled==1}" v-if="order.AutoRepeat>0">

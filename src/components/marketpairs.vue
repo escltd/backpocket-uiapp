@@ -20,12 +20,11 @@
         </div>
 
         <div class="h-100 dt w-100 center">
-            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center pb2" >
+            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center pb1" >
 
                 <div class="cf center">
                     <marketranking :market="market" />
-
-                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1 dn db-l" style="height:25.25rem">
+                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1 dn db-l" style="height:24.5rem">
                         <small class="w-100 fl br4 br--bottom mt1">
                             <div class="fl w-100 pb1">
                                 <span class="w-30 fl tl f7 dark-gray"> 
@@ -53,7 +52,7 @@
                                     </small>
                                 </div>        
                                 <div class="fl w1 pt1 tc fw6"> 
-                                    <span class="fl w-100 tc">
+                                    <span class="fl w-100 tc dn-ns">
                                         <i class="fa fa-chevron-up center pointer" @click="lDropdown=!lDropdown" />
                                     </span>
                                 </div>
@@ -72,7 +71,7 @@
 
                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1">
 
-                        <div class="flex  w-100 pb3">
+                        <div class="flex  w-100 pb1">
                             <div class="w-40 tl f7 black-30" :class="{'black':stoplossPercent>0}">
                                 <i class="fas pointer" :class="{'fa-toggle-on ': stoplossPercent>0, 'fa-toggle-off': stoplossPercent<=0}" /> 
                                 <select v-model="stoplossPercent"  style="" class=" dib bn  bg-transparent dark-gray" :class="{'black':stoplossPercent>0}"> 
