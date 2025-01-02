@@ -2,8 +2,12 @@
     <div class="cf center f7 w-100 ph1" style="max-width:460px">
 
         <p class="mv0 tl w-100 pa1 pt2 inline-flex items-end black"> 
-            <span class="fl w-100 tc fw6">
-                TECHNICAL ANALYSIS
+            <span class="fl w-20 tl fw6">
+                <span class="pointer" @click="toggleBuyPriceType(getEntry())">{{ getEntry() }}</span>
+            </span>
+            <span class="fl w-60 tc fw6">TECHNICAL ANALYSIS</span>
+            <span class="fl w-20 tr fw6">
+                <span class="pointer" @click="toggleSellPriceType(getExit())">{{ getExit() }}</span>
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" :class="getMainTrendColor()">
@@ -199,8 +203,37 @@
         methods: {
             humanNumber,
             truncateNumber,
+            getDigitLenght(digit) {
+                return digit.toString().split(".")[1].length || 0
+            },
             getTrend() {
                 return this.getAllAnalysis[this.market.Pair].Trend
+            },
+            getEntry(){
+                var entry = 0
+                var pairAnalysis = this.getAllAnalysis[this.market.Pair]
+                for (var interval in pairAnalysis.Intervals) {
+                    for (var sma in pairAnalysis.Intervals[interval]) {
+                        if (pairAnalysis.Intervals[interval][sma].Entry < this.market.Price && 
+                            pairAnalysis.Intervals[interval][sma].Entry > entry) {
+                            entry = pairAnalysis.Intervals[interval][sma].Entry
+                        }
+                    }
+                }
+                return entry
+            },
+            getExit(){
+                var exit = this.market.Price*this.market.Price
+                var pairAnalysis = this.getAllAnalysis[this.market.Pair]
+                for (var interval in pairAnalysis.Intervals) {
+                    for (var sma in pairAnalysis.Intervals[interval]) {
+                        if (pairAnalysis.Intervals[interval][sma].Entry > this.market.Price && 
+                            pairAnalysis.Intervals[interval][sma].Entry < exit) {
+                            exit = pairAnalysis.Intervals[interval][sma].Entry
+                        }
+                    }
+                }
+                return exit
             },
             getMainTrendColor(){
                 var color = "";
@@ -305,9 +338,11 @@
                 this.defaultInterval = interval
             },
             toggleBuyPriceType(price) {
+                price = truncateNumber(price, this.getDigitLenght(this.market.Price))
                 this.$emit('updateBuyPrice', price);
             },
             toggleSellPriceType(price) {
+                price = truncateNumber(price, this.getDigitLenght(this.market.Price))
                 this.$emit('updateSellPrice', price);
             },
             toggleBuySellPriceType(price) {
