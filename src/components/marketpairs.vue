@@ -448,6 +448,9 @@ export default {
                 this.buyCrypto();
             }
         },
+        getDigitLenght(digit) {
+            return digit.toString().split(".")[1].length || 0
+        },
         resetMarket(){
             this.marketSpread = 0
             this.lMarketMaker = false
@@ -876,7 +879,7 @@ export default {
             }
         },
         updateBuyPrice(price) {
-            this.neworder.BuyPrice = this.truncateNumber(price)
+            this.neworder.BuyPrice = this.truncateNumber(price,this.getDigitLenght(this.market.Price))
             this.updateQtyBaseBuy()
         },
         updateBuyQty(qty) {
@@ -930,7 +933,7 @@ export default {
             }
         },
         updateSellPrice(price) {
-            this.neworder.SellPrice = this.truncateNumber(price)
+            this.neworder.SellPrice = this.truncateNumber(price, this.getDigitLenght(this.market.Price))
             this.updateQtyBaseSell()
         },
         updateSellQty(qty) {
