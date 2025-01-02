@@ -1,12 +1,12 @@
 <template>
     <div class="cf center f7 w-100 ph1" style="max-width:460px">
 
-        <p class="mv0 tl w-100 pa1 pt2 inline-flex items-end black"> 
-            <span class="fl w-20 tl fw6">
+        <p class="mv0 tl w-100 inline-flex items-end black"> 
+            <span class="fl w-20 tl fw6 bg-green pa1 pt2 white">
                 <span class="pointer" @click="toggleBuyPriceType(getEntry())">{{ getEntry() }}</span>
             </span>
-            <span class="fl w-60 tc fw6">TECHNICAL ANALYSIS</span>
-            <span class="fl w-20 tr fw6">
+            <span class="fl w-60 tc fw6 pv1">TECHNICAL ANALYSIS</span>
+            <span class="fl w-20 tr fw6 bg-red pa1 pt2 white">
                 <span class="pointer" @click="toggleSellPriceType(getExit())">{{ getExit() }}</span>
             </span>
         </p>
@@ -223,7 +223,7 @@
                 return entry
             },
             getExit(){
-                var exit = this.market.Price*this.market.Price
+                var exit = this.market.Price*2
                 var pairAnalysis = this.getAllAnalysis[this.market.Pair]
                 for (var interval in pairAnalysis.Intervals) {
                     for (var sma in pairAnalysis.Intervals[interval]) {
