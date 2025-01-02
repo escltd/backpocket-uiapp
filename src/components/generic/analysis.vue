@@ -7,10 +7,10 @@
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" :class="getMainTrendColor()">
-            <span class="fl w-30 tl">
-                Trend is <b>{{getTrend()}}</b>
+            <span class="fl w-20 tl">
+                <b>{{getTrend()}}</b>
             </span>
-            <span class="fl w-70 tr">
+            <span class="fl w-80 tr">
                &nbsp; <b>{{ getInterval('').Pattern.Chart }}</b>
             </span>
         </p>
