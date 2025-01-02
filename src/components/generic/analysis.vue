@@ -2,28 +2,28 @@
     <div class="cf center f7 w-100 ph1" style="max-width:460px">
 
         <p class="mv0 tl w-100 pa1 pt2 inline-flex items-end black"> 
-            <span class="fl w-100 tc">
+            <span class="fl w-100 tc fw6">
                 TECHNICAL ANALYSIS
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" :class="getMainTrendColor()">
             <span class="fl w-30 tl">
-                <b>Trend is {{getTrend()}} </b>
+                Trend is <b>{{getTrend()}}</b>
             </span>
             <span class="fl w-70 tr">
-               &nbsp; {{ getInterval('').Pattern.Chart }}
+               &nbsp; <b>{{ getInterval('').Pattern.Chart }}</b>
             </span>
         </p>
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" 
         :class="getTrendColor('')" > 
             <span class="fl w-25 tl">
-                <b>{{ defaultInterval }}</b> is {{ getInterval("").Trend }}
+                {{ defaultInterval }} is <b>{{ getInterval("").Trend }}</b>
             </span>
             <span class="fl w-50 tc">
                 <b>{{ getInterval('').Pattern.Candle }}</b>
             </span>
             <span class="fl w-25 tr">
-                <b>{{getInterval("").RSI }}</b> RSI
+                RSI: <b>{{getInterval("").RSI }}</b>
             </span>
         </p>
 
@@ -60,7 +60,7 @@
                 <small >SUPPORT</small> 
             </div>
             <div class="pointer tc pa1 w-20"> 
-                <small >MID BB</small> 
+                <small >ENTRY</small> 
             </div>
             <div class="pointer tc pa1 w-20 truncate"> 
                 <small >% SPREAD</small> 
@@ -70,16 +70,15 @@
             </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div class="b pointer tc pa1 w-20 truncate"> 
-                <small class="dn-ns">10 </small> 
+              <div class="pointer tc pa1 w-20 truncate"> 
+                  <i v-if="market.Price > getInterval('').SMA10.Entry" class="fa fa-arrow-alt-up green" /> 
+                  <i v-else class="fa fa-arrow-alt-down red" />
                 <small>SMA10 </small> 
-                <i v-if="market.Price > getInterval('').SMA10.Entry" class="fa fa-arrow-alt-up green" /> 
-                <i v-else class="fa fa-arrow-alt-down red" />
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA10')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA10.Support)"> {{getInterval("").SMA10.Support}}</small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA10')">
+              <div class="pointer tc pa1 w-20 fw6" :class="getEntryColor('SMA10')">
                 <small @click="toggleBuySellPriceType(getInterval('').SMA10.Entry)"> {{getInterval("").SMA10.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-20"> 
@@ -90,16 +89,15 @@
               </div>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div class="b pointer tc pa1 w-20 truncate"> 
-                <small class="dn-ns">20 </small> 
+              <div class="pointer tc pa1 w-20 truncate"> 
+                  <i v-if="getInterval('').SMA10.Entry > getInterval('').SMA20.Entry" class="fa fa-arrow-alt-up green" /> 
+                  <i v-else class="fa fa-arrow-alt-down red" />
                 <small >SMA20 </small> 
-                <i v-if="getInterval('').SMA10.Entry > getInterval('').SMA20.Entry" class="fa fa-arrow-alt-up green" /> 
-                <i v-else class="fa fa-arrow-alt-down red" />
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA20')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA20.Support)"> {{getInterval("").SMA20.Support}}</small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA20')"> 
+              <div class="pointer tc pa1 w-20 fw6" :class="getEntryColor('SMA20')"> 
                 <small @click="toggleBuySellPriceType(getInterval('').SMA20.Entry)"> {{getInterval("").SMA20.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-20"> 
@@ -110,16 +108,15 @@
               </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-              <div class="b pointer tc pa1 w-20 truncate"> 
-                  <small class="dn-ns">50 </small> 
-                  <small>SMA50 </small> 
+              <div class="pointer tc pa1 w-20 truncate"> 
                   <i v-if="getInterval('').SMA20.Entry > getInterval('').SMA50.Entry" class="fa fa-arrow-alt-up green" /> 
                     <i v-else class="fa fa-arrow-alt-down red" />
+                  <small>SMA50 </small> 
               </div>
               <div class="pointer tc pa1 w-20 " :class="getSupportColor('SMA50')"> 
                 <small @click="toggleBuyPriceType(getInterval('').SMA50.Support)"> {{getInterval("").SMA50.Support}}</small> 
               </div>
-              <div class="pointer tc pa1 w-20 " :class="getEntryColor('SMA50')"> 
+              <div class="pointer tc pa1 w-20 fw6" :class="getEntryColor('SMA50')"> 
                 <small @click="toggleBuySellPriceType(getInterval('').SMA50.Entry)"> {{getInterval("").SMA50.Entry }}</small> 
               </div>
               <div class="pointer tc pa1 w-20"> 
@@ -131,47 +128,47 @@
           </div>
           <div class="flex flex-row w-100 fl br--left br--right f7 relative">
               <p class="mv0 tl w-100 pv1 inline-flex itemsx-end" > 
-                <span class="fl w-100 tc">
+                <span class="fl w-100 tc fw6">
                     FIBONACCI RETRACEMENT LEVELS
                 </span>
             </p>
           </div>
           <div class="flex flex-row w-100 fl br--left br--right white f7 relative">
-              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.236')" 
+              <div class="pointer tc pa1 w-20 z-2 fw6" :class="getFibonacciColor('0.236')" 
               @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.236'])"> 
                 <small>0.236</small> 
             </div>
-              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.382')" 
+              <div class="pointer tc pa1 w-20 z-2 fw6" :class="getFibonacciColor('0.382')" 
               @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.382'])"> 
                 <small>0.382</small> 
             </div>
-              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.500')" 
+              <div class="pointer tc pa1 w-20 z-2 fw6" :class="getFibonacciColor('0.500')" 
               @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.500'])"> 
                 <small>0.500</small> 
             </div>
-              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.618')" 
+              <div class="pointer tc pa1 w-20 z-2 fw6" :class="getFibonacciColor('0.618')" 
               @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.618'])"> 
                 <small>0.618</small> 
             </div>
-              <div class="pointer tc pa1 w-20 z-2 fw6 b" :class="getFibonacciColor('0.786')" 
+              <div class="pointer tc pa1 w-20 z-2 fw6" :class="getFibonacciColor('0.786')" 
               @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.786'])"> 
                 <small>0.786</small> 
             </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right f7 relative bb bl br b--black-10">
-              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+              <div class="tc pa1 w-20 black z-2 pointer"> 
                 <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.236'])">{{getInterval("").RetracementLevels["0.236"]}}</small> 
               </div>
-              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+              <div class="tc pa1 w-20 black z-2 pointer"> 
                 <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.382'])">{{getInterval("").RetracementLevels["0.382"]}}</small> 
               </div>
-              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+              <div class="tc pa1 w-20 black z-2 pointer"> 
                 <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.500'])">{{getInterval("").RetracementLevels["0.500"]}}</small> 
               </div>
-              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+              <div class="tc pa1 w-20 black z-2 pointer"> 
                 <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.618'])">{{getInterval("").RetracementLevels["0.618"]}}</small> 
               </div>
-              <div class="tc pa1 w-20 black z-2 fw6 pointer"> 
+              <div class="tc pa1 w-20 black z-2 pointer"> 
                 <small @click="toggleBuySellPriceType(getInterval('').RetracementLevels['0.786'])">{{getInterval("").RetracementLevels["0.786"]}}</small> 
               </div>
           </div> 
