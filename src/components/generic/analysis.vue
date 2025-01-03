@@ -21,13 +21,10 @@
         <p class="mv0 tl w-100 pa1 inline-flex items-end white" 
         :class="getTrendColor('')" > 
             <span class="fl w-25 tl">
-                {{ defaultInterval }} is <b>{{ getInterval("").Trend }}</b>
+                <b>{{getInterval("").RSI }}</b><small> rsi</small>
             </span>
-            <span class="fl w-50 tc">
-                <b>{{ getInterval('').Pattern.Candle }}</b>
-            </span>
-            <span class="fl w-25 tr">
-                RSI: <b>{{getInterval("").RSI }}</b>
+            <span class="fl w-80 tr">
+                &nbsp;<b>{{ getInterval('').Pattern.Candle }}</b>
             </span>
         </p>
 
@@ -57,8 +54,8 @@
             </div>
           </div> 
           <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
-            <div class="b pointer tc pa1 w-20"> 
-                <small >SMA</small> 
+            <div class="b pointer tc pa1 w-20 truncate"> 
+                <small ><b class="">{{defaultInterval}} is <span class="ttu">{{ getInterval("").Trend }}</span></b></small> 
             </div>
             <div class="pointer tc pa1 w-20"> 
                 <small >SUPPORT</small> 
