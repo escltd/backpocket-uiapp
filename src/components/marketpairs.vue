@@ -1,18 +1,25 @@
 <template>
     <div class="cf w-100 h-100 overflow-scroll">
-        <div v-if="notifications.length>0" class="w-100 vh-100 bg-black-20 z-max absolute top-0 left-0"  @click="closeNotification">
+        <div v-if="notifications.length > 0" class="w-100 vh-100 bg-black-20 z-max absolute top-0 left-0"
+             @click="closeNotification">
             <div class="w-100 dt vh-50">
                 <div class="dtc tc w-100 v-mid pa2">
-                    <div class="cf card-background dark-gray br1 center items-center flex flex-column w-100 pa2 " style="max-width:360px">
+                    <div class="cf card-background dark-gray br1 center items-center flex flex-column w-100 pa2 "
+                         style="max-width:360px">
                         <span class="w-100" @click="closeNotification">
-                            <span class="w-100 f7">  <i class="fa fa-bell"/> Notification  <i class="fr fa fa-times red pointer" /> </span>
+                            <span class="w-100 f7"> <i class="fa fa-bell" /> Notification <i
+                                   class="fr fa fa-times red pointer" /> </span>
                             <small>
-                                <p v-for="(message, index) in notifications" :key="index" class="mv1 pv0 f6">{{message}}</p>
+                                <p v-for="(message, index) in notifications" :key="index" class="mv1 pv0 f6">{{ message
+                                    }}
+                                </p>
                             </small>
                         </span>
                         <small class="pt2 black w-100 cf mb2" v-if="lShowOverrideBuy || lShowOverrideSell">
-                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer" @click="notifications=[],lOverrideBuy=true,buyOrder()" > buy at a loss </span>
-                            <span v-else class="pa2 bg-red pointer" @click="notifications=[],lOverrideSell=true,sellOrder()" > sell at a loss </span>
+                            <span v-if="lShowOverrideBuy" class="pa2 bg-red pointer"
+                                  @click="notifications = [], lOverrideBuy = true, buyOrder()"> buy at a loss </span>
+                            <span v-else class="pa2 bg-red pointer"
+                                  @click="notifications = [], lOverrideSell = true, sellOrder()"> sell at a loss </span>
                         </small>
                     </div>
                 </div>
@@ -20,286 +27,376 @@
         </div>
 
         <div class="h-100 dt w-100 center">
-            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center pb1" >
+            <div class="dtc tc near-black ph2-l ph1 flex-l mw8 center pb1">
 
                 <div class="cf center">
                     <marketranking :market="market" />
                     <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1 dn db-l" style="height:24.5rem">
                         <small class="w-100 fl br4 br--bottom mt1">
                             <div class="fl w-100 pb1">
-                                <span class="w-30 fl tl f7 dark-gray"> 
-                                    <small> Start Date:<br/><input class="bn ph1 br2 bg-black-10 dark-gray" type="date" @change="searchMarketPairOrders" v-model="startDate" /> </small>
+                                <span class="w-30 fl tl f7 dark-gray">
+                                    <small> Start Date:<br /><input class="bn ph1 br2 bg-black-10 dark-gray" type="date"
+                                               @change="searchMarketPairOrders" v-model="startDate" /> </small>
                                 </span>
-                                <span class="w-40 fl tc f7 dark-gray pointer" @click="searchMarketPairOrders()"> 
-                                    {{market.BaseAsset}} / {{market.QuoteAsset}}<br/>
+                                <span class="w-40 fl tc f7 dark-gray pointer" @click="searchMarketPairOrders()">
+                                    {{ market.BaseAsset }} / {{ market.QuoteAsset }}<br />
                                     Order History <small><i class=" fa fa-redo" /> </small>
                                 </span>
-                                <span class="w-30 fr tr f7 dark-gray" > 
-                                    <small> Stop Date:<br/><input class="bn ph1 br2 bg-black-10 dark-gray" type="date" @change="searchMarketPairOrders" v-model="stopDate" /></small>
+                                <span class="w-30 fr tr f7 dark-gray">
+                                    <small> Stop Date:<br /><input class="bn ph1 br2 bg-black-10 dark-gray" type="date"
+                                               @change="searchMarketPairOrders" v-model="stopDate" /></small>
                                 </span>
                             </div>
 
                             <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty"
-                            @updateBuyAmount="updateBuyAmount" @updateSellAmount="updateSellAmount"
-                            @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" /> 
+                                         @updateBuyAmount="updateBuyAmount" @updateSellAmount="updateSellAmount"
+                                         @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
                         </small>
                         <div class="w-100 f7">
                             <div class="w-100 flex tc black-50">
-                                <div class="w-50 pt1 tl fw6"> 
-                                    <small> 
-                                        {{market.QuoteAsset}} PnL: <span :class="{'green':truncateNumber(totalPnL-totalFees)>0,'red':truncateNumber(totalPnL-totalFees)<0,}" > 
-                                         {{truncateNumber(totalPnL-totalFees)}} </span>
+                                <div class="w-50 pt1 tl fw6">
+                                    <small>
+                                        {{ market.QuoteAsset }} PnL: <span
+                                              :class="{ 'green': truncateNumber(totalPnL - totalFees) > 0, 'red': truncateNumber(totalPnL - totalFees) < 0, }">
+                                            {{ truncateNumber(totalPnL - totalFees) }} </span>
                                     </small>
-                                </div>        
-                                <div class="fl w1 pt1 tc fw6"> 
+                                </div>
+                                <div class="fl w1 pt1 tc fw6">
                                     <span class="fl w-100 tc dn-ns">
-                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown=!lDropdown" />
+                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown = !lDropdown" />
                                     </span>
                                 </div>
-                                <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small>
+                                <div class="w-50 pt1 tr fw6">
+                                    <small class="db">{{ market.QuoteAsset }} Fees: {{ truncateNumber(totalFees)
+                                        }}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                
+
                 <div class="cf center">
                     <orderbook :market="market" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
                     <analysis :market="market" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
 
-                   <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1">
+                    <div class="cf center card-marketpair br3 f5-ns f6 w-100 mt1">
 
                         <div class="flex  w-100 pb1">
-                            <div class="w-40 tl f7 black-30" :class="{'black':stoplossPercent>0}">
-                                <i class="fas pointer" :class="{'fa-toggle-on ': stoplossPercent>0, 'fa-toggle-off': stoplossPercent<=0}" /> 
-                                <select v-model="stoplossPercent"  style="" class=" dib bn  bg-transparent dark-gray" :class="{'black':stoplossPercent>0}"> 
-                                    <option class="bg-background" :class="{'selected':0.00 == number}" v-for="(number, index) in stopLossPercentArray" :key="index" :value="number" >{{number}}% Stop Loss</option>
+                            <div class="w-40 tl f7 black-30" :class="{ 'black': stoplossPercent > 0 }">
+                                <i class="fas pointer"
+                                   :class="{ 'fa-toggle-on ': stoplossPercent > 0, 'fa-toggle-off': stoplossPercent <= 0 }" />
+                                <select v-model="stoplossPercent" style="" class=" dib bn  bg-transparent dark-gray"
+                                        :class="{ 'black': stoplossPercent > 0 }">
+                                    <option class="bg-background" :class="{ 'selected': 0.00 == number }"
+                                            v-for="(number, index) in stopLossPercentArray" :key="index"
+                                            :value="number">{{ number }}% Stop Loss</option>
                                 </select>
                             </div>
-                            <div class="w-25 tc f7 black-30" :class="{'black':neworder.AutoRepeat>0}">
-                                
-                                <span @click="neworder.AutoRepeat=(neworder.AutoRepeat>0)?0:50"> 
-                                    AUTO 
-                                    <i class="fas pointer fa-rotate-90 " :class="{'fa-toggle-on ': neworder.AutoRepeat>0, 'fa-toggle-off': neworder.AutoRepeat<=0}" /> 
+                            <div class="w-25 tc f7 black-30" :class="{ 'black': neworder.AutoRepeat > 0 }">
+
+                                <span @click="neworder.AutoRepeat = (neworder.AutoRepeat > 0) ? 0 : 50">
+                                    AUTO
+                                    <i class="fas pointer fa-rotate-90 "
+                                       :class="{ 'fa-toggle-on ': neworder.AutoRepeat > 0, 'fa-toggle-off': neworder.AutoRepeat <= 0 }" />
                                     TRADE
                                 </span>
-                                
+
                             </div>
-                            <div class="w-40 tr f7 black-30" :class="{'black':takeprofitPercent>0}"> 
-                                <select dir="rtl" v-model="takeprofitPercent"  style="" class="tr dib bn bg-transparent dark-gray" :class="{'black':takeprofitPercent>0}"> 
-                                    <option class="bg-background" dir="ltr" v-for="number in takeProfitPercentArray" :key="number" :value="number" > {{number}}%  Take Profit </option>
+                            <div class="w-40 tr f7 black-30" :class="{ 'black': takeprofitPercent > 0 }">
+                                <select dir="rtl" v-model="takeprofitPercent" style=""
+                                        class="tr dib bn bg-transparent dark-gray"
+                                        :class="{ 'black': takeprofitPercent > 0 }">
+                                    <option class="bg-background" dir="ltr" v-for="number in takeProfitPercentArray"
+                                            :key="number" :value="number"> {{ number }}% Take Profit </option>
                                 </select>
-                                <i class="fas pointer" :class="{'fa-toggle-on ': takeprofitPercent>0, 'fa-toggle-off': takeprofitPercent<=0}" />
+                                <i class="fas pointer"
+                                   :class="{ 'fa-toggle-on ': takeprofitPercent > 0, 'fa-toggle-off': takeprofitPercent <= 0 }" />
                             </div>
                         </div>
 
                         <span class="fl tc f4-ns f5 black " style="width:2.5rem">
-                            {{fancyTimeFormat(totalSeconds)}}<span class="w-100 db f7"> <small>seconds</small> </span> 
+                            {{ fancyTimeFormat(totalSeconds) }}<span class="w-100 db f7"> <small>seconds</small> </span>
                         </span>
-                        
+
                         <enabledmarkets :market="market" :enabledmarkets="enabledmarkets" />
-                        
-                
+
+
                         <div class="fl w-100 pt2 tc inline-flex flex-row items-center">
                             <span class="w-25">
-                                <div class="tc cf w-100 pa2 fw6 pointer br2 ttu" :class="{'ba b--light-gray bg-green light-gray heartbeat':activateBuy(),'bg-near-white ba b--light-gray ':!activateBuy()}" @click="buyOrder">
-                                    BUY <br/> <small><small>{{market.BaseAsset}}</small></small>
+                                <div class="tc cf w-100 pa2 fw6 pointer br2 ttu"
+                                     :class="{ 'ba b--light-gray bg-green light-gray heartbeat': activateBuy(), 'bg-near-white ba b--light-gray ': !activateBuy() }"
+                                     @click="buyOrder">
+                                    BUY <br /> <small><small>{{ market.BaseAsset }}</small></small>
                                 </div>
                             </span>
                             <span class="w-50 relative orange pt1">
-                                    
-                                <small class="pointer" click="buyPriceType = (buyPriceType=='marketprice') ? '' : 'marketprice',sellPriceType = (sellPriceType=='marketprice') ? '' : 'marketprice'">
 
-                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand,getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''" v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, getDecimalPlaces())}}</span>
-                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand,getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''" v-else class="db" :class="{'black':market.Price < market.UpperBand, 'green':market.Price > market.UpperBand}"><small>UB:</small> {{truncateNumber(market.UpperBand, getDecimalPlaces())}}</span>
-                                    
+                                <small class="pointer"
+                                       click="buyPriceType = (buyPriceType=='marketprice') ? '' : 'marketprice',sellPriceType = (sellPriceType=='marketprice') ? '' : 'marketprice'">
+
+                                    <span @click="neworder.SellPrice = truncateNumber(market.MiddleBand, getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''"
+                                          v-if="market.Price < market.MiddleBand" class="db"><small>MB:</small>
+                                        {{ truncateNumber(market.MiddleBand, getDecimalPlaces()) }}</span>
+                                    <span @click="neworder.SellPrice = truncateNumber(market.UpperBand, getDecimalPlaces()), updateQtyBaseSell(), sellPriceType = ''"
+                                          v-else class="db"
+                                          :class="{ 'black': market.Price < market.UpperBand, 'green': market.Price > market.UpperBand }"><small>UB:</small>
+                                        {{ truncateNumber(market.UpperBand, getDecimalPlaces()) }}</span>
+
 
                                     <small v-if="market.Price > market.MiddleBand">
-                                        <i class=" fa fa-arrow-alt-up " :class="{'black':market.Price < market.UpperBand, 'dark-green':market.Price > market.UpperBand, 'heartbeat-faster f5':(((market.UpperBand - market.Price)/market.UpperBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-up " :class="{'black':market.Price < market.UpperBand, 'dark-green':market.Price > market.UpperBand, 'heartbeat-faster f5':(((market.UpperBand - market.Price)/market.UpperBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-up " :class="{'black':market.Price < market.UpperBand, 'dark-green':market.Price > market.UpperBand, 'heartbeat-faster f5':(((market.UpperBand - market.Price)/market.UpperBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-up " :class="{'black':market.Price < market.UpperBand, 'dark-green':market.Price > market.UpperBand, 'heartbeat-faster f5':(((market.UpperBand - market.Price)/market.UpperBand)*100) < 0.066}" />
+                                        <i class=" fa fa-arrow-alt-up "
+                                           :class="{ 'black': market.Price < market.UpperBand, 'dark-green': market.Price > market.UpperBand, 'heartbeat-faster f5': (((market.UpperBand - market.Price) / market.UpperBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-up "
+                                           :class="{ 'black': market.Price < market.UpperBand, 'dark-green': market.Price > market.UpperBand, 'heartbeat-faster f5': (((market.UpperBand - market.Price) / market.UpperBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-up "
+                                           :class="{ 'black': market.Price < market.UpperBand, 'dark-green': market.Price > market.UpperBand, 'heartbeat-faster f5': (((market.UpperBand - market.Price) / market.UpperBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-up "
+                                           :class="{ 'black': market.Price < market.UpperBand, 'dark-green': market.Price > market.UpperBand, 'heartbeat-faster f5': (((market.UpperBand - market.Price) / market.UpperBand) * 100) < 0.066 }" />
                                     </small>
 
                                     <small class="db" v-if="market.Price == market.MiddleBand"> ~~ == ~~ </small>
 
                                     <small v-if="market.Price < market.MiddleBand">
-                                        <i class=" fa fa-arrow-alt-down " :class="{'black':market.Price > market.LowerBand, 'dark-red':market.Price < market.LowerBand, 'heartbeat-faster f5':(((market.Price - market.LowerBand)/market.LowerBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-down " :class="{'black':market.Price > market.LowerBand, 'dark-red':market.Price < market.LowerBand, 'heartbeat-faster f5':(((market.Price - market.LowerBand)/market.LowerBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-down " :class="{'black':market.Price > market.LowerBand, 'dark-red':market.Price < market.LowerBand, 'heartbeat-faster f5':(((market.Price - market.LowerBand)/market.LowerBand)*100) < 0.066}" />
-                                        <i class=" fa fa-arrow-alt-down " :class="{'black':market.Price > market.LowerBand, 'dark-red':market.Price < market.LowerBand, 'heartbeat-faster f5':(((market.Price - market.LowerBand)/market.LowerBand)*100) < 0.066}" />
+                                        <i class=" fa fa-arrow-alt-down "
+                                           :class="{ 'black': market.Price > market.LowerBand, 'dark-red': market.Price < market.LowerBand, 'heartbeat-faster f5': (((market.Price - market.LowerBand) / market.LowerBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-down "
+                                           :class="{ 'black': market.Price > market.LowerBand, 'dark-red': market.Price < market.LowerBand, 'heartbeat-faster f5': (((market.Price - market.LowerBand) / market.LowerBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-down "
+                                           :class="{ 'black': market.Price > market.LowerBand, 'dark-red': market.Price < market.LowerBand, 'heartbeat-faster f5': (((market.Price - market.LowerBand) / market.LowerBand) * 100) < 0.066 }" />
+                                        <i class=" fa fa-arrow-alt-down "
+                                           :class="{ 'black': market.Price > market.LowerBand, 'dark-red': market.Price < market.LowerBand, 'heartbeat-faster f5': (((market.Price - market.LowerBand) / market.LowerBand) * 100) < 0.066 }" />
                                     </small>
 
-                                    
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand,getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''" v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small> {{truncateNumber(market.MiddleBand, getDecimalPlaces())}}</span>
-                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand,getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''" v-else class="db" :class="{'black':market.Price > market.LowerBand, 'red':market.Price < market.LowerBand}"><small>LB:</small> {{truncateNumber(market.LowerBand, getDecimalPlaces())}}</span>
-                                    
+
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.MiddleBand, getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''"
+                                          v-if="market.Price > market.MiddleBand" class="db"><small>MB:</small>
+                                        {{ truncateNumber(market.MiddleBand, getDecimalPlaces()) }}</span>
+                                    <span @click="neworder.BuyPrice = truncateNumber(market.LowerBand, getDecimalPlaces()), updateQtyBaseBuy(), buyPriceType = ''"
+                                          v-else class="db"
+                                          :class="{ 'black': market.Price > market.LowerBand, 'red': market.Price < market.LowerBand }"><small>LB:</small>
+                                        {{ truncateNumber(market.LowerBand, getDecimalPlaces()) }}</span>
+
                                 </small>
-                            
+
                             </span>
                             <span class="w-25">
-                                <div class="tc cf w-100 pa2 fw6 pointer br2 ttu" :class="{'ba b--light-gray heartbeat bg-red light-gray':activateSell(),'bg-near-white ba b--light-gray ':!activateSell()}" @click="sellOrder">
-                                    SELL <br/> <small><small>{{market.BaseAsset}}</small></small>
+                                <div class="tc cf w-100 pa2 fw6 pointer br2 ttu"
+                                     :class="{ 'ba b--light-gray heartbeat bg-red light-gray': activateSell(), 'bg-near-white ba b--light-gray ': !activateSell() }"
+                                     @click="sellOrder">
+                                    SELL <br /> <small><small>{{ market.BaseAsset }}</small></small>
                                 </div>
                             </span>
                         </div>
 
                         <div class="f7 pt1 flex fl w-100 tl gray">
-                            <div class="w-40 ph1 tl pointer" @click="updateBuyPrice(truncateNumber(market.LowPrice, 5)),buyPriceType=''"><small class="i db">(24hr low)</small> {{truncateNumber(market.LowPrice)}} </div>
-                            <div class="w-25 ph1 tc" :class="{'green':market.PriceChangePercent>0,'red':market.PriceChangePercent<0}"> 
-                                <small class="i dn">(% change)</small> 
-                                <small class="db black" :class="{'green':market.RSI>65,'red':market.RSI<35}">
-                                {{ truncateNumber(market.RSI,2) }} RSI
-                                 </small>
+                            <div class="w-40 ph1 tl pointer"
+                                 @click="updateBuyPrice(truncateNumber(market.LowPrice, 5)), buyPriceType = ''"><small
+                                       class="i db">(24hr low)</small> {{ truncateNumber(market.LowPrice) }} </div>
+                            <div class="w-25 ph1 tc"
+                                 :class="{ 'green': market.PriceChangePercent > 0, 'red': market.PriceChangePercent < 0 }">
+                                <small class="i dn">(% change)</small>
+                                <small class="db black" :class="{ 'green': market.RSI > 65, 'red': market.RSI < 35 }">
+                                    {{ truncateNumber(market.RSI, 2) }} RSI
+                                </small>
                                 <small>
-                                <i class="fa" :class="{'dark-green fa-arrow-alt-up':marketDirection(market),'dark-red fa-arrow-alt-down':!marketDirection(market)}"/>
-                                {{market.PriceChangePercent}} %</small> </div> 
-                            <div class="w-40 ph1 tr pointer" @click="updateSellPrice(truncateNumber(market.HighPrice, 5)),sellPriceType=''"> <small class="i db">(24hr high)</small> {{truncateNumber(market.HighPrice)}} </div>
+                                    <i class="fa"
+                                       :class="{ 'dark-green fa-arrow-alt-up': marketDirection(market), 'dark-red fa-arrow-alt-down': !marketDirection(market) }" />
+                                    {{ market.PriceChangePercent }} %</small>
+                            </div>
+                            <div class="w-40 ph1 tr pointer"
+                                 @click="updateSellPrice(truncateNumber(market.HighPrice, 5)), sellPriceType = ''">
+                                <small class="i db">(24hr high)</small> {{ truncateNumber(market.HighPrice) }}
+                            </div>
                         </div>
 
                         <div class="fl w-100 br2 br--top tc pb1">
                             <div class="fl w-40  pt0 tl">
-                                <input class="ph3 pv2 br2 br2 br--left bn w-100 tl" :class="{' dark-green':market.Price<=neworder.BuyPrice && neworder.BuyPrice !== 0,'bg-black-10 near-black':market.Price>neworder.BuyPrice || neworder.BuyPrice == 0}" type="number" @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="neworder.BuyPrice"/>
+                                <input class="ph3 pv2 br2 br2 br--left bn w-100 tl"
+                                       :class="{ ' dark-green': market.Price <= neworder.BuyPrice && neworder.BuyPrice !== 0, 'bg-black-10 near-black': market.Price > neworder.BuyPrice || neworder.BuyPrice == 0 }"
+                                       type="number" @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy"
+                                       v-model="neworder.BuyPrice" />
                             </div>
                             <div class="fl w-20  pt0 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="neworder.BuyPrice=neworder.SellPrice=truncateNumber(market.Price)">
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"
+                                     @click="neworder.BuyPrice = neworder.SellPrice = truncateNumber(market.Price)">
                                     PRICE
-                                </div>                            
+                                </div>
                             </div>
                             <div class="fl w-40  pt0 tr">
-                                <input class="ph3 pv2 br2 br--right bn w-100 tr" :class="{' dark-red':market.Price>=neworder.SellPrice && neworder.SellPrice !== 0,'bg-black-10 near-black':market.Price<neworder.SellPrice || neworder.SellPrice == 0}" type="number" @change="updateQtyBaseSell" @keyup="updateQtyBaseSell" v-model="neworder.SellPrice"/>
+                                <input class="ph3 pv2 br2 br--right bn w-100 tr"
+                                       :class="{ ' dark-red': market.Price >= neworder.SellPrice && neworder.SellPrice !== 0, 'bg-black-10 near-black': market.Price < neworder.SellPrice || neworder.SellPrice == 0 }"
+                                       type="number" @change="updateQtyBaseSell" @keyup="updateQtyBaseSell"
+                                       v-model="neworder.SellPrice" />
                             </div>
                         </div>
 
                         <div class="f7 flex fl w-100 tl orange" style="">
                             <div class="w-40 ph1 tl green">
-                                <span @click="updateBuyPrice(truncateNumber(averagePrice-(market.TickSize*2),getDecimalPlaces())),buyPriceType=''">
-                                    <i class="fa fa-arrow-alt-down f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(buy below)</small>
+                                <span
+                                      @click="updateBuyPrice(truncateNumber(averagePrice - (market.TickSize * 2), getDecimalPlaces())), buyPriceType = ''">
+                                    <i class="fa fa-arrow-alt-down f7" /> {{ truncateNumber(averagePrice) }} <small
+                                           class="i orange db">(buy below)</small>
                                 </span>
-                            </div> 
-                            <div class="w-30 w-20-ns ph1 tc"> 
-                                {{(((averagePrice - averagePrice)/averagePrice) * 100).toFixed(4)}}% 
+                            </div>
+                            <div class="w-30 w-20-ns ph1 tc">
+                                {{ (((averagePrice - averagePrice) / averagePrice) * 100).toFixed(4) }}%
                                 <small class="black db w-100">market maker</small>
                             </div>
-                             <div class="w-40 ph1 tr red">  
-                                <span @click="updateSellPrice(truncateNumber(averagePrice+(market.TickSize*2),getDecimalPlaces())),sellPriceType=''">
-                                    <i class="fa fa-arrow-alt-up f7"/> {{truncateNumber(averagePrice)}} <small class="i orange db">(sell above)</small>
+                            <div class="w-40 ph1 tr red">
+                                <span
+                                      @click="updateSellPrice(truncateNumber(averagePrice + (market.TickSize * 2), getDecimalPlaces())), sellPriceType = ''">
+                                    <i class="fa fa-arrow-alt-up f7" /> {{ truncateNumber(averagePrice) }} <small
+                                           class="i orange db">(sell above)</small>
                                 </span>
                             </div>
                         </div>
 
                         <div class="fl w-100 br2 br--top tc f7 ">
                             <div class="fl w-40 pl1 inline-flex items-center pointer">
-                                <i class="f7 black-20 fa fa-minus" @click="qtyBaseBuy=truncateNumber(qtyBaseSell-(market.StepSize * 10)), updateQtyBaseBuy()" />
+                                <i class="f7 black-20 fa fa-minus"
+                                   @click="qtyBaseBuy = truncateNumber(qtyBaseSell - (market.StepSize * 10)), updateQtyBaseBuy()" />
                                 <div class="w-70-ns w-60 center fl">
-                                    <div @click="setQtyBaseBuyPercent(25)" class="bg-black-20 pa2 fl w-third-ns w-50 tc white"><small>25%</small></div>
-                                    <div @click="setQtyBaseBuyPercent(50)" class="bg-black-50 pa2 fl w-third-ns w-50 tc white"><small>50%</small></div>
-                                    <div @click="setQtyBaseBuyPercent(75)" class="bg-black pa2 fl w-third-ns w-50 white dn dib-ns"><small>75%</small></div>
+                                    <div @click="setQtyBaseBuyPercent(25)"
+                                         class="bg-black-20 pa2 fl w-third-ns w-50 tc white"><small>25%</small></div>
+                                    <div @click="setQtyBaseBuyPercent(50)"
+                                         class="bg-black-50 pa2 fl w-third-ns w-50 tc white"><small>50%</small></div>
+                                    <div @click="setQtyBaseBuyPercent(75)"
+                                         class="bg-black pa2 fl w-third-ns w-50 white dn dib-ns"><small>75%</small>
+                                    </div>
                                 </div>
-                                <i class="f7 black fa fa-plus" @click="qtyBaseBuy=truncateNumber(qtyBaseSell+(market.StepSize * 10)), updateQtyBaseBuy()" />
+                                <i class="f7 black fa fa-plus"
+                                   @click="qtyBaseBuy = truncateNumber(qtyBaseSell + (market.StepSize * 10)), updateQtyBaseBuy()" />
                             </div>
                             <div class="fl w-20 ">
                                 <span>
-                                    <i @click="lMarketMaker=!lMarketMaker,neworder.AutoRepeat = (lMarketMaker)?0:0" class="fas pointer fa-rotate-90" :class="{'fa-toggle-on orange': lMarketMaker, 'fa-toggle-off ': !lMarketMaker}" /> 
-                                    <small @click="marketSpread=1" class="db w-100">spread x{{marketSpread}} <br/>{{(((neworder.SellPrice - neworder.BuyPrice)/neworder.BuyPrice) * 100).toFixed(4)}}%</small>
+                                    <i @click="lMarketMaker = !lMarketMaker, neworder.AutoRepeat = (lMarketMaker) ? 0 : 0"
+                                       class="fas pointer fa-rotate-90"
+                                       :class="{ 'fa-toggle-on orange': lMarketMaker, 'fa-toggle-off ': !lMarketMaker }" />
+                                    <small @click="marketSpread = 1" class="db w-100">spread x{{ marketSpread }}
+                                        <br />{{ (((neworder.SellPrice - neworder.BuyPrice) / neworder.BuyPrice) *
+                                            100).toFixed(4) }}%</small>
                                 </span>
                             </div>
                             <div class="fl w-40 pr1 inline-flex items-center pointer">
-                                <i class="f7 black fa fa-plus" @click="qtyBaseSell=truncateNumber(qtyBaseSell+(market.StepSize * 10)), updateQtyBaseSell()" />
+                                <i class="f7 black fa fa-plus"
+                                   @click="qtyBaseSell = truncateNumber(qtyBaseSell + (market.StepSize * 10)), updateQtyBaseSell()" />
                                 <div class="w-70-ns w-60 center fl">
-                                    <div @click="setQtyBaseSellPercent(75)" class="bg-black pa2 fl w-third-ns w-50 tc white dn dib-ns"><small>75%</small></div>
-                                    <div @click="setQtyBaseSellPercent(50)" class="bg-black-50 pa2 fl w-third-ns w-50 tc white"><small>50%</small></div>
-                                    <div @click="setQtyBaseSellPercent(25)" class="bg-black-20 pa2 fl w-third-ns w-50 tc white"><small>25%</small></div>
+                                    <div @click="setQtyBaseSellPercent(75)"
+                                         class="bg-black pa2 fl w-third-ns w-50 tc white dn dib-ns"><small>75%</small>
+                                    </div>
+                                    <div @click="setQtyBaseSellPercent(50)"
+                                         class="bg-black-50 pa2 fl w-third-ns w-50 tc white"><small>50%</small></div>
+                                    <div @click="setQtyBaseSellPercent(25)"
+                                         class="bg-black-20 pa2 fl w-third-ns w-50 tc white"><small>25%</small></div>
                                 </div>
-                                <i class="f7 black-20 fa fa-minus" @click="qtyBaseSell=truncateNumber(qtyBaseSell-(market.StepSize * 10)), updateQtyBaseSell()" />
+                                <i class="f7 black-20 fa fa-minus"
+                                   @click="qtyBaseSell = truncateNumber(qtyBaseSell - (market.StepSize * 10)), updateQtyBaseSell()" />
                             </div>
                         </div>
-                        
+
                         <div class="fl w-100 br2 br--top tc">
                             <div class="fl w-40  pt2 tl">
-                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black" type="number" @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="qtyBaseBuy">
+                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black" type="number"
+                                       @change="updateQtyBaseBuy" @keyup="updateQtyBaseBuy" v-model="qtyBaseBuy">
                             </div>
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"   @click="marketSpread+=1,setQty()">
-                                    <small><small>{{market.BaseAsset}}</small></small>
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"
+                                     @click="marketSpread += 1, setQty()">
+                                    <small><small>{{ market.BaseAsset }}</small></small>
                                 </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
-                                <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black" type="number" @change="updateQtyBaseSell" @keyup="updateQtyBaseSell" v-model="qtyBaseSell">
+                                <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black" type="number"
+                                       @change="updateQtyBaseSell" @keyup="updateQtyBaseSell" v-model="qtyBaseSell">
                             </div>
                         </div>
-                        
+
                         <div class="fl w-100 br2 br--top tc">
                             <div class="fl w-40  pt2 tl">
-                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteBuy">
-                            </div>                    
+                                <input class="ph3 pv2 br2 br--left bn w-100 tl bg-black-10 near-black " type="number"
+                                       readonly="readonly" :value="qtyQuoteBuy">
+                            </div>
                             <div class="fl w-20  pt2 tc">
-                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6" @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()"> <small><small>{{market.QuoteAsset}}</small></small> </div>
+                                <div class="ph1 pv2 br0 bn w-100 tc bg-light-gray pointer near-black fw6"
+                                     @click="qtyBaseBuy = qtyBaseSell = 0, updateQtyBaseBuy(), updateQtyBaseSell()">
+                                    <small><small>{{ market.QuoteAsset }}</small></small>
+                                </div>
                             </div>
                             <div class="fl w-40  pt2 tr">
-                                <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black " type="number" readonly="readonly" :value="qtyQuoteSell">
+                                <input class="ph3 pv2 br2 br--right bn w-100 tr bg-black-10 near-black " type="number"
+                                       readonly="readonly" :value="qtyQuoteSell">
                             </div>
-                        </div>              
-                        
+                        </div>
+
                         <div class="fl w-100 flex tc pb0 mb0">
                             <div class="w-50 pt1 tl f6 fw6 ttu">
                                 <span @click="setQtyBaseBuyPercent(100)">
-                                    <small class="pointer"> {{truncateNumber(quoteFree).toString()}} {{market.QuoteAsset}}</small> 
-                                    <small class="w-100 orange db pt1 tl fw6"> 
-                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(quoteFree) + (Number(market.Price) * Number(baseFree)) , 8)}}
+                                    <small class="pointer"> {{ truncateNumber(quoteFree).toString() }}
+                                        {{ market.QuoteAsset }}</small>
+                                    <small class="w-100 orange db pt1 tl fw6">
+                                        <i class="fa fa-wallet" /> {{ truncateNumber(Number(quoteFree) +
+                                            (Number(market.Price) * Number(baseFree)), 8) }}
                                     </small>
                                 </span>
-                            </div>        
-                            <div class="fl w1 pt1 tc f6 fw6 ttu"> <span class="db fl w-100 tc pt3"><i v-if="!lDropdown" class="fa fa-chevron-down center pointer" @click="lDropdown=!lDropdown,searchMarketPairOrders()" /> </span> </div>
+                            </div>
+                            <div class="fl w1 pt1 tc f6 fw6 ttu"> <span class="db fl w-100 tc pt3"><i v-if="!lDropdown"
+                                       class="fa fa-chevron-down center pointer"
+                                       @click="lDropdown = !lDropdown, searchMarketPairOrders()" /> </span> </div>
                             <div class="w-50 pt1 tr f6 fw6 ttu">
                                 <span @click="setQtyBaseSellPercent(100)">
-                                    <small class="pointer"> {{truncateNumber(baseFree).toString()}} {{market.BaseAsset}}</small> 
-                                    <small class="w-100 orange db pt1 tr fw6"> 
-                                        <i class="fa fa-wallet" /> {{truncateNumber(Number(baseFree) + (Number(quoteFree) / Number(market.Price) ), 8)}}
+                                    <small class="pointer"> {{ truncateNumber(baseFree).toString() }}
+                                        {{ market.BaseAsset }}</small>
+                                    <small class="w-100 orange db pt1 tr fw6">
+                                        <i class="fa fa-wallet" /> {{ truncateNumber(Number(baseFree) +
+                                            (Number(quoteFree) / Number(market.Price)), 8) }}
                                     </small>
                                 </span>
                             </div>
                         </div>
-                        <small :class="{'bounce-in db':lDropdown, 'dn':!lDropdown}">
+                        <small :class="{ 'bounce-in db': lDropdown, 'dn': !lDropdown }">
                             <div class="flex w-100 pv1">
-                                <span class="w-50 fl tl f7 dark-gray"> 
-                                    <small> Start Date: <input class="bn ph1 br2 bg-black-10 dark-gray" type="date" @change="searchMarketPairOrders" v-model="startDate" /> </small>
+                                <span class="w-50 fl tl f7 dark-gray">
+                                    <small> Start Date: <input class="bn ph1 br2 bg-black-10 dark-gray" type="date"
+                                               @change="searchMarketPairOrders" v-model="startDate" /> </small>
                                 </span>
-                                <span class="w-10 ph1 fl tc f7 black-50 pointer" @click="searchMarketPairOrders()"> 
+                                <span class="w-10 ph1 fl tc f7 black-50 pointer" @click="searchMarketPairOrders()">
                                     <small><i class=" fa fa-redo" /> </small>
                                 </span>
-                                <span class="w-50 fr tr f7 dark-gray" > 
-                                    <small> Stop Date: <input class="bn ph1 br2 bg-black-10 dark-gray" type="date" @change="searchMarketPairOrders" v-model="stopDate" /></small>
+                                <span class="w-50 fr tr f7 dark-gray">
+                                    <small> Stop Date: <input class="bn ph1 br2 bg-black-10 dark-gray" type="date"
+                                               @change="searchMarketPairOrders" v-model="stopDate" /></small>
                                 </span>
                             </div>
-                            
-                            <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty" @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" /> 
-                            
+
+                            <marketorder :market="market" @updateBuyQty="updateBuyQty" @updateSellQty="updateSellQty"
+                                         @updateBuyPrice="updateBuyPrice" @updateSellPrice="updateSellPrice" />
+
                         </small>
                         <div v-if="lDropdown" class="w-100 f7">
                             <div class="w-100 flex tc black-50">
-                                <div class="w-50 pt1 tl fw6"> 
-                                    <small> 
-                                        {{market.QuoteAsset}} PnL: <span :class="{'green':(truncateNumber(totalPnL-totalFees))>0,'red':(truncateNumber(totalPnL-totalFees))<0,}" > 
-                                         {{truncateNumber(totalPnL-totalFees)}} </span>
+                                <div class="w-50 pt1 tl fw6">
+                                    <small>
+                                        {{ market.QuoteAsset }} PnL: <span
+                                              :class="{ 'green': (truncateNumber(totalPnL - totalFees)) > 0, 'red': (truncateNumber(totalPnL - totalFees)) < 0, }">
+                                            {{ truncateNumber(totalPnL - totalFees) }} </span>
                                     </small>
-                                </div>        
-                                <div class="fl w1 pt1 tc fw6"> 
+                                </div>
+                                <div class="fl w1 pt1 tc fw6">
                                     <span class="fl w-100 tc">
-                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown=!lDropdown" /> 
+                                        <i class="fa fa-chevron-up center pointer" @click="lDropdown = !lDropdown" />
                                     </span>
                                 </div>
-                                <div class="w-50 pt1 tr fw6"> 
-                                    <small class="db">{{market.QuoteAsset}} Fees: {{truncateNumber(totalFees)}}</small> 
+                                <div class="w-50 pt1 tr fw6">
+                                    <small class="db">{{ market.QuoteAsset }} Fees: {{ truncateNumber(totalFees)
+                                        }}</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-              
+
             </div>
         </div>
     </div>
@@ -832,7 +929,7 @@ export default {
         } ,
         updateQtyQuoteBuy() {
             if (this.neworder.BuyPrice == 0 && this.averagePrice > 0){
-                this.neworder.BuyPrice = this.averagePrice
+                this.neworder.BuyPrice = truncateNumber(this.averagePrice, this.getDigitLenght(this.market.Price))
             }
             
             if (this.qtyQuoteBuy==='') {
@@ -870,7 +967,7 @@ export default {
         },
         updateQtyBaseBuy() {
             if (this.neworder.BuyPrice == 0){
-                this.neworder.BuyPrice = this.averagePrice
+                this.neworder.BuyPrice = truncateNumber(this.averagePrice, this.getDigitLenght(this.market.Price))
             }
             if (this.qtyBaseBuy >= 0 && this.neworder.BuyPrice > 0) {
                 this.qtyQuoteBuy = this.truncateNumber((this.qtyBaseBuy * this.neworder.BuyPrice), 5)

@@ -23,7 +23,7 @@ var sampleAnalysis = {
 }
 
 const state = {
-  allAnalysis: {}, 
+  allAnalysis: { }, 
   analysis: sampleAnalysis, analysisCount:0,
   defaultpair: localStorage.getItem("defaultpair"),
 }
@@ -47,16 +47,16 @@ const mutations = {
         return true
     },
     UPDATE_ANALYSIS(state, analysis){
-      if (Object.keys(state.allAnalysis).length == 0) {
-          state.allAnalysis = { [analysis.Pair]: analysis }
-      } else {
+      // if (Object.keys(state.allAnalysis).length == 0) {
+      //   state.allAnalysis = { [analysis.Pair]: analysis }
+      // } else {
           //capture new markets
           if (state.allAnalysis[analysis.Pair] == undefined || state.allAnalysis[analysis.Pair] == null) {
               state.allAnalysis[analysis.Pair] = analysis
           } else { 
             state.allAnalysis[analysis.Pair] = analysis
           }
-      }
+      // }
 
       if (state.defaultpair == undefined || state.defaultpair == null || state.defaultpair == "") {
           state.defaultpair = analysis.Pair

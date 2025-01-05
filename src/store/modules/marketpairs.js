@@ -84,11 +84,11 @@ const mutations = {
         }
 
         if (marketPair.Status == "enabled") {
-            if (Object.keys(state.enabledMarketPairs).length == 0) {
-                state.enabledMarketPairs = { [marketPair.Pair]: marketPair }
-            } else {
+            // if (Object.keys(state.enabledMarketPairs).length == 0) {
+            //     state.enabledMarketPairs = { [marketPair.Pair]: marketPair }
+            // } else {
                 state.enabledMarketPairs[marketPair.Pair] = marketPair
-            }
+            // }
 
             if (state.defaultpair == undefined || state.defaultpair == null || state.defaultpair == "") {
                 state.defaultpair = marketPair.Pair
@@ -108,11 +108,11 @@ const mutations = {
     },
     ENABLE_MARKETPAIR(state, marketPair) {
         marketPair.Status = "enabled"
-        if (Object.keys(state.enabledMarketPairs).length == 0) {
-            state.enabledMarketPairs = { [marketPair.Pair]: marketPair }
-        } else {
+        // if (Object.keys(state.enabledMarketPairs).length == 0) {
+        //     state.enabledMarketPairs = { [marketPair.Pair]: marketPair }
+        // } else {
             state.enabledMarketPairs[marketPair.Pair] = marketPair
-        }
+        // }
         state.allMarketPairs[marketPair.Pair] = marketPair
 
         state.marketPair = marketPair
