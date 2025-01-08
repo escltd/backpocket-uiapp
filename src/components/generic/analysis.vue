@@ -226,6 +226,9 @@
             humanNumber,
             truncateNumber,
             getDigitLenght(digit) {
+                if (digit == 0 || digit == undefined) {
+                    return 0
+                }
                 return digit.toString().split(".")[1].length || 0
             },
             getTrend() {
