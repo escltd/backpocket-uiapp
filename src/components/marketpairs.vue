@@ -10,8 +10,8 @@
                             <span class="w-100 f7"> <i class="fa fa-bell" /> Notification <i
                                    class="fr fa fa-times red pointer" /> </span>
                             <small>
-                                <p v-for="(message, index) in notifications" :key="index" class="mv1 pv0 f6">{{ message
-                                    }}
+                                <p v-for="(message, index) in notifications" :key="index" class="mv1 pv1 f6">
+                                    <small>{{ index + 1 }}# - </small> {{ message }}
                                 </p>
                             </small>
                         </span>
@@ -546,6 +546,9 @@ export default {
             }
         },
         getDigitLenght(digit) {
+            if (digit == 0 || digit == undefined) {
+                return 0
+            }
             return digit.toString().split(".")[1].length || 0
         },
         resetMarket(){
