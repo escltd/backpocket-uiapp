@@ -6,6 +6,7 @@ import privacyComponent from "@/components/privacy";
 import termComponent from "@/components/term";
 
 
+import opportunityComponent from "@/components/opportunity";
 import assetsComponent from "@/components/assets";
 import ordersComponent from "@/components/orders";
 import marketsComponent from "@/components/markets";
@@ -36,6 +37,7 @@ export const router = new Router({
     { path: "/orders", component: ordersComponent },
     { path: "/markets", component: marketsComponent },
     { path: "/predict", component: predictComponent },
+    { path: "/opportunity", component: opportunityComponent },
 
     { path: "/contact", component: contactusComponent },
     { path: "/privacy", component: privacyComponent },
