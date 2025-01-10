@@ -55,7 +55,7 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
                         order.PnL = truncateNumber(((order.AveragePrice) - order.Price) * order.Quantity)
                         order.Fees = truncateNumber(order.Total * (feesCharge / 100))
                         if(order.Status == "FILLED") {
-                            totalPnL += order.PnL
+                            // totalPnL += order.PnL
                             totalBase += order.Quantity
                             totalQuote += order.Total
                         }
@@ -92,8 +92,8 @@ export function calculateOrderPnL(marketPair, orderList, showCancelled = false) 
     }
 
     if (lastId !== "" && orderList[lastId].Status == "FILLED" && orderList[lastId].Side == "BUY") {
-        totalPnL -= orderList[lastId].PnL
-        order.TotalPnL = totalPnL
+        // totalPnL -= orderList[lastId].PnL
+        // order.TotalPnL = totalPnL
     }
     
     marketPairPnL.TotalPnL = totalPnL
