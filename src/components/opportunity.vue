@@ -29,7 +29,7 @@
         <div class="flex flex-row w-100 fl br3 br--left br--right bg-white-10">
           <div class="tc pv2 w2 br bl b--white-10">#</div>
           <div class="tl pa2 w-20 br bl b--white-10">Date</div>
-          <div class="tc pa2 w-10 br b--white-10 dn dib-ns">Exchange</div>
+          <div class="tc pa2 w-10 br b--white-10 dn dib-ns">Trend</div>
           <div class="tc pa2 w-20 br b--white-10 dn dib-ns">Pair</div>
           <div class="tc pa2 w-10 br b--white-10 dn dib-ns">Action</div>
           <div class="tc pa2 w-20 br b--white-10 dn dib-ns">Price</div>
@@ -39,10 +39,8 @@
 
 
         <div class="inline-flex flex-column w-100 fl br bl bb b--white-10 vh-50 overflow-scroll">
-          <div style="min-height:3rem" class="flex flex-row items-start w-100 bb b--white-10 mv2"
+          <div style="height:10rem" class="flex flex-row items-start w-100 bb b--white-10 mv2"
                v-for="(opportunity, index) in opportunities" :key="index">
-
-
             <div class="tc pv2 w2 br bl b--white-10">{{ index + 1 }}</div>
             <div class="tl pa2 w-20 br bl b--white-10">
               {{ humanDate(opportunity.Createdate.substring(0, 19)).substring(0, 11) }}
@@ -51,13 +49,12 @@
                 <span> {{ humanDate(opportunity.Createdate.substring(0, 19)).substring(15, 30) }} </span>
               </small>
             </div>
-            <div class="tc pa2 w-10 br b--white-10 dn dib-ns">{{ opportunity.Exchange }}</div>
+            <div class="tc pa2 w-10 br b--white-10 dn dib-ns">{{ opportunity.Trend }}</div>
             <div class="tc pa2 w-20 br b--white-10 dn dib-ns b">{{ opportunity.Pair }}</div>
             <div class="tc pa2 w-10 br b--white-10 dn dib-ns b">{{ opportunity.Action }}</div>
             <div class="tc pa2 w-20 br b--white-10 dn dib-ns b">{{ truncateNumber(opportunity.Price, 6) }}</div>
             <div class="tc pa2 w-10 br b--white-10 dn dib-ns">{{ truncateNumber(opportunity.Takeprofit, 6) }}</div>
             <div class="tc pa2 w-10 br b--white-10 dn dib-ns">{{ truncateNumber(opportunity.Stoploss, 6) }}</div>
-
           </div>
         </div>
 
@@ -112,6 +109,7 @@ export default {
             }
         },
         searchOpportunities() {
+          this.opportunities = [];
           var searchParams = `pair=${this.pair}&action=${this.action}&starttime=${this.starttime}&endtime=${this.endtime}`
           HTTP.get('/api/v1/opportunity/search?'+searchParams,{withCredentials: true}).then(response => {
             if (response.status == 200) {
