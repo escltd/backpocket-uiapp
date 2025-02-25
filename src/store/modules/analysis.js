@@ -16,9 +16,9 @@ var sampleAnalysis = {
   "Pair": "",
   "Exchange": "",
   "Intervals" : {
-    "1m": interval, "3m": interval, "5m": interval, "15m": interval,
-    "30m": interval, "1h": interval, "2h": interval, "4h": interval,
-    "1d": interval
+    "1m": interval, "5m": interval, "15m": interval,
+    "1h": interval, "4h": interval, "1d": interval,
+    "3d": interval, "1w": interval, "1M": interval,
   }
 }
 
