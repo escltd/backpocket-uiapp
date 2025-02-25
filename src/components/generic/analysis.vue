@@ -30,35 +30,32 @@
 
         <div class="fl w-100">
             <div class="flex flex-row w-100 fl br--left br--right bg-black-10 white f7 relative">
-                <div @click="setInterval('1m')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('1m')">
+                <div @click="setInterval('1m')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('1m')">
                     <small>1m <i v-if="defaultInterval == '1m'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('5m')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('5m')">
+                <div @click="setInterval('5m')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('5m')">
                     <small>5m <i v-if="defaultInterval == '5m'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('15m')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('15m')">
+                <div @click="setInterval('15m')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('15m')">
                     <small>15m <i v-if="defaultInterval == '15m'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('30m')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('30m')">
-                    <small>30m <i v-if="defaultInterval == '30m'" class="fa fa-check" /></small>
-                </div>
-                <div @click="setInterval('1h')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('1h')">
+                <div @click="setInterval('1h')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('1h')">
                     <small>1h <i v-if="defaultInterval == '1h'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('4h')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('4h')">
+                <div @click="setInterval('4h')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('4h')">
                     <small>4h <i v-if="defaultInterval == '4h'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('6h')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('6h')">
-                    <small>6h <i v-if="defaultInterval == '6h'" class="fa fa-check" /></small>
-                </div>
-                <div @click="setInterval('12h')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('12h')">
-                    <small>12h <i v-if="defaultInterval == '12h'" class="fa fa-check" /></small>
-                </div>
-                <div @click="setInterval('1d')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('1d')">
+                <div @click="setInterval('1d')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('1d')">
                     <small>1d <i v-if="defaultInterval == '1d'" class="fa fa-check" /></small>
                 </div>
-                <div @click="setInterval('3d')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('3d')">
+                <div @click="setInterval('3d')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('3d')">
                     <small>3d <i v-if="defaultInterval == '3d'" class="fa fa-check" /></small>
+                </div>
+                <div @click="setInterval('1w')" class="pointer tc pv1 w-20 z-2 fw6 " :class="getTrendColor('1w')">
+                    <small>1w <i v-if="defaultInterval == '1w'" class="fa fa-check" /></small>
+                </div>
+                <div @click="setInterval('1M')" class="pointer tc pv1 w-10 z-2 fw6 " :class="getTrendColor('1M')">
+                    <small>1M <i v-if="defaultInterval == '1M'" class="fa fa-check" /></small>
                 </div>
             </div>
             <div class="flex flex-row w-100 fl br--left br--right bb bl br b--black-10 f7">
